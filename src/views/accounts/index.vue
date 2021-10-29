@@ -1,6 +1,5 @@
 <template>
   <div class="account-list second-page">
-    <HeaderBar :address="$route.query.address" @quit="quit" />
     <div class="content" v-loading="loading">
        <h3 class="tc">{{ $t("accounts.accounts2") }}</h3>
        <ul>
@@ -28,7 +27,6 @@
 
 <script>
 // import BackBar from '@/components/BackBar'
-import HeaderBar from "@/components/HeaderBar";
 import { superLong, divisionAndFix, getLogoSrc, networkOrigin, copys } from '@/api/util'
 export default {
   data () {
@@ -37,16 +35,6 @@ export default {
       accountList: []
     }
   },
-
-  components: {
-    HeaderBar
-  },
-
-  watch: {},
-
-  computed: {},
-
-  created() {},
 
   mounted() {
     this.getBalance();
@@ -60,9 +48,6 @@ export default {
   },
 
   methods: {
-    quit() {
-      this.$router.replace({ path: '/', query: { loginOut: true } });
-    },
     async getBalance() {
       // this.loading = true;
       const address = this.$route.query.address;
@@ -88,7 +73,7 @@ export default {
               icon: v.icon
             })
           })
-          const order = ["NERVE", "NULS", "Ethereum", "BSC", "Heco", "OKExChain"]
+          const order = ["NERVE", "NULS", "Ethereum", "BSC", "Heco", "OKExChain", "Harmony", "Polygon", "KCC"]
           list = list.sort((a, b) => {
             return order.indexOf(a.chain) - order.indexOf(b.chain)
           })
@@ -124,7 +109,7 @@ export default {
 <style lang="less" scoped>
 .account-list {
   .content {
-    padding: 0 15px;
+    padding: 0 15px 20px;
     h3 {
       width: 60%;
       margin: 0 auto;
@@ -138,7 +123,10 @@ export default {
       padding: 20px;
     }
     ul li {
-      margin-bottom: 26px;
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 0;
+      }
       div {
         display: flex;
         align-items: center;

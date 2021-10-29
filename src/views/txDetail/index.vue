@@ -1,6 +1,5 @@
 <template>
   <div class="tx-detail second-page">
-    <HeaderBar :address="$route.query.address" @quit="quit" />
     <div class="content" v-loading="loading">
       <div class="content-inner" v-if="!isSwftDetail">
         <div 
@@ -153,7 +152,6 @@ int BG_CROSS_TX_FAIL = 9; */
 (7)WAIT_KYC: 等待进行KYC或联系客服提供链接
 */
 // import BackBar from '@/components/BackBar';
-import HeaderBar from "@/components/HeaderBar";
 import {
   superLong,
   divisionAndFix,
@@ -167,10 +165,11 @@ import {
   withdrawFeeRate
 } from '@/api/util'
 import moment from "moment"
-import { ETransfer, NTransfer, getSymbolUSD, swapScale, swapSymbolConfig, crossFee, reportError } from "@/api/api";
+import { ETransfer, NTransfer, getSymbolUSD, swapScale, swapSymbolConfig, crossFee, reportError, gasLimitConfig } from "@/api/api";
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import BufferReader from "nerve-sdk-js/lib/utils/bufferreader";
 import txs from "nerve-sdk-js/lib/model/txs";
+import { ethers } from 'ethers'
 
 
 // function getCurrentAccount(address) {
@@ -208,9 +207,7 @@ export default {
     }
   },
 
-  components: {
-    HeaderBar
-  },
+  components: {},
 
   watch: {
     showRetryDialog(val) {
@@ -270,9 +267,6 @@ export default {
   },
 
   methods: {
-    quit() {
-      this.$router.replace({ path: '/', query: { loginOut: true } });
-    },
     setTimer() {
       this.getDetail();
       clearInterval(this.timer)
@@ -583,6 +577,7 @@ export default {
           numbers: fee,
           fromAddress,
           decimals: fromChainInfo.decimal,
+          gasLimit: ethers.utils.bigNumberify(gasLimitConfig.default).toHexString()//
         }
         const transfer = new ETransfer();
         const fn = async () => await transfer.crossIn(crossInInfo);

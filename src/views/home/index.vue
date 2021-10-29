@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <HeaderBar :address="fromAddress" @quit="quit" />
     <div class="home-content" v-loading="loading">
-      <div class="support-list" v-if="supportListShow">
+      <div class="support-list" v-if="!address">
         <span class="title">
           Connect wallet
         </span>
@@ -19,47 +18,30 @@
         }}</el-button>
       </div>
       <div v-else>
-        <!-- <div class="swap-type">
-          <el-radio-group  v-model="swapType" size="medium">
-            <el-radio-button label="swap">{{ $t("home.home13") }}</el-radio-button>
-            <el-radio-button label="nerve">{{ $t("home.home14") }}</el-radio-button>
-          </el-radio-group>
-        </div> -->
         <tab-switch v-model="swapType"></tab-switch>
         <nerve-swap
           v-show="swapType==='nerve'"
           :address="address"
-          :walletType="walletType"
-          :provider="provider"
           :fromNetwork="fromNetwork"
           :fromChainId="fromChainId"
           :fromAddress="fromAddress"
+          :fromChainError="fromChainError"
         ></nerve-swap>
         <swft-swap
           v-show="swapType==='swft'"
           :address="address"
-          :walletType="walletType"
-          :provider="provider"
           :fromNetwork="fromNetwork"
           :fromChainId="fromChainId"
           :fromAddress="fromAddress"
+          :fromChainError="fromChainError"
         >
         </swft-swap>
-        <!-- <nerve-swap
-          :address="address"
-          :walletType="walletType"
-          :provider="provider"
-          :fromNetwork="fromNetwork"
-          :fromChainId="fromChainId"
-          :fromAddress="fromAddress"
-        ></nerve-swap> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderBar from "@/components/HeaderBar";
 import TabSwitch from "@/components/TabSwitch";
 import SwftSwap from "./SwftSwap";
 import NerveSwap from "./NerveSwap";
@@ -101,22 +83,43 @@ export default {
       { name: "Coin98", src: coin98, provider: MetaMaskProvider },
     ]
     return {
-      loading: true,
-      supportListShow: true, //显示可连接钱包列表
+      loading: false,
       showSign: true, //显示派生地址
-      address: "", //metamask当前选中地址
       swapType: "nerve",
       provider: null,
-      fromChainId: "",
-      walletType: isMobile ? MetaMaskProvider :sessionStorage.getItem("walletType"), // 连接钱包类型 metamask walletConnect
     };
   },
 
   components: {
-    HeaderBar,
     SwftSwap,
     NerveSwap,
     TabSwitch
+  },
+
+  computed: {
+    //metamask当前选中地址
+    address() {
+      // console.log(this.$store.state.address, 10120012)
+      return this.$store.state.address
+    },
+    fromChainId() {
+      return this.$store.state.chainId
+    },
+    fromNetwork() {
+      return this.$store.state.network;
+    },
+    fromAddress() {
+      const currentAccount = getCurrentAccount(this.address);
+      return currentAccount && !this.showSign ? currentAccount.address[this.fromNetwork] : "";
+    },
+    walletType() {
+      return this.$store.state.walletType
+    },
+    fromChainError() {
+      if (!this.fromChainId) return true;
+      if (this.fromNetwork === 'NULS' || this.fromNetwork === 'NERVE') return false;
+      return !supportChainList.find(v => v[ETHNET] === this.fromChainId);
+    }
   },
 
   watch: {
@@ -131,150 +134,29 @@ export default {
         // this.showSign = currentAccount ? false : true;
         this.showSign = !chainLength || chainLength !== addressListLength
       },
-    },
-    fromChainId: {
-      immediate: true,
-      handler(val) {
-        if (!val) return;
-        console.log(val, 'val', ETHNET)
-        // const sessionNetwork = sessionStorage.getItem("network");
-        // const NChains = ["NERVE", "NULS"]
-        // if (NChains.indexOf(sessionNetwork) > -1) return;
-        const chain = supportChainList.find(v => v[ETHNET] === val);
-        console.log(chain, 'chain')
-        if (chain) {
-          this.$store.commit("changeNetwork", chain.value);
-        } else {
-          const tempAddress = this.address.toUpperCase();
-          if (tempAddress.startsWith('TNULS') || tempAddress.startsWith('NULS')) {
-            this.$store.commit("changeNetwork", 'NULS');
-          } else {
-            this.$store.commit("changeNetwork", 'NERVE');
-          }
-        }
-      }
     }
-  },
-
-  computed: {
-    fromNetwork() {
-      return this.$store.state.network;
-    },
-    fromAddress() {
-      const currentAccount = getCurrentAccount(this.address);
-      return currentAccount && !this.showSign ? currentAccount.address[this.fromNetwork] : "";
-    },
   },
 
   created() {
     if (typeof this.$route.query.loginOut === 'boolean' && this.$route.query.loginOut === true) {
-      this.setConfig(null);
+      // this.setConfig(null);
     }
-    if (isMobile) {
-      sessionStorage.setItem("walletType", this.walletType);
-    }
-    this.initConnect();
   },
 
-  mounted() {},
-
   methods: {
-    async initConnect() {
-      // console.log(this.walletType, 123, window[this.walletType])
-      if (!this.walletType || !window[this.walletType]) {
-        sessionStorage.removeItem("walletType")
-        this.loading = false;
-        return;
-      }
-      this.wallet = window[this.walletType];
-      this.address = this.wallet.selectedAddress;
-      console.log(this.wallet.selectedAddress, 'this.wallet.selectedAddress')
-      if (!this.address) {
-        await this.requestAccounts();
-      }
-      this.fromChainId = this.parseChainId(this.wallet.chainId);
-      this.provider = new ethers.providers.Web3Provider(this.wallet);
-      this.supportListShow = false;
-      this.listenAccountChange();
-      this.listenNetworkChange();
-
-      this.loading = false;
-
-    },
-    parseChainId(chainId) {
-      chainId = chainId + ""
-      // 兼容Binggo
-      return chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
-    },
-    async requestAccounts() {
-      const res = await this.wallet.request({ method: "eth_requestAccounts" });
-      if (res.length) {
-        this.address = res[0];
-        this.$store.commit("changeSelectAddress", this.address);
-      }
-    },
     // 连接provider
     async connectProvider(provider) {
       if (!window[provider]) {
         this.$message({ message: "No provider was found", type: "warning"});
         return
       }
-      if (isMobile) {
-        provider = MetaMaskProvider
-      }
-      try {
-        this.setConfig(provider)
-        await this.initConnect();
-      } catch (e) {
-        // console.log(e, 222)
-        this.setConfig(null)
-        this.$message({ message: e.message, type: "warning"});
-      }
-    },
-    setConfig(provider) {
-      if (provider) {
-        this.walletType = provider;
-        sessionStorage.setItem("walletType", provider);
-      } else {
-        this.walletType = "";
-        sessionStorage.setItem("walletType", "");
-        this.address = "";
-        this.supportListShow = true
-      }
-    },
-    //监听账户改变
-    listenAccountChange() {
-      this.wallet.on("accountsChanged", (accounts) => {
-        console.log(accounts, "===accounts-changed===")
-        if (accounts.length && this.walletType) {
-          this.address = accounts[0];
-          if (this.address && !this.address.startsWith("0x")) {
-            this.switchNetwork(this.address)
-          }
-          // this.getBalance();
-        } else {
-          this.setConfig(null)
-        }
-      });
-    },
-
-    //监听网络改变
-    listenNetworkChange() {
-      this.wallet.on("chainChanged", (chainId) => {
-        console.log(chainId, "===chainId-changed===")
-        if (chainId && this.walletType) {
-          this.fromChainId = this.parseChainId(chainId);
-        }
-      });
+      this.$store.commit('changeWalletType', provider);
     },
     //通过调用metamask签名，派生多链地址
     async derivedAddress() {
       this.loading = true;
       try {
-        if (!this.address) {
-          await this.requestAccounts();
-        }
-        let account, pub;
+        let account = {address: {}}, pub;
         if (!this.address.startsWith("0x")) {
          
           if (!window.nabox) {
@@ -284,16 +166,11 @@ export default {
             address: this.address
           })
           const address = ethers.utils.computeAddress(ethers.utils.hexZeroPad(ethers.utils.hexStripZeros('0x' + pub), 33));
-          account = {
-            address: {
-              Ethereum: address,
-              BSC: address,
-              Heco: address,
-              OKExChain: address
-            }
-          };
+          account.address = this.getHeterogeneousAddress(address);
         } else {
-          const jsonRpcSigner = this.provider.getSigner();
+          const walletType = sessionStorage.getItem('walletType')
+          const provider = new ethers.providers.Web3Provider(window[walletType]);
+          const jsonRpcSigner = provider.getSigner();
           let message = "Derive Multi-chain Address";
           const signature = await jsonRpcSigner.signMessage(message);
           const msgHash = ethers.utils.hashMessage(message);
@@ -302,14 +179,7 @@ export default {
             msgHashBytes,
             signature
           );
-          account = {
-            address: {
-              Ethereum: this.address,
-              BSC: this.address,
-              Heco: this.address,
-              OKExChain: this.address
-            }
-          };
+          account.address = this.getHeterogeneousAddress(this.address);
           if (recoveredPubKey.startsWith("0x04")) {
             const compressPub = ethers.utils.computePublicKey(
               recoveredPubKey,
@@ -353,13 +223,7 @@ export default {
         const syncRes = await this.syncAccount(pub, account.address);
         if (syncRes) {
           localStorage.setItem("accountList", JSON.stringify(accountList));
-          // 重新计算fromAddress
-          const address = this.address;
-          this.switchNetwork(address);
-          this.address = "";
-          setTimeout(()=> {
-            this.address = address;
-          }, 16)
+          window.location.reload();
         } else {
           this.$message({
             type: "warning",
@@ -367,13 +231,21 @@ export default {
           });
         }
       } catch (e) {
-        // console.log(e, 556)
-        this.setConfig(null)
-        this.address = "";
+        console.log(e, 556)
         this.$message({ message: this.$t("tips.tips5"), type: "warning" });
       }
       this.loading = false;
       // this.showSign = false;
+    },
+    getHeterogeneousAddress(address) {
+      const chainAddress = {}
+      const chainConfig = JSON.parse(sessionStorage.getItem('config'));
+      for(let chain in chainConfig) {
+        if (chain !== 'NULS' && chain !== 'NERVE') {
+          chainAddress[chain] = address
+        }
+      }
+      return chainAddress
     },
     async syncAccount(pub, accounts) {
       const addressList = [];
@@ -389,22 +261,6 @@ export default {
       });
       return res.code === 1000;
     },
-
-    quit() {
-      this.setConfig(null);
-    },
-    switchNetwork(address) {
-      // 连接插件时如果是nuls、nerve设置network为nuls/nerve
-      if (!address.startsWith("0x")) {
-        let network
-        if (address.startsWith("tNULS") || address.startsWith("NULS")) {
-          network = "NULS"
-        } else {
-          network = "NERVE"
-        }
-        this.$store.commit("changeNetwork", network)
-      }
-    }
   },
 };
 </script>
@@ -413,12 +269,14 @@ export default {
 @labelColor: #99a3c4;
 .home {
   background-color: #f0f2f7;
-  height: 100%;
+  //height: 100%;
+  padding-top: 15px;
+  height: calc(~'100% - 64px');
   .home-content {
     background-color: #fff;
-    margin: 15px;
+    margin: 0 15px 15px;
     padding: 25px 15px;
-    min-height: calc(100% - 94px);
+    min-height: calc(100% - 15px);
     border-radius: 10px;
   }
   .support-list {

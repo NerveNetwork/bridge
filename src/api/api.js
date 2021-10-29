@@ -388,7 +388,19 @@ const RPC_URL = {
   OKExChain: {
     ropsten: "https://exchaintestrpc.okex.org",
     homestead: "https://exchainrpc.okex.org"
-  }
+  },
+  Harmony: {
+    ropsten: "https://api.s0.b.hmny.io",
+    homestead: "https://api.harmony.one"
+  },
+  Polygon: {
+    ropsten: "https://rpc-mumbai.maticvigil.com",
+    homestead: "https://rpc-mainnet.maticvigil.com"
+  },
+  KCC: {
+    ropsten: "https://rpc-testnet.kcc.network",
+    homestead: "https://rpc-mainnet.kcc.network"
+  },
 };
 
 const CROSS_OUT_ABI = [
@@ -470,7 +482,7 @@ export class ETransfer {
    * 
    */
   async crossIn(params) {
-    const { multySignAddress, nerveAddress, numbers, fromAddress, contractAddress, decimals } = params;
+    const { multySignAddress, nerveAddress, numbers, fromAddress, contractAddress, decimals, gasPrice, gasLimit } = params;
     let transactionParameters;
     if (contractAddress) {
       // token 转入
@@ -481,7 +493,9 @@ export class ETransfer {
         to: multySignAddress,
         from: fromAddress, //验证合约调用需要from,必传
         value: '0x00',
-        data: data
+        data: data,
+        gasPrice,
+        gasLimit
       };
     } else {
       const amount = ethers.utils.parseEther(numbers).toHexString();
@@ -490,7 +504,9 @@ export class ETransfer {
       transactionParameters = {
         to: multySignAddress,
         value: amount,
-        data: data
+        data: data,
+        gasPrice,
+        gasLimit
       };
     }
     const failed = await this.validate(transactionParameters);
@@ -756,4 +772,9 @@ export async function reportError(txHash, errMsg) {
       log: JSON.stringify(errMsg)
     }
   });
+}
+
+export const gasLimitConfig = {
+  default: 35000,
+  token: 150000
 }

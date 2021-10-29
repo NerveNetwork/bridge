@@ -5,8 +5,10 @@ import store from './store'
 import i18n from './i18n'
 import {post, request} from './api/https'
 import { toThousands, isBeta } from "./api/util";
-import NotSupport from "@/components/NotSupport";
-import checkLocation from "@/api/checkLocation";
+import { getChainConfig, getCrossAddress } from '@/api/getDefaultConfig'
+import { hackAddChain } from '@/api/hackAddChain'
+// import NotSupport from "@/components/NotSupport";
+// import checkLocation from "@/api/checkLocation";
 // import './api/rem'
 // import VConsole from 'vconsole'
 // new VConsole()
@@ -26,13 +28,33 @@ Vue.prototype.$post = post;
 
 Vue.prototype.$request = request;
 
-const network = isBeta ? "beta" : "main";
 
 if (development && window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
   window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = App.constructor
 }
 
-async function getConfig(network) {
+async function getConfigBeforeRender() {
+  // 获取config
+  const config = await getChainConfig();
+  sessionStorage.setItem('config', JSON.stringify(config));
+  new Vue({
+    el: "#app",
+    router,
+    store,
+    i18n,
+    render: h => h(App)
+  });
+  // 获取nerve地址
+  await getCrossAddress();
+  // 新添加链后同步更新本地地址
+  hackAddChain(config);
+}
+
+setTimeout(() => {
+  getConfigBeforeRender();
+}, 500)
+
+/*async function getConfig(network) {
   try {
     const res = await request({url: "/api/chain/config", method: "get", network});
     let config = {};
@@ -54,7 +76,7 @@ async function getConfig(network) {
   } catch (e) {
     console.error(e, "获取链配置失败");
   }
-  /* eslint-disable no-new */
+  /!* eslint-disable no-new *!/
   new Vue({
     el: "#app",
     router,
@@ -64,7 +86,9 @@ async function getConfig(network) {
   });
 }
 
-async function checkLocationBeforeLoad() {
+getConfig(network);*/
+
+/*async function checkLocationBeforeLoad() {
   const isMainland = await checkLocation();
   if (!isMainland) {
     getConfig(network);
@@ -82,4 +106,4 @@ async function checkLocationBeforeLoad() {
   }
 }
 
-checkLocationBeforeLoad();
+checkLocationBeforeLoad();*/

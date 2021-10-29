@@ -453,6 +453,10 @@ export default {
 </script>
 <style lang="less">
 .transfer {
+  height: 100%;
+  .content {
+    height: calc(~'100% - 40px');
+  }
   .sign-tips {
     font-size: 14px;
     padding: 20px 0;

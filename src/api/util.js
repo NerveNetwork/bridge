@@ -3,18 +3,7 @@ import {BigNumber} from 'bignumber.js'
 import copy from 'copy-to-clipboard'
 import {MAIN_INFO, NULS_INFO, ETHNET} from '@/config.js'
 import {post, request} from './https'
-import ETHLogo from "@/assets/img/mainAsset/eth.png";
-import BNBLogo from "@/assets/img/mainAsset/BSC.png";
-import HTLogo from "@/assets/img/mainAsset/Heco.png";
-import OKTLogo from "@/assets/img/mainAsset/OEC.png";
-import NULSLogo from "@/assets/img/mainAsset/NULS.png";
-import NVTLogo from "@/assets/img/mainAsset/Nerve.png";
-import ETHLogo_active from "@/assets/img/mainAsset/eth-active.png";
-import BNBLogo_active from "@/assets/img/mainAsset/BSC-active.png";
-import HTLogo_active from "@/assets/img/mainAsset/Heco-active.png";
-import OKTLogo_active from "@/assets/img/mainAsset/OEC-active.png";
-import NULSLogo_active from "@/assets/img/mainAsset/NULS-active.png";
-import NVTLogo_active from "@/assets/img/mainAsset/Nerve-active.png";
+import * as LogoConfig from "./logoConfig"
 
 /**
  * 10的N 次方
@@ -563,7 +552,10 @@ export const networkOrigin = {
   BSC: isBeta ? 'https://testnet.bscscan.com' : 'https://bscscan.com',
   // HTOrigin: isBeta ? 'https://scan-testnet.hecochain.com' : 'https://scan.hecochain.com'
   Heco: isBeta ? 'https://testnet.hecoinfo.com' : 'https://hecoinfo.com',
-  OKExChain: isBeta ? "https://www.oklink.com/okexchain-test" : "https://www.oklink.com/okexchain"
+  OKExChain: isBeta ? "https://www.oklink.com/okexchain-test" : "https://www.oklink.com/okexchain",
+  HarmonyOrigin: isBeta ? 'https://explorer.pops.one' : 'https://explorer.harmony.one',
+  PolygonOrigin: isBeta ? 'https://mumbai.polygonscan.com' : 'https://polygonscan.com',
+  KCCOrigin: isBeta ? 'https://scan-testnet.kcc.network' : 'https://explorer.kcc.io'
 }
 
 export function getLogoSrc(icon) {
@@ -582,8 +574,8 @@ export const supportChainList = [
     homestead: "0x1",
     chainId: 101,
     assetId: 1,
-    logo: ETHLogo,
-    logoActive: ETHLogo_active,
+    logo: LogoConfig.Ethereum,
+    logoActive: LogoConfig.Ethereum_active,
     origin: networkOrigin.Ethereum
   },
   {
@@ -595,8 +587,8 @@ export const supportChainList = [
     SwftChain: "BSC",
     chainId: 102,
     assetId: 1,
-    logo: BNBLogo,
-    logoActive: BNBLogo_active,
+    logo: LogoConfig.BSC,
+    logoActive: LogoConfig.BSC_active,
     origin: networkOrigin.BSC,
     decimals: 18,
     rpcUrl: {
@@ -613,8 +605,8 @@ export const supportChainList = [
     SwftChain: "Heco",
     chainId: 103,
     assetId: 1,
-    logo: HTLogo,
-    logoActive: HTLogo_active,
+    logo: LogoConfig.Heco,
+    logoActive: LogoConfig.Heco_active,
     origin: networkOrigin.Heco,
     decimals: 18,
     rpcUrl: {
@@ -631,13 +623,67 @@ export const supportChainList = [
     SwftChain: "OKExChain",
     chainId: 104,
     assetId: 1,
-    logo: OKTLogo,
-    logoActive: OKTLogo_active,
+    logo: LogoConfig.OKExChain,
+    logoActive: LogoConfig.OKExChain_active,
     origin: networkOrigin.OKExChain,
     decimals: 18,
     rpcUrl: {
       ropsten: "https://exchaintestrpc.okex.org",
       homestead: "https://exchainrpc.okex.org"
+    }
+  },
+  {
+    label: "Harmony",
+    value: "Harmony",
+    symbol: "ONE",
+    ropsten: "0x6357d2e0",
+    homestead: "0x63564c40",
+    SwftChain: "Harmony",
+    chainId: 105,
+    assetId: 1,
+    logo: LogoConfig.Harmony,
+    logoActive: LogoConfig.Harmony_active,
+    origin: networkOrigin.HarmonyOrigin,
+    decimals: 18,
+    rpcUrl: {
+      ropsten: "https://api.s0.b.hmny.io",
+      homestead: "https://api.harmony.one"
+    }
+  },
+  {
+    label: "Polygon",
+    value: "Polygon",
+    symbol: "MATIC",
+    ropsten: "0x13881",
+    homestead: "0x89",
+    SwftChain: "Polygon",
+    chainId: 106,
+    assetId: 1,
+    logo: LogoConfig.Polygon,
+    logoActive: LogoConfig.Polygon_active,
+    origin: networkOrigin.PolygonOrigin,
+    decimals: 18,
+    rpcUrl: {
+      ropsten: "https://rpc-mumbai.maticvigil.com",
+      homestead: "https://rpc-mainnet.maticvigil.com"
+    }
+  },
+  {
+    label: "KCC",
+    value: "KCC",
+    symbol: "KCS",
+    ropsten: "0x142",
+    homestead: "0x141",
+    SwftChain: "KCC",
+    chainId: 107,
+    assetId: 1,
+    logo: LogoConfig.KCC,
+    logoActive: LogoConfig.KCC_active,
+    origin: networkOrigin.KCCOrigin,
+    decimals: 18,
+    rpcUrl: {
+      ropsten: "https://rpc-testnet.kcc.network",
+      homestead: "https://rpc-mainnet.kcc.network"
     }
   },
   {
@@ -647,8 +693,8 @@ export const supportChainList = [
     SwftChain: "NULS",
     chainId: NULS_INFO.chainId,
     assetId: NULS_INFO.assetId,
-    logo: NULSLogo,
-    logoActive: NULSLogo_active,
+    logo: LogoConfig.NULS,
+    logoActive: LogoConfig.NULS_active,
     origin: networkOrigin.NULS
   },
   {
@@ -658,8 +704,8 @@ export const supportChainList = [
     SwftChain: "NERVE",
     chainId: MAIN_INFO.chainId,
     assetId: MAIN_INFO.assetId,
-    logo: NVTLogo,
-    logoActive: NVTLogo_active,
+    logo: LogoConfig.NERVE,
+    logoActive: LogoConfig.NERVE_active,
     origin: networkOrigin.NERVE
   }
 ];
@@ -712,6 +758,18 @@ export const withdrawFeeRate = {
     speed: 6
   },
   OKExChain: {
+    normal: 5,
+    speed: 6
+  },
+  Harmony: {
+    normal: 5,
+    speed: 6
+  },
+  Polygon: {
+    normal: 5,
+    speed: 6
+  },
+  KCC: {
     normal: 5,
     speed: 6
   }

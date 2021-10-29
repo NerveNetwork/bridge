@@ -39,8 +39,8 @@
       </el-input>
     </div>
     <div class="msg-wrap">
-      <span class="from-validate-msg" v-show="amountMsg || fromNetworkMsg">{{
-        amountMsg || fromNetworkMsg
+      <span class="from-validate-msg" v-show="amountMsg || fromChainError">{{
+        amountMsg || $t("home.home8")
       }}</span>
     </div>
     <div class="swap-icon">
@@ -105,37 +105,6 @@
     <div class="powered-by">
       <p>Powered By SWFT & NerveNetwork</p>
     </div>
-<!--    <el-dialog-->
-<!--      :title="$t('home.home6')"-->
-<!--      :visible.sync="assetListModal"-->
-<!--      :modal-append-to-body="false"-->
-<!--      width="80%"-->
-<!--      top="10vh"-->
-<!--      class="assets-list-dialog"-->
-<!--    >-->
-<!--      <el-input v-model="searchVal" :placeholder="$t('home.home24')" class="search-input"></el-input>-->
-<!--      <ul v-if="filteredList.length">-->
-<!--        <li-->
-<!--          v-for="item in filteredList"-->
-<!--          :key="item.coinId"-->
-<!--          @click="selectAsset(item)"-->
-<!--          :class="checkActive(item)"-->
-<!--        >-->
-<!--          <div class="logo-wrap">-->
-<!--            <img :src="getLogoSrc(item.icon)" @error="replaceImg" alt="" />-->
-<!--          </div>-->
-<!--          <div class="asset-info">-->
-<!--            <p>{{ item.symbol }}<span>{{"(" + item.chain + ")"}}</span></p>-->
-<!--            <span-->
-<!--              v-if="item.contact && item.contact.length > 20"-->
-<!--            >-->
-<!--              {{ $t("home.home9") + superLong(item.contact) }}-->
-<!--            </span>-->
-<!--          </div>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--      <p class="no-data" v-else>No Data</p>-->
-<!--    </el-dialog>-->
     <assets-dialog v-model="assetListModal" :list="fromCoinList" @selectAsset="selectAsset" :showRegisterChain="false"></assets-dialog>
     <swap-assets-dialog v-model="showToAssetsDialog" :list="toCoinList" @selectAsset="selectAsset"></swap-assets-dialog>
     <el-dialog
@@ -278,7 +247,6 @@ export default {
       amount: "",
       toAmount: "",
       available: 0,
-      fromNetworkMsg: "", //from网络与插件网络不一致 / 数量验证失败
       amountMsg: "", //转账数量验证失败信息
       dialogType: "",
       max: "", // 最大兑换数
@@ -299,11 +267,10 @@ export default {
 
   props: {
     address: String,
-    provider: Object,
     fromNetwork: String,
     fromChainId: String,
-    walletType: String,
-    fromAddress: String
+    fromAddress: String,
+    fromChainError: Boolean
   },
 
   components: {
@@ -326,8 +293,6 @@ export default {
       handler(val) {
         if (!val) return;
         this.reset();
-        const network = supportChainList.filter(v => v.ropsten === val || v.homestead === val)[0]
-        network && this.checkNetwork(network.value);
       },
     },
     fromNetwork: {
@@ -335,8 +300,7 @@ export default {
       handler(val) {
         if (!val) return;
         this.reset();
-        
-        this.checkNetwork(val);
+
         if (val === this.toNetwork) {
           this.toNetwork = "";
         }
@@ -376,7 +340,7 @@ export default {
         !this.chooseFromAsset ||
         !this.chooseToAsset ||
         !this.swapRate ||
-        this.fromNetworkMsg ||
+        this.fromChainError ||
         this.amountMsg
       )
         return false;
@@ -396,7 +360,7 @@ export default {
       this.fromCoinList = this.dialogCoinList = this.supportList.filter(v => v.chain === this.fromNetwork);
       this.toCoinList = [];
       this.toNetwork = "";
-      this.fromNetworkMsg = this.amountMsg = ""
+      this.amountMsg = ""
       this.min = this.max= "";
       this.swapRate = "";
       this.transferFee = 0;
@@ -584,24 +548,6 @@ export default {
         const support = !noSupportCoin.find(item => item.coinId === v.coinId)
         return v.coinId !== this.chooseFromAsset.coinId && support
       })
-    },
-    // 检查metamask网络与nervebridge网络是否一致
-    checkNetwork(fromNetwork) {
-      const network = supportChainList.filter(
-        (item) => item.value === fromNetwork
-      )[0];
-      if (network.hasOwnProperty(ETHNET)) {
-        if (
-          network[ETHNET] !== this.fromChainId &&
-          this.walletType
-        ) {
-          this.fromNetworkMsg = this.$t("home.home8");
-        } else {
-          this.fromNetworkMsg = "";
-        }
-      } else {
-        this.fromNetworkMsg = "";
-      }
     },
     // 通过fromCoin toCoin查询兑换汇率
     async getExchangeRate() {

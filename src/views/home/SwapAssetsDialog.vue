@@ -99,7 +99,7 @@ export default {
     }
   },
   mounted() {
-    const sort = ["ETH", "BNB", "HT", "OKT", "NULS", "NVT"]
+    const sort = ["ETH", "BNB", "HT", "OKT", "ONE", "MATIC", "KCS", "NULS", "NVT"]
     this.supportChains = supportChainList.sort((a, b) => {
       return sort.indexOf(a.symbol) - sort.indexOf(b.symbol)
     })
@@ -162,7 +162,7 @@ export default {
     padding-right: 20px;
     border-right: 1px solid #E9EBF3;
     li {
-      height: 60px;
+      height: 45px;
       display: flex;
       align-items: center;
       .wrap {

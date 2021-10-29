@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app shadow">
-    <!-- <HeaderBar/> -->
+    <HeaderBar v-show="$route.path !== '/transfer'"/>
     <router-view>
     </router-view>
     <!-- <BottomBar>
@@ -9,8 +9,7 @@
 </template>
 
 <script>
-  /* import HeaderBar from './components/HeaderBar'
-  import BottomBar from './components/BottomBar' */
+  import HeaderBar from './components/HeaderBar'
 
   export default {
     data() {
@@ -19,8 +18,7 @@
       };
     },
     components: {
-     /*  HeaderBar,
-      BottomBar */
+      HeaderBar
     },
     async created() {
     },

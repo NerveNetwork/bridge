@@ -1,7 +1,6 @@
 <template>
   <div class="tx-list second-page">
 <!--    <back-bar :backTitle="$t('txList.txList1')"></back-bar>-->
-    <HeaderBar :address="$route.query.address" @quit="quit" />
     <div class="content">
       <div class="content-inner">
         <tab-switch v-model="swapType"></tab-switch>
@@ -66,7 +65,6 @@
 
 <script>
 // import BackBar from '@/components/BackBar';
-import HeaderBar from "@/components/HeaderBar";
 import TxList from "@/components/TxList";
 import TabSwitch from "@/components/TabSwitch";
 import { valideNetwork, networkToChain } from "../home/SwftSwap"
@@ -99,7 +97,6 @@ export default {
 
   components: {
     // BackBar,
-    HeaderBar,
     TxList,
     TabSwitch
   },
@@ -122,9 +119,6 @@ export default {
   mounted() {},
 
   methods: {
-    quit() {
-      this.$router.replace({ path: '/', query: { loginOut: true } });
-    },
     superLong(str, len = 5) {
       return superLong(str, len);
     },
@@ -243,7 +237,7 @@ export default {
 <style lang="less" scoped>
 .tx-list {
   .content {
-    height: 390px;
+    //height: 390px;
   }
   .content-inner {
     height: calc(100% - 15px);
