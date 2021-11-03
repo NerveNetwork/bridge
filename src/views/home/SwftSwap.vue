@@ -440,13 +440,32 @@ export default {
         url: "/coins",
       });
       if (res.msg === "success") {
-        const coins = res.data.filter(v => valideNetwork.indexOf(v.mainNetwork) > -1);
+        /*const coins = res.data.filter(v => valideNetwork.indexOf(v.mainNetwork) > -1);
         coins.map(v => {
           const chain = networkToChain[v.mainNetwork]
           v.chain = chain.chain
           v.symbol = v.coinCode.split("(")[0]
           // v.contractAddress = v.contact
           v.registerChain = v.mainNetwork
+          v.id = v.coinId
+        })*/
+        const coins = []; // 后台调整了一次数据结构
+        res.data.map(coin => {
+          if (valideNetwork.indexOf(coin.chain) > -1) {
+            const { swftInfo, ...rest } = coin;
+            coins.push({
+              ...swftInfo,
+              ...rest
+            })
+          }
+        })
+        console.log(coins, 6666)
+        coins.map(v => {
+          const chain = networkToChain[v.chain]
+          v.chain = chain.chain
+          v.symbol = v.coinCode.split("(")[0]
+          // v.contractAddress = v.contact
+          v.registerChain = v.chain
           v.id = v.coinId
         })
         this.supportList = coins.sort((a, b) => a.symbol > b.symbol ? 1 : -1);
@@ -544,10 +563,13 @@ export default {
         const noSupportItem = this.chooseFromAsset.noSupportCoin.find(item => item.coinId === v.coinId)
         return !!noSupportItem
       })
+      // console.log(noSupportCoin, 3333, this.supportList)
       this.toCoinList = this.supportList.filter(v => {
         const support = !noSupportCoin.find(item => item.coinId === v.coinId)
+        console.log(v.coinId, this.chooseFromAsset.coinId, 4444)
         return v.coinId !== this.chooseFromAsset.coinId && support
       })
+      console.log(this.toCoinList, 444)
     },
     // 通过fromCoin toCoin查询兑换汇率
     async getExchangeRate() {

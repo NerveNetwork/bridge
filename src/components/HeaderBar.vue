@@ -229,7 +229,7 @@
         chainId = chainId + ""
         const result = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
         this.$store.commit("changeChainId", result);
-        const chain = supportChainList.find(v => v.ropsten === chainId || v.homestead === chainId);
+        const chain = supportChainList.find(v => +v.ropsten === +result || +v.homestead === +result);
         if (chain) {
           this.$store.commit("changeNetwork", chain.value);
         } /*else {
