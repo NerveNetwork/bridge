@@ -73,7 +73,7 @@ export default {
               icon: v.icon
             })
           })
-          const order = ["NERVE", "NULS", "Ethereum", "BSC", "Heco", "OKExChain", "Harmony", "Polygon", "KCC"]
+          const order = ["Ethereum", "BSC", "Polygon", "Heco", "OKExChain", "Harmony", "KCC", "NERVE", "NULS"]
           list = list.sort((a, b) => {
             return order.indexOf(a.chain) - order.indexOf(b.chain)
           })

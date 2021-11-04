@@ -99,10 +99,11 @@ export default {
     }
   },
   mounted() {
-    const sort = ["ETH", "BNB", "HT", "OKT", "ONE", "MATIC", "KCS", "NULS", "NVT"]
+    this.supportChains = supportChainList;
+    /*const sort = ["ETH", "BNB", "HT", "OKT", "ONE", "MATIC", "KCS", "NULS", "NVT"]
     this.supportChains = supportChainList.sort((a, b) => {
       return sort.indexOf(a.symbol) - sort.indexOf(b.symbol)
-    })
+    })*/
   },
   methods: {
     getListByChain() {

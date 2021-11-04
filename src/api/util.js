@@ -597,6 +597,24 @@ export const supportChainList = [
     }
   },
   {
+    label: "Polygon",
+    value: "Polygon",
+    symbol: "MATIC",
+    ropsten: "0x13881",
+    homestead: "0x89",
+    SwftChain: "Polygon",
+    chainId: 106,
+    assetId: 1,
+    logo: LogoConfig.Polygon,
+    logoActive: LogoConfig.Polygon_active,
+    origin: networkOrigin.PolygonOrigin,
+    decimals: 18,
+    rpcUrl: {
+      ropsten: "https://rpc-mumbai.maticvigil.com",
+      homestead: "https://rpc-mainnet.maticvigil.com"
+    }
+  },
+  {
     label: "Heco",
     value: "Heco",
     symbol: "HT",
@@ -648,24 +666,6 @@ export const supportChainList = [
     rpcUrl: {
       ropsten: "https://api.s0.b.hmny.io",
       homestead: "https://api.harmony.one"
-    }
-  },
-  {
-    label: "Polygon",
-    value: "Polygon",
-    symbol: "MATIC",
-    ropsten: "0x13881",
-    homestead: "0x89",
-    SwftChain: "Polygon",
-    chainId: 106,
-    assetId: 1,
-    logo: LogoConfig.Polygon,
-    logoActive: LogoConfig.Polygon_active,
-    origin: networkOrigin.PolygonOrigin,
-    decimals: 18,
-    rpcUrl: {
-      ropsten: "https://rpc-mumbai.maticvigil.com",
-      homestead: "https://rpc-mainnet.maticvigil.com"
     }
   },
   {

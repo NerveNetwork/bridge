@@ -6,24 +6,34 @@
     </div>
     <div class="right" v-if="showAccountArea">
       <div class="address">
-        <span class="network" @click.stop="showNetworkList=!showNetworkList">
+        <div class="network" @click.stop="showNetworkList=!showNetworkList">
+          <img :src="chainSymbol[$store.state.network].active" alt="">
+          <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
+        </div>
+<!--        <span class="network" @click.stop="showNetworkList=!showNetworkList">
            {{ $store.state.network }}
            <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
-        </span>
+        </span>-->
         <span @click="showAccountDialog=true">{{ superLong(address, 5) }}</span>
         <ul class="support-network-list" v-show="showNetworkList">
           <li
             v-for="item in supportChainList"
             :key="item.chainName"
-            :class="{'active': item.chainName === currentChain}"
             @click="switchChain(item)"
           >
-            {{ item.chainName }}
+            <p :class="{'active': item.chainName === currentChain}">
+              <img :src="chainSymbol[item.chainName].active" alt="">
+<!--              <img v-if="item.chainName === currentChain" :src="chainSymbol[item.chainName].active" alt="">
+              <img v-else :src="chainSymbol[item.chainName].default" alt="">-->
+              {{ item.chainName }}
+            </p>
+<!--            {{ item.chainName }}-->
           </li>
           <div class="pop-arrow"></div>
         </ul>
       </div>
-      <span @click="showMenu=true" class="iconfont icon-menu"></span>
+      <img src="../assets/img/icon-menu.svg" alt="" @click="showMenu=true">
+<!--      <span @click="showMenu=true" class="iconfont icon-menu"></span>-->
     </div>
     <transition name="drawer-fade">
       <div class="nav-menu" v-show="showMenu">
@@ -103,9 +113,18 @@
   import { ETHNET } from "@/config"
   import { ethers } from 'ethers'
 
+  const chainSymbol = {}
+  supportChainList.map(chain => {
+    chainSymbol[chain.value] = {
+      default: chain.logo,
+      active: chain.logoActive
+    }
+  })
+
   export default {
     data() {
       this.isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
+      this.chainSymbol = chainSymbol;
       return {
         showNetworkList: false,
         showMenu: false,
@@ -341,15 +360,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 12px;
+    padding: 0 15px;
     border-bottom: 1px solid #EBF0F3;
     background-color: #fff;
     .left img {
       width: 96px;
-      margin-left: 5px;
+      //margin-left: 5px;
       @media screen and (max-width: 400px){
         width: 75px;
-        margin-left: 0;
+        //margin-left: 0;
       }
     }
     // img {
@@ -375,14 +394,27 @@
         font-size: 14px;
         border-radius: 18px;
         text-align: center;
-        margin-right: 8px;
+        margin-right: 15px;
         cursor: pointer;
         position: relative;
+        display: flex;
+        align-items: center;
         @media screen and (max-width: 400px){
-          margin-right: 0;
+          margin-right: 5px;
           padding: 0 8px;
         }
         .network {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          padding: 2px 0;
+          margin-right: 8px;
+          img {
+            width: 26px;
+            margin-right: 8px;
+          }
+        }
+        /*.network {
           font-size: 15px;
           color: #99A3C4;
           // margin-right: 10px;
@@ -401,9 +433,10 @@
             // margin: 0 2px;
             background-color: #5BCAF9;
           }
-        }
+        }*/
         .support-network-list {
           position: absolute;
+          top: 30px;
           left: 20px;
           z-index: 99999;
           width: 150px;
@@ -414,14 +447,21 @@
           background-color: #fff;
           box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
           li {
-            padding: 0 20px;
-            text-align: left;
-            &:hover {
-              background-color: #f5f7fa;
-            }
-            &.active {
-              color: #409eff;
-              font-weight: 700;
+            padding: 5px 15px;
+            p {
+              display: flex;
+              align-items: center;
+              img {
+                width: 28px;
+                margin-right: 10px;
+              }
+              &:hover {
+                background-color: #f5f7fa;
+              }
+              &.active {
+                color: #409eff;
+                font-weight: 700;
+              }
             }
           }
           .pop-arrow, .pop-arrow:after {

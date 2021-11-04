@@ -453,13 +453,14 @@ export default {
         res.data.map(coin => {
           if (valideNetwork.indexOf(coin.chain) > -1) {
             const { swftInfo, ...rest } = coin;
-            coins.push({
-              ...swftInfo,
-              ...rest
-            })
+            if (swftInfo) {
+              coins.push({
+                ...swftInfo,
+                ...rest
+              })
+            }
           }
         })
-        console.log(coins, 6666)
         coins.map(v => {
           const chain = networkToChain[v.chain]
           v.chain = chain.chain
@@ -566,10 +567,9 @@ export default {
       // console.log(noSupportCoin, 3333, this.supportList)
       this.toCoinList = this.supportList.filter(v => {
         const support = !noSupportCoin.find(item => item.coinId === v.coinId)
-        console.log(v.coinId, this.chooseFromAsset.coinId, 4444)
+        // console.log(v.coinId, this.chooseFromAsset.coinId, 4444)
         return v.coinId !== this.chooseFromAsset.coinId && support
       })
-      console.log(this.toCoinList, 444)
     },
     // 通过fromCoin toCoin查询兑换汇率
     async getExchangeRate() {
