@@ -317,6 +317,10 @@
         if (this.currentChain === item.chainName) return;
         if (item.chainName === "NULS" || item.chainName === "NERVE") {
           this.$store.commit('changeNetwork', item.chainName)
+          const currentAccount = getCurrentAccount(this.address);
+          const newAddress = currentAccount.address[item.chainName]
+          // console.log(currentAccount, 333)
+          this.$store.commit('changeAddress', newAddress)
           return;
         }
 
