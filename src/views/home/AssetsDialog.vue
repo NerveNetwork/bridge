@@ -20,7 +20,7 @@
           <img :src="getLogoSrc(item.icon)" alt="" />
         </div>
         <div class="asset-info">
-          <p>{{ item.symbol }}<span v-if="showRegisterChain">{{"(" + item.registerChain + ")"}}</span></p>
+          <p>{{ item.symbol }}<span class="origin-chain" v-if="showRegisterChain">{{item.registerChain}}</span></p>
           <span
               v-if="item.contractAddress && item.contractAddress.length > 20"
           >
@@ -148,6 +148,12 @@ export default {
         span {
           font-size: 13px;
           color: #99a3c4;
+          &.origin-chain {
+            font-size: 20px;
+            transform: translate(-20%, 3px) scale(0.5);
+            color: #5BCAF9;
+            padding: 0 5px;
+          }
         }
       }
       &.active {

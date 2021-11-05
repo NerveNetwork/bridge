@@ -3,17 +3,23 @@
     <div class="account-select">
       <div class="from">
         <span class="label">{{ $t("home.home4") }}</span>
-        <span class="network">
+<!--        <span class="network">
           {{ fromNetwork }}
-        </span>
+        </span>-->
+        <img :src="getChainLogo(fromNetwork)" alt="">
         {{ superLong(fromAddress) }}
       </div>
       <div class="msg-wrap">
         <span class="from-validate-msg" v-show="fromChainError">{{$t("home.home8") }}</span>
       </div>
-      <div class="to">
-        <span class="label">{{ $t("home.home5") }}</span>
-        <el-select @change="selectChange" v-model="toNetwork" placeholder="">
+      <div class="to click" @click="showNetworkList=!showNetworkList">
+        <div class="left">
+          <span class="label">{{ $t("home.home5") }}</span>
+          <img v-show="toNetwork" :src="getChainLogo(toNetwork)" alt="">
+          <span class="address">{{ superLong(toAddress) }}</span>
+        </div>
+
+<!--        <el-select @change="selectChange" v-model="toNetwork" placeholder="">
           <el-option
             v-for="item in networkList"
             :key="item.value"
@@ -22,14 +28,16 @@
             :disabled="item.value === fromNetwork"
           >
           </el-option>
-        </el-select>
-        <span class="address">{{ superLong(toAddress) }}</span>
+        </el-select>-->
+
+        <span :class="['el-icon-arrow-down', showNetworkList ? 'active' : '']"></span>
+        <ChainList v-model="showNetworkList" :currentChain="toNetwork" @change="changeToChain" :disabledChain="fromNetwork"></ChainList>
       </div>
     </div>
     <div class="amount">
       <div class="label-wrap">
         <span class="label">{{ $t("public.amount") }}</span>
-        <span>{{ $t("home.home3") }} {{ available }}</span>
+        <span class="label">{{ $t("home.home3") }} {{ available }}</span>
       </div>
       <el-input
         class="amount-inner"
@@ -54,7 +62,7 @@
               alt=""
             />
             <div class="asset-info-wrap">
-              <span>{{ chooseAsset.symbol }}</span>
+              <span style="line-height: 1;margin-top: 10px">{{ overflowToken(chooseAsset.symbol) }}</span>
               <span class="origin-chain">{{ chooseAsset.registerChain }}</span>
             </div>
           </template>
@@ -70,9 +78,8 @@
     </div>
     <fee-wrap>
       <div class="fee-inner">
-        
         <template v-if="!fee">
-          <span v-if="!feeLoading">--</span>
+          <span v-if="!feeLoading"></span>
           <img v-else src="../../assets/img/loading.svg" alt="" />
         </template>
         <div v-else>
@@ -118,6 +125,7 @@ import { getContractCallData } from "@/api/nulsContractValidate";
 import defaultIcon from "@/assets/img/commonIcon.png";
 import FeeWrap from "@/components/FeeWrap";
 import AssetsDialog from "./AssetsDialog";
+import ChainList from '@/components/ChainList';
 import {ethers} from 'ethers'
 
 let chainToSymbol = {}
@@ -151,7 +159,8 @@ export default {
       filteredList: [],
       hasPendingTx: false,
       isMainAsset: false, // 是否为主资产
-      maxClick: false // 点击最大
+      maxClick: false, // 点击最大
+      showNetworkList: false
     }
   },
 
@@ -164,7 +173,8 @@ export default {
   },
   components: {
     FeeWrap,
-    AssetsDialog
+    AssetsDialog,
+    ChainList
   },
   watch: {
     address: {
@@ -295,6 +305,14 @@ export default {
       this.fee = "";
       this.feeLoading = false;
       this.clearGetAllowanceTimer();
+    },
+    changeToChain(item) {
+      this.toNetwork = item.value;
+    },
+    getChainLogo(chain) {
+      if (!chain) return null;
+      const chainInfo = supportChainList.find(item => item.value===chain)
+      return chainInfo.logoActive || null;
     },
     // 查询可跨链资产
     async getCanCrossAssets() {
@@ -997,11 +1015,53 @@ export default {
       }
       return balance;
     },
+    overflowToken(str) {
+      return str.length > 4 ? str.slice(0, 4) + '...' : str
+    }
   },
 }
 
 </script>
 <style lang="less">
+.nerve-swap {
+  .label-wrap .label:last-child {
+    margin-right: 0;
+  }
+  .account-select {
+    .from {
+      display: flex;
+      align-items: center;
+      img {
+        width: 28px;
+        margin: 0 60px 0 10px;
+      }
+    }
+    .to {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .left {
+        display: flex;
+        align-items: center;
+        img {
+          width: 28px;
+          margin: 0 60px 0 10px;
+        }
+      }
+      .el-icon-arrow-down {
+        font-weight: 600;
+        transition: 0.1s linear;
+        &.active {
+          transform: rotate(-180deg);
+        }
+      }
+      .chain-list {
+        top: 50px;
+      }
+    }
+  }
+}
   .pending-tx-tip {
     font-size: 14px;
     text-align: center;

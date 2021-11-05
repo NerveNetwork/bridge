@@ -4,11 +4,13 @@ import defaultConfig from './defaultChainConfig'
 
 const network = isBeta ? 'beta' : 'main';
 
-function handleChainConfig(config) {
-  let res = {}
+export { defaultConfig };
+
+export function setChainConfig(config) {
+  const result = {}
   config.map(v => {
     const mainInfo = v.mainAsset;
-    res[v.chain] = {
+    result[v.chain] = {
       chainId: mainInfo ? mainInfo.chainId : '',
       assetId: mainInfo ? mainInfo.assetId : '',
       prefix: v.prefix,
@@ -18,20 +20,19 @@ function handleChainConfig(config) {
       config: v.configs
     }
   });
-  return res;
+  sessionStorage.setItem("config", JSON.stringify(result))
 }
 
 // 链配置
 export async function getChainConfig() {
-  let config = {}
+  let config = defaultConfig
   try {
     const res = await request({url: '/api/chain/config', method: 'get', network});
     if (res.data && res.data.length) {
-      config = handleChainConfig(res.data);
+      config = res.data
     }
   } catch (e) {
     console.error(e, '获取链配置失败, 使用本地config');
-    config = handleChainConfig(defaultConfig)
   }
   return config;
 }

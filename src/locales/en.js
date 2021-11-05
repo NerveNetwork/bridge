@@ -18,7 +18,7 @@ const en = {
     home3: "Avaliable: ",
     home4: "From",
     home5: "To",
-    home6: "Asset(network)",
+    home6: "Assets",
     home7: "Balance or fee is not enough",
     // home8: "Metamask network is inconsistent with DApp network",
     home8: "Network error",

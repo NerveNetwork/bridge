@@ -18,16 +18,15 @@
         }}</el-button>
       </div>
       <div v-else>
-        <tab-switch v-model="swapType"></tab-switch>
+<!--        <tab-switch v-model="swapType"></tab-switch>-->
         <nerve-swap
-          v-show="swapType==='nerve'"
           :address="address"
           :fromNetwork="fromNetwork"
           :fromChainId="fromChainId"
           :fromAddress="fromAddress"
           :fromChainError="fromChainError"
         ></nerve-swap>
-        <swft-swap
+<!--        <swft-swap
           v-show="swapType==='swft'"
           :address="address"
           :fromNetwork="fromNetwork"
@@ -35,16 +34,16 @@
           :fromAddress="fromAddress"
           :fromChainError="fromChainError"
         >
-        </swft-swap>
+        </swft-swap>-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import TabSwitch from "@/components/TabSwitch";
-import SwftSwap from "./SwftSwap";
+// import TabSwitch from "@/components/TabSwitch";
 import NerveSwap from "./NerveSwap";
+// import SwftSwap from "./SwftSwap";
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import nerve from "nerve-sdk-js";
 import { supportChainList, getCurrentAccount } from "../../api/util";
@@ -91,9 +90,9 @@ export default {
   },
 
   components: {
-    SwftSwap,
     NerveSwap,
-    TabSwitch
+    // SwftSwap,
+    // TabSwitch
   },
 
   computed: {
@@ -341,37 +340,6 @@ export default {
       padding: 16px 50px;
     }
   }
-  .swap-type {
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: center;
-    .el-radio-group {
-      border-radius: 20px;
-      background: #EBEEF8;
-      .el-radio-button {
-        .el-radio-button__inner {
-          border: none;
-          box-shadow: none;
-          background-color: #EBEEF8;
-          color: #99A3C4;
-          border-radius: 20px;
-          padding: 13px 20px;
-          font-size: 15px;
-        }
-        &.is-active {
-          .el-radio-button__inner {
-            background-color: #5BCAF9;
-            color: #fff;
-            border-radius: 20px;
-          }
-        }
-      }
-      .el-radio-button__inner {
-        width: 130px;
-      }
-    }
-    
-  }
   .account-select {
     .from,
     .to {
@@ -394,9 +362,9 @@ export default {
     .to {
       margin-bottom: 30px;
       .address {
-        position: absolute;
+        //position: absolute;
         font-size: 14px;
-        left: 147px;
+        //left: 147px;
         color: #515B7D;
       }
     }
@@ -461,25 +429,6 @@ export default {
       &:hover {
         background-color: rgb(224, 217, 235);
       }
-      /* img {
-        width: 30px;
-        height: 30px;
-        margin-right: 5px;
-      }
-      
-      .origin-chain {
-        display: inline-block;
-        border: 1px solid #5BCAF9;
-        border-radius: 2px;
-        padding: 1px 5px;
-        font-size: 12px;
-        font-weight: normal;
-        margin-left: -6px;
-        color: #5BCAF9;
-        transform: scale(0.8);
-        min-width: 50px;
-        text-align: center;
-      } */
     }
     .el-input-group__prepend {
       .el-select .el-input {
@@ -564,14 +513,14 @@ export default {
   .origin-chain {
     display: inline-block;
     border: 1px solid #5BCAF9;
-    border-radius: 2px;
+    border-radius: 4px;
     padding: 1px 5px;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: normal;
     // margin-left: -6px;
     color: #5BCAF9;
-    transform: translateX(-10%) scale(0.8);
-    min-width: 50px;
+    transform: translate(-20%, -10%) scale(0.5);
+    min-width: 45px;
     text-align: center;
   }
 }

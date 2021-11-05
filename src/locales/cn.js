@@ -18,7 +18,7 @@ const cn = {
     home3: "可用: ",
     home4: "从",
     home5: "到",
-    home6: "资产(网络)",
+    home6: "资产",
     home7: "余额或手续费不足",
     // home8: "metamask网络与bridge网络不一致",
     home8: "网络错误",

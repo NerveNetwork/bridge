@@ -3,8 +3,8 @@
 <!--    <back-bar :backTitle="$t('txList.txList1')"></back-bar>-->
     <div class="content">
       <div class="content-inner">
-        <tab-switch v-model="swapType"></tab-switch>
-        <div class="tab-wrap" v-show="swapType==='swft'" v-loading="loading1">
+<!--        <tab-switch v-model="swapType"></tab-switch>-->
+<!--        <div class="tab-wrap" v-show="swapType==='swft'" v-loading="loading1">
           <div class="search">
             <el-select v-model="depositCoinCode" clearable :placeholder="$t('txList.txList7')">
               <el-option
@@ -29,7 +29,7 @@
           <tx-list :list="swftTxList" @toDetail="toSwftTxDetail" :total="txTotal1" :loading="txLoading1"
                     @loadMoreTx="getSwftTxList" isSwft>
           </tx-list>
-        </div>
+        </div>-->
         <div class="tab-wrap" v-show="swapType==='nerve'" v-loading="loading">
           <div class="search">
             <el-select v-model="fromChain" clearable :placeholder="$t('txList.txList2')">
@@ -52,7 +52,6 @@
             </el-select>
             <el-button @click="searchList">{{ $t("public.filter") }}</el-button>
           </div>
-          <!-- {{txList}} -->
           <tx-list :list="txList" @toDetail="toTxDetail" :total="txTotal" :loading="txLoading"
                     @loadMoreTx="getTxList">
           </tx-list>
@@ -66,7 +65,7 @@
 <script>
 // import BackBar from '@/components/BackBar';
 import TxList from "@/components/TxList";
-import TabSwitch from "@/components/TabSwitch";
+// import TabSwitch from "@/components/TabSwitch";
 import { valideNetwork, networkToChain } from "../home/SwftSwap"
 import moment from "moment"
 import {getCurrentAccount, superLong, supportChainList} from '@/api/util'
@@ -98,7 +97,7 @@ export default {
   components: {
     // BackBar,
     TxList,
-    TabSwitch
+    // TabSwitch
   },
 
   watch: {},
@@ -109,10 +108,10 @@ export default {
     const network = sessionStorage.getItem("network");
     const accountList = JSON.parse(localStorage.getItem("accountList")) || [];
     this.currentAccount = accountList.filter(item => {
-      return item.address[network] === address
+      return item.address[network].toLowerCase() === address.toLowerCase()
     })[0]
-    this.getCoins();
-    this.getSwftTxList();
+    // this.getCoins();
+    // this.getSwftTxList();
     this.getTxList();
   },
 
@@ -252,15 +251,14 @@ export default {
         height: 34px;
         margin-right: 20px;
       }
-      .el-input__inner {
-        height: 34px;
-        line-height: 34px;
-        border-radius: 4px;
+      /deep/.el-input__inner {
+        border-radius: 8px;
         border-color: #EBEEF8;
+        padding: 0 10px;
       }
       .el-button {
         width: 80px;
-        height: 34px;
+        height: 30px;
         padding: 0;
         border-color: #5BCAF9;
         color: #5BCAF9;

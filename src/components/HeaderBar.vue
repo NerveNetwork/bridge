@@ -10,29 +10,10 @@
           <img :src="chainSymbol[$store.state.network].active" alt="">
           <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
         </div>
-<!--        <span class="network" @click.stop="showNetworkList=!showNetworkList">
-           {{ $store.state.network }}
-           <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
-        </span>-->
         <span @click="showAccountDialog=true">{{ superLong(address, 5) }}</span>
-        <ul class="support-network-list" v-show="showNetworkList">
-          <li
-            v-for="item in supportChainList"
-            :key="item.chainName"
-            @click="switchChain(item)"
-          >
-            <p :class="{'active': item.chainName === currentChain}">
-              <img :src="chainSymbol[item.chainName].active" alt="">
-<!--              <img v-if="item.chainName === currentChain" :src="chainSymbol[item.chainName].active" alt="">
-              <img v-else :src="chainSymbol[item.chainName].default" alt="">-->
-              {{ item.chainName }}
-            </p>
-<!--            {{ item.chainName }}-->
-          </li>
-          <div class="pop-arrow"></div>
-        </ul>
+        <ChainList v-model="showNetworkList" :currentChain="currentChain" @change="switchChain"></ChainList>
       </div>
-      <img src="../assets/img/icon-menu.svg" alt="" @click="showMenu=true">
+      <img class="click" src="../assets/img/icon-menu.svg" alt="" @click="showMenu=true">
 <!--      <span @click="showMenu=true" class="iconfont icon-menu"></span>-->
     </div>
     <transition name="drawer-fade">
@@ -52,8 +33,14 @@
                 <span>{{ $t("header.header2") }}</span>
               </li>
               <li>
+                <a href="https://swap.nabox.io/" :target="isMobile && '_self' || '_blank'">
+                  <i class="iconfont icon-swapbox"></i>
+                  <span>SwapBox</span>
+                </a>
+              </li>
+              <li>
                 <a :href="walletAddress" :target="isMobile && '_self' || '_blank'">
-                  <i class="iconfont icon-qianbao"></i>
+                  <i class="iconfont icon-wallet"></i>
                   <span>{{ $t("header.header9") }}</span>
                 </a>
               </li>
@@ -108,6 +95,7 @@
 </template>
 
 <script>
+  import ChainList from '@/components/ChainList';
   import { superLong, copys, networkOrigin, supportChainList } from '@/api/util'
   import { isBeta, getCurrentAccount } from '@/api/util';
   import { ETHNET } from "@/config"
@@ -131,7 +119,6 @@
         lang: localStorage.getItem("lang") || "en",
         showAccountDialog: false,
         walletAddress: isBeta ? "http://beta.wallet.nerve.network" : "https://wallet.nerve.network",
-        supportChainList: [],
         provider: null
       };
     },
@@ -139,6 +126,7 @@
       // address: String
     },
     components: {
+      ChainList
     },
     computed: {
       address() {
@@ -181,13 +169,7 @@
         }
       }
     },
-    mounted() {
-      this.getSupportChainList();
-
-      window.addEventListener("click", () => {
-        if (this.showNetworkList) this.showNetworkList = false;
-      }, false)
-    },
+    mounted() {},
     methods: {
       async initConnect() {
         const walletType = sessionStorage.getItem('walletType');
@@ -256,24 +238,6 @@
         }*/
       },
 
-      getSupportChainList() {
-        const list = [];
-        supportChainList.map(v => {
-          list.push({
-            chainId: v[ETHNET],
-            rpcUrls: v.rpcUrl ? [v.rpcUrl[ETHNET]] : [],
-            chainName: v.value,
-            nativeCurrency: {
-              name: v.value,
-              symbol: v.symbol,
-              decimals: v.decimals,
-            },
-            blockExplorerUrls: [v.origin]
-          })
-        })
-        this.supportChainList = list;
-      },
-
       superLong(str, len = 8) {
         return superLong(str, len)
       },
@@ -314,28 +278,34 @@
         window.open(url)
       },
       async switchChain(item) {
-        if (this.currentChain === item.chainName) return;
-        if (item.chainName === "NULS" || item.chainName === "NERVE") {
-          this.$store.commit('changeNetwork', item.chainName)
+        if (this.currentChain === item.value) return;
+        const provider =window[this.walletType]
+        if (item.value === "NULS" || item.value === "NERVE" || item[ETHNET] === provider.chainId) {
+          this.$store.commit('changeNetwork', item.value)
           const currentAccount = getCurrentAccount(this.address);
-          const newAddress = currentAccount.address[item.chainName]
-          // console.log(currentAccount, 333)
+          const newAddress = currentAccount.address[item.value]
           this.$store.commit('changeAddress', newAddress)
           return;
         }
 
-        const provider =window[this.walletType]
-        if (item.chainId === provider.chainId) {
-          this.$store.commit('changeNetwork', item.chainName);
-          return;
-        }
         try {
           const providerType = sessionStorage.getItem("walletType");
           const provider = window[providerType];
-          if (item.chainName !== "Ethereum") {
+          if (item.value !== "Ethereum") {
+            const addItem = {
+              chainId: item[ETHNET],
+              rpcUrls: item.rpcUrl ? [item.rpcUrl[ETHNET]] : [],
+              chainName: item.value,
+              nativeCurrency: {
+                name: item.value,
+                symbol: item.symbol,
+                decimals: item.decimals,
+              },
+              blockExplorerUrls: [item.origin]
+            }
             await provider.request({
               method: "wallet_addEthereumChain",
-              params: [item]
+              params: [addItem]
             });
           } else {
             await provider.request({
