@@ -18,15 +18,16 @@
         }}</el-button>
       </div>
       <div v-else>
-<!--        <tab-switch v-model="swapType"></tab-switch>-->
+        <tab-switch v-model="swapType"></tab-switch>
         <nerve-swap
+          v-show="swapType==='nerve'"
           :address="address"
           :fromNetwork="fromNetwork"
           :fromChainId="fromChainId"
           :fromAddress="fromAddress"
           :fromChainError="fromChainError"
         ></nerve-swap>
-<!--        <swft-swap
+        <swft-swap
           v-show="swapType==='swft'"
           :address="address"
           :fromNetwork="fromNetwork"
@@ -34,16 +35,16 @@
           :fromAddress="fromAddress"
           :fromChainError="fromChainError"
         >
-        </swft-swap>-->
+        </swft-swap>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import TabSwitch from "@/components/TabSwitch";
+import TabSwitch from "@/components/TabSwitch";
 import NerveSwap from "./NerveSwap";
-// import SwftSwap from "./SwftSwap";
+import SwftSwap from "./SwftSwap";
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import nerve from "nerve-sdk-js";
 import { supportChainList, getCurrentAccount } from "../../api/util";
@@ -91,8 +92,8 @@ export default {
 
   components: {
     NerveSwap,
-    // SwftSwap,
-    // TabSwitch
+    SwftSwap,
+    TabSwitch
   },
 
   computed: {
@@ -423,7 +424,7 @@ export default {
       padding: 5px 10px;
       border-radius: 15px;
       display: flex;
-      justify-content: space-between;
+      //justify-content: space-between;
       align-items: center;
       // min-width: 130px;
       &:hover {
@@ -520,7 +521,7 @@ export default {
     // margin-left: -6px;
     color: #5BCAF9;
     transform: translate(-20%, -10%) scale(0.5);
-    min-width: 45px;
+    //min-width: 45px;
     text-align: center;
   }
 }

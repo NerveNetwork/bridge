@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-      :title="$t('home.home6')"
+      title=""
       :visible.sync="show"
       :modal-append-to-body="false"
       width="80%"
@@ -20,7 +20,7 @@
           <img :src="getLogoSrc(item.icon)" alt="" />
         </div>
         <div class="asset-info">
-          <p>{{ item.symbol }}<span class="origin-chain" v-if="showRegisterChain">{{item.registerChain}}</span></p>
+          <p style="line-height: 1">{{ item.symbol }}<span class="origin-chain" v-if="showRegisterChain">{{item.registerChain}}</span></p>
           <span
               v-if="item.contractAddress && item.contractAddress.length > 20"
           >
@@ -108,8 +108,15 @@ export default {
     .el-dialog {
       max-height: 60vh;
       overflow: auto;
+      .el-dialog__header {
+        border: none;
+        margin-bottom: 5px;
+      }
       .el-dialog__body {
         padding: 5px 20px 15px;
+        .el-input__inner {
+          border-color: #E9EBF3;
+        }
       }
     }
     .search-input {
@@ -126,6 +133,7 @@ export default {
       align-items: center;
       cursor: pointer;
       height: 55px;
+      border-bottom: 1px solid #E9EBF3;
       &:hover {
         // background-color: rgb(224, 217, 235);
       }

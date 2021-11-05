@@ -2,7 +2,7 @@
   <div class="nerve-swap">
     <div class="account-select">
       <div class="from">
-        <span class="label">{{ $t("home.home4") }}</span>
+        <span class="label" :style="{width: $i18n.locale === 'en' ? '40px' : '30px'}">{{ $t("home.home4") }}</span>
 <!--        <span class="network">
           {{ fromNetwork }}
         </span>-->
@@ -14,7 +14,7 @@
       </div>
       <div class="to click" @click="showNetworkList=!showNetworkList">
         <div class="left">
-          <span class="label">{{ $t("home.home5") }}</span>
+          <span class="label" :style="{width: $i18n.locale === 'en' ? '40px' : '30px'}">{{ $t("home.home5") }}</span>
           <img v-show="toNetwork" :src="getChainLogo(toNetwork)" alt="">
           <span class="address">{{ superLong(toAddress) }}</span>
         </div>
@@ -62,11 +62,12 @@
               alt=""
             />
             <div class="asset-info-wrap">
-              <span style="line-height: 1;margin-top: 10px">{{ overflowToken(chooseAsset.symbol) }}</span>
+              <span style="line-height: 1;margin-bottom: 10px">{{ overflowToken(chooseAsset.symbol) }}</span>
+<!--              <OriginChain :chain="chooseAsset.registerChain"></OriginChain>-->
               <span class="origin-chain">{{ chooseAsset.registerChain }}</span>
             </div>
           </template>
-          <i class="el-icon-caret-bottom fw"></i>
+          <i class="el-icon-caret-bottom fw" style="margin-left: 3px"></i>
         </div>
         <el-button slot="append" @click="maxAmount">MAX</el-button>
       </el-input>
@@ -104,6 +105,9 @@
 </template>
 
 <script>
+import FeeWrap from "@/components/FeeWrap";
+import AssetsDialog from "./AssetsDialog";
+import ChainList from '@/components/ChainList';
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import {
   superLong,
@@ -123,9 +127,6 @@ import {
 import { ETransfer, getSymbolUSD, swapScale, swapSymbolConfig, crossFee, gasLimitConfig } from "@/api/api";
 import { getContractCallData } from "@/api/nulsContractValidate";
 import defaultIcon from "@/assets/img/commonIcon.png";
-import FeeWrap from "@/components/FeeWrap";
-import AssetsDialog from "./AssetsDialog";
-import ChainList from '@/components/ChainList';
 import {ethers} from 'ethers'
 
 let chainToSymbol = {}
@@ -1028,12 +1029,19 @@ export default {
     margin-right: 0;
   }
   .account-select {
+    .from,.to {
+      .label {
+        display: inline-block;
+        width: 30px
+      }
+
+    }
     .from {
       display: flex;
       align-items: center;
       img {
         width: 28px;
-        margin: 0 60px 0 10px;
+        margin: 0 60px 0 0;
       }
     }
     .to {
@@ -1046,7 +1054,7 @@ export default {
         align-items: center;
         img {
           width: 28px;
-          margin: 0 60px 0 10px;
+          margin: 0 60px 0 0;
         }
       }
       .el-icon-arrow-down {
@@ -1061,6 +1069,14 @@ export default {
       }
     }
   }
+  .asset-info-wrap {
+    position: relative;
+    .origin-chain {
+      position: absolute;
+      top: 12px;
+    }
+  }
+
 }
   .pending-tx-tip {
     font-size: 14px;

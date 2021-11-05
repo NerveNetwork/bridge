@@ -553,9 +553,9 @@ export const networkOrigin = {
   // HTOrigin: isBeta ? 'https://scan-testnet.hecochain.com' : 'https://scan.hecochain.com'
   Heco: isBeta ? 'https://testnet.hecoinfo.com' : 'https://hecoinfo.com',
   OKExChain: isBeta ? "https://www.oklink.com/okexchain-test" : "https://www.oklink.com/okexchain",
-  HarmonyOrigin: isBeta ? 'https://explorer.pops.one' : 'https://explorer.harmony.one',
-  PolygonOrigin: isBeta ? 'https://mumbai.polygonscan.com' : 'https://polygonscan.com',
-  KCCOrigin: isBeta ? 'https://scan-testnet.kcc.network' : 'https://explorer.kcc.io'
+  Harmony: isBeta ? 'https://explorer.pops.one' : 'https://explorer.harmony.one',
+  Polygon: isBeta ? 'https://mumbai.polygonscan.com' : 'https://polygonscan.com',
+  KCC: isBeta ? 'https://scan-testnet.kcc.network' : 'https://explorer.kcc.io'
 }
 
 export function getLogoSrc(icon) {
@@ -607,7 +607,7 @@ export const supportChainList = [
     assetId: 1,
     logo: LogoConfig.Polygon,
     logoActive: LogoConfig.Polygon_active,
-    origin: networkOrigin.PolygonOrigin,
+    origin: networkOrigin.Polygon,
     decimals: 18,
     rpcUrl: {
       ropsten: "https://rpc-mumbai.maticvigil.com",
@@ -661,7 +661,7 @@ export const supportChainList = [
     assetId: 1,
     logo: LogoConfig.Harmony,
     logoActive: LogoConfig.Harmony_active,
-    origin: networkOrigin.HarmonyOrigin,
+    origin: networkOrigin.Harmony,
     decimals: 18,
     rpcUrl: {
       ropsten: "https://api.s0.b.hmny.io",
@@ -679,7 +679,7 @@ export const supportChainList = [
     assetId: 1,
     logo: LogoConfig.KCC,
     logoActive: LogoConfig.KCC_active,
-    origin: networkOrigin.KCCOrigin,
+    origin: networkOrigin.KCC,
     decimals: 18,
     rpcUrl: {
       ropsten: "https://rpc-testnet.kcc.network",
