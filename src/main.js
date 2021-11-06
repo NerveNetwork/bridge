@@ -35,9 +35,9 @@ if (development && window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
 async function setConfig() {
   // 设置默认config
   setChainConfig(defaultConfig);
-  const config = await getChainConfig();
+  const apiConfig = await getChainConfig();
   // 接口返回的config
-  setChainConfig(config);
+  const config = setChainConfig(apiConfig);
   // 获取nerve地址
   await getCrossAddress();
   // 新添加链后同步更新本地地址

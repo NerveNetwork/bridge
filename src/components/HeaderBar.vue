@@ -310,7 +310,7 @@
           } else {
             await provider.request({
               method: "wallet_switchEthereumChain",
-              params: [{ chainId: item.chainId }]
+              params: [{ chainId: item[ETHNET] }]
             });
           }
           if (this.isMobile) {

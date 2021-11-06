@@ -1,22 +1,39 @@
 // 后台添加多条链后，本地存储的账户地址没有同步新添加的链的地址
 
 import {request} from '@/api/https'
+import nerve from "nerve-sdk-js";
+import { ethers } from "ethers";
+import { MAIN_INFO, NULS_INFO } from "@/config";
 
-function generateAddress(config, account) {
-  const newAccount = {}
-  const chainLength = Object.keys(config).length;
-  if (!chainLength) return account;
+
+//使用pub重新生成一遍账户
+function generateAddress(pub, config) {
+  const address = getHeterogeneousAddress(pub, config)
+  address.NERVE = nerve.getAddressByPub(
+      MAIN_INFO.chainId,
+      MAIN_INFO.assetId,
+      pub,
+      MAIN_INFO.prefix
+  );
+  address.NULS = nerve.getAddressByPub(
+      NULS_INFO.chainId,
+      NULS_INFO.assetId,
+      pub,
+      NULS_INFO.prefix
+  );
+  return address;
+}
+
+// 生成异构网络地址
+function getHeterogeneousAddress(pub, config) {
+  const ercAddress = ethers.utils.computeAddress(ethers.utils.hexZeroPad(ethers.utils.hexStripZeros('0x' + pub), 33));
+  const address = {}
   for(let chain in config) {
-    if (!account[chain]) {
-      if (chain !== 'TRX') {
-        newAccount[chain] = account.Ethereum
-      }
-    } else {
-      newAccount[chain] = account[chain]
+    if (chain !== 'NULS' && chain !== 'NERVE') {
+      address[chain] = ercAddress
     }
   }
-  // console.log(account)
-  return newAccount;
+  return address
 }
 
 function isDiffAccount(config, account) {
@@ -45,7 +62,26 @@ export async function hackAddChain(config) {
   try {
     const accountList = JSON.parse(localStorage.getItem('accountList')) || [];
     if (accountList.length) {
-      const addressLength = Object.keys(config).length;
+      let flag = false
+      for (let i = 0; i < accountList.length; i++) {
+        const account = accountList[i];
+        const { address, pub } = account
+        const keys = Object.keys(address)
+        const isBugAccount = !!keys.every(key => {
+          return !isNaN(Number(key))
+        });
+        console.log(isBugAccount, "-----", isDiffAccount(config, account))
+        if (isBugAccount || isDiffAccount(config, account)) {
+          flag = true
+          account.address = generateAddress(pub, config);
+          await syncAccount(account.pub, account.address)
+        }
+      }
+      if (flag) {
+        console.log(accountList, 363636)
+        localStorage.setItem('accountList', JSON.stringify(accountList))
+      }
+      /*const addressLength = Object.keys(config).length;
       if (!addressLength) return;
       const hasNewChain = accountList.some(account => {
         return isDiffAccount(config, account)
@@ -61,14 +97,14 @@ export async function hackAddChain(config) {
           }
         }
         localStorage.setItem('accountList', JSON.stringify(accountList))
-      }
+      }*/
     }
   } catch (e) {
+    console.log(e, 666)
     setTimeout(() => {
       hackAddChain(config)
     }, 3000)
   }
-
 }
 
 

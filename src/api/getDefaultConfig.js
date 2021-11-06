@@ -21,6 +21,7 @@ export function setChainConfig(config) {
     }
   });
   sessionStorage.setItem("config", JSON.stringify(result))
+  return result;
 }
 
 // 链配置
