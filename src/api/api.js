@@ -25,8 +25,7 @@ export class NTransfer {
     this.chain = props.chain; //链网络
     this.type = props.type; //交易类型
     this.sdk = nSdk[this.chain] || nerve; // nerve nuls sdk
-    const provider = sessionStorage.getItem("walletType");
-    this.walletType = provider; 
+    this.walletType = localStorage.getItem("walletType");
   }
 
   async getTxHex(data) {
@@ -434,8 +433,7 @@ const erc20TransferAbiFragment = [{
 export class ETransfer {
 
   constructor(props = {}) {
-    const provider = sessionStorage.getItem("walletType");
-    this.walletType = provider;
+    this.walletType = localStorage.getItem("walletType");
     this.getProvider(props.chain)
   }
 

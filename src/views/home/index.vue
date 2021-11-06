@@ -168,7 +168,7 @@ export default {
           const address = ethers.utils.computeAddress(ethers.utils.hexZeroPad(ethers.utils.hexStripZeros('0x' + pub), 33));
           account.address = this.getHeterogeneousAddress(address);
         } else {
-          const walletType = sessionStorage.getItem('walletType')
+          const walletType = localStorage.getItem('walletType')
           const provider = new ethers.providers.Web3Provider(window[walletType]);
           const jsonRpcSigner = provider.getSigner();
           let message = "Derive Multi-chain Address";

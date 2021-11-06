@@ -172,7 +172,7 @@
     mounted() {},
     methods: {
       async initConnect() {
-        const walletType = sessionStorage.getItem('walletType');
+        const walletType = localStorage.getItem('walletType');
         const provider = window[walletType];
         if (!walletType || !provider) return;
         this.parseChainId(provider.chainId);
@@ -289,7 +289,7 @@
         }
 
         try {
-          const providerType = sessionStorage.getItem("walletType");
+          const providerType = localStorage.getItem("walletType");
           const provider = window[providerType];
           if (item.value !== "Ethereum") {
             const addItem = {
