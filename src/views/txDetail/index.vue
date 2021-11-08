@@ -162,7 +162,7 @@ import {
   Times,
   getCurrentAccount,
   withdrawalToNulsFee,
-  withdrawFeeRate
+  withdrawFeeRate, fixNumber, Division
 } from '@/api/util'
 import moment from "moment"
 import { ETransfer, NTransfer, getSymbolUSD, swapScale, swapSymbolConfig, crossFee, reportError, gasLimitConfig } from "@/api/api";
@@ -402,12 +402,30 @@ export default {
           pub: currentAccount.pub,
           signAddress: currentAccount.address.Ethereum
         }
-        this.accountInfo = currentAccount;
-        const nerveAddress = currentAccount.address.NERVE;
-        const assetInfo = await this.getAssetInfo();
-        const transferAmount = timesDecimals(amount, assetInfo.decimals);
+        // this.accountInfo = currentAccount;
+        // const nerveAddress = currentAccount.address.NERVE;
+        // const assetInfo = await this.getAssetInfo();
+        // const transferAmount = timesDecimals(amount, assetInfo.decimals);
         this.assetOnNerve = await this.getAssetNerveInfo();
-        const crossoutTransferInfo = await this.getCrossoutTransferInfo(assetInfo, nerveAddress, transferAmount);
+        if (this.failType !== 1) {
+          this.$message({ message: "Unkonwn tx type", type: "warning", duration: 2000 });
+          this.showRetryDialog = false;
+          this.retryLoading = false;
+          return;
+        }
+        if (fromChain !== "NULS") {
+          const chain = sessionStorage.getItem("network");
+          if (chain !== fromChain) {
+            this.$message({ message: this.$t("tips.tips11"), type: "warning", duration: 2000 });
+            this.showRetryDialog = false;
+            this.retryLoading = false;
+            return;
+          }
+        }
+        const fee = await this.getFee();
+        await this.constructCrossInTx(crossAddress_Nerve, fee);
+
+        /*const crossoutTransferInfo = await this.getCrossoutTransferInfo(assetInfo, nerveAddress, transferAmount);
         const { transferInfo, type, swapNVT } = crossoutTransferInfo;
         if (this.failType === 3) {
           // nerve跨出失败, 重新发送跨出交易
@@ -429,7 +447,7 @@ export default {
             }
             // 未转入手续费, 转入手续费再闪兑提现
             // const address = fromChain === "NULS" ? nerveAddress :crossAddress_Nerve
-            await this.constructCrossInTx(assetInfo, crossAddress_Nerve, fee);
+            await this.constructCrossInTx(crossAddress_Nerve, fee);
             //  使用中转nerve后，不需要再组装闪兑提现交易
             // await this.constructSwapAndWithdrawalTx(nerveAddress, transferInfo, type, fee, chainId, assetId);
           } else {
@@ -438,7 +456,7 @@ export default {
             // fee = Times(fee, 0.8).toString();
             // await this.constructSwapAndWithdrawalTx(nerveAddress, transferInfo, type, fee, chainId, assetId);
           }
-        }
+        }*/
         this.runTransfer();
       } catch (e) {
         console.log(e, "eee", e.toString())
@@ -447,6 +465,36 @@ export default {
         this.showRetryDialog = false;
       }
       this.retryLoading = false;
+    },
+    async getFee() {
+      const { fromChain, toChain } = this.txInfo;
+      const nvtUSD = await getSymbolUSD("NERVE");
+      const fromChainMainAssetUSD = await getSymbolUSD(fromChain);
+      let nvtAmountForWithdrawal = withdrawalToNulsFee;
+      let finalFee = ""
+      if (toChain === "NULS") {
+        nvtAmountForWithdrawal = withdrawalToNulsFee;
+        finalFee = fixNumber(Division(Times(nvtAmountForWithdrawal, nvtUSD), fromChainMainAssetUSD).toFixed(8), 8);
+      } else {
+        const asset = await this.getAssetInfo();
+        const assetHeterogeneousInfo = asset.heterogeneousList.filter(
+          (v) => v.chainName === toChain
+        )[0];
+        const toChainMainAssetUSD = await getSymbolUSD(toChain);
+        const isToken = assetHeterogeneousInfo.token;
+        const transfer = new ETransfer({chain: toChain});
+        const result = await transfer.calWithdrawalNVTFee(
+          nvtUSD,
+          toChainMainAssetUSD,
+          isToken
+        );
+        const type = "normal" //this.speedUpFee ? "speed" : "normal"
+        const scale = withdrawFeeRate[toChain][type];
+        nvtAmountForWithdrawal = divisionDecimals(result * scale, 8)
+        // console.log(nvtAmountForWithdrawal, 54444444444444)
+        finalFee = fixNumber(Division(Times(nvtAmountForWithdrawal, nvtUSD), fromChainMainAssetUSD).toFixed(8), 8);
+      }
+      return finalFee;
     },
     // 获取跨链资产信息
     async getAssetInfo() {
@@ -564,7 +612,7 @@ export default {
     },
 
     // 组装其他链转入主资产到nerve交易
-    async constructCrossInTx(assetInfo, nerveAddress, fee) {
+    async constructCrossInTx(nerveAddress, fee) {
       console.log(fee, 44)
       const { fromChain, fromAddress } = this.txInfo;
       const config = JSON.parse(sessionStorage.getItem("config"));

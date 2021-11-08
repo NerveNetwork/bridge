@@ -104,6 +104,15 @@ export function divisionAndFix(nu, decimals = 8, fix) {
   return str.substring(0, lastIndex)
 }
 
+export function fixNumber(str, fix = 8) {
+  str = "" + str;
+  const int = str.split(".")[0];
+  let float = str.split(".")[1];
+  if (!float || !Number(float)) return int;
+  float = float.slice(0, fix).replace(/(0+)$/g, "");
+  return Number(float) ? int + "." + float : int;
+}
+
 /**
  * @disc: 验证密码
  * @params:  accountInfo

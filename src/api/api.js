@@ -719,6 +719,47 @@ export class ETransfer {
   }
 
   /**
+   * @desc 计算提现时使用其他网络主资产充当手续费时的费用
+   * @param mainAssetUSD 提现网络主资产USD
+   * @param feeUSD 手续费USD
+   * @param isToken 提现资产是否是token
+   * @param feeDecimals 手续费精度
+   * @param isMainAsset 手续费是否是提现网络主资产
+   * @param isNVT 手续费是否是NVT
+   * */
+  async calWithdrawalFee(mainAssetUSD, feeUSD, isToken, feeDecimals, isMainAsset = false, isNVT = false) {
+    const gasPrice = await this.getWithdrawGas();
+    let gasLimit;
+    if (isToken) {
+      gasLimit = new ethers.utils.BigNumber("210000");
+    } else {
+      gasLimit = new ethers.utils.BigNumber("190000");
+    }
+    if (isMainAsset) {
+      return this.formatEthers(gasLimit.mul(gasPrice), feeDecimals);
+    }
+    const feeUSDBig = ethers.utils.parseUnits(feeUSD.toString(), 6);
+    const mainAssetUSDBig = ethers.utils.parseUnits(mainAssetUSD.toString(), 6);
+    let result = mainAssetUSDBig
+      .mul(gasPrice)
+      .mul(gasLimit)
+      .mul(ethers.utils.parseUnits("1", feeDecimals))
+      .div(ethers.utils.parseUnits("1", 18))
+      .div(feeUSDBig);
+    if (isNVT) {
+      // 如果是nvt，向上取整
+      const numberStr = ethers.utils.formatUnits(result, feeDecimals);
+      const ceil = Math.ceil(numberStr);
+      result = ethers.utils.parseUnits(ceil.toString(), feeDecimals).toString();
+    }
+    return this.formatEthers(result, feeDecimals);
+  }
+
+  formatEthers(amount, decimals) {
+    return ethers.utils.formatUnits(amount, decimals).toString();
+  }
+
+  /**
    * 通过自定义的eth/bnb数量 计算出相应的nvt数量
    * @param nvtUSD                            nvt的USDT价格
    * @param number                           异构链币种数量
