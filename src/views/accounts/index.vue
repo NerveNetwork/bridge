@@ -65,11 +65,6 @@ export default {
     async getBalance() {
       const currentAccount = getCurrentAccount(this.address)
       if (!currentAccount) {
-        this.$message({
-          message: "Unknown error",
-          type: "warning",
-          duration: 2000
-        })
         this.$router.push("/")
         return;
       }

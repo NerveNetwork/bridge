@@ -106,6 +106,10 @@ export default {
       handler(val) {
         if (val) {
           this.currentAccount = getCurrentAccount(val);
+          if (!this.currentAccount) {
+            this.$router.push("/")
+            return;
+          }
           this.address = this.currentAccount.address.BSC
           this.init();
         }
@@ -117,15 +121,6 @@ export default {
 
   methods: {
     init() {
-      if (!this.currentAccount) {
-        this.$message({
-          message: "Unknown error",
-          type: "warning",
-          duration: 2000
-        })
-        this.$router.push("/")
-        return;
-      }
       this.getCoins();
       this.getSwftTxList();
       this.getTxList();
