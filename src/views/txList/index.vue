@@ -100,24 +100,36 @@ export default {
     TabSwitch
   },
 
-  watch: {},
-
-
-  created() {
-    const address = this.$route.query.address;
-    const network = sessionStorage.getItem("network");
-    const accountList = JSON.parse(localStorage.getItem("accountList")) || [];
-    this.currentAccount = accountList.filter(item => {
-      return item.address[network].toLowerCase() === address.toLowerCase()
-    })[0]
-    this.getCoins();
-    this.getSwftTxList();
-    this.getTxList();
+  watch: {
+    '$store.state.address': {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.currentAccount = getCurrentAccount(val);
+          this.address = this.currentAccount.address.BSC
+          this.init();
+        }
+      }
+    }
   },
 
   mounted() {},
 
   methods: {
+    init() {
+      if (!this.currentAccount) {
+        this.$message({
+          message: "Unknown error",
+          type: "warning",
+          duration: 2000
+        })
+        this.$router.push("/")
+        return;
+      }
+      this.getCoins();
+      this.getSwftTxList();
+      this.getTxList();
+    },
     superLong(str, len = 5) {
       return superLong(str, len);
     },
@@ -150,7 +162,7 @@ export default {
         data: {
           depositCoinCode: this.depositCoinCode,
           receiveCoinCode: this.receiveCoinCode,
-          destinationAddr: this.$route.query.address,
+          destinationAddr: this.address,
           pageSize: this.pageSize,
           pageNumber: this.pageNumber1
         }
@@ -210,8 +222,7 @@ export default {
         path: "/tx-detail",
         query: {
           orderId: txData.orderId,
-          equipmentNo: txData.destinationAddr,
-          address: this.$route.query.address
+          equipmentNo: txData.destinationAddr
         }
       })
     },
@@ -219,8 +230,7 @@ export default {
       this.$router.push({
         path: "/tx-detail",
         query: {
-          txHash: txData.txHash,
-          address: this.$route.query.address
+          txHash: txData.txHash
         }
       })
       // console.log(456)

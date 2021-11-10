@@ -353,6 +353,7 @@ export default {
       display: flex;
       align-items: center;
       color: @labelColor;
+      padding-left: 21px;
     }
 
     .network {

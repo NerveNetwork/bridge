@@ -1,6 +1,6 @@
 <template>
-  <div class="account-list second-page">
-    <div class="content" v-loading="loading">
+  <div class="account-list second-page" v-loading="loading">
+    <div class="content">
        <h3 class="tc">{{ $t("accounts.accounts2") }}</h3>
        <ul>
          <li v-for="item in accountList" :key="item.chain">
@@ -11,7 +11,7 @@
             >
             <span>{{ item.chain }}</span>
            </div>
-          <div>
+           <div>
             <span >
               <span class="clicks hover-bg" @click="copy(item.address)">{{ superLong(item.address) }}</span>
               <i class="iconfont icon-lianjie clicks" @click="openUrl(item.address, item.chain)"></i>
@@ -27,38 +27,55 @@
 
 <script>
 // import BackBar from '@/components/BackBar'
-import { superLong, divisionAndFix, getLogoSrc, networkOrigin, copys } from '@/api/util'
+import { superLong, divisionAndFix, getLogoSrc, networkOrigin, copys, getCurrentAccount } from '@/api/util'
 export default {
   data () {
     return {
       loading: true,
-      accountList: []
+      accountList: [],
+      timer: null
     }
   },
 
-  mounted() {
-    this.getBalance();
-    const timer = setInterval(() => {
-      this.getBalance();
-    }, 10000)
-    this.$once("hook:beforeDestroy", () => {
-      clearInterval(timer)
-    })
-    
+  watch: {
+    '$store.state.address': {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          if (this.timer) {
+            clearInterval(this.timer)
+            this.timer = null;
+          }
+          this.address = val
+          this.getBalance();
+          this.timer = setInterval(() => {
+            this.getBalance();
+          }, 10000)
+        }
+      }
+    }
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
   },
 
   methods: {
     async getBalance() {
-      // this.loading = true;
-      const address = this.$route.query.address;
-      const network = sessionStorage.getItem("network");
-      const accountList = JSON.parse(localStorage.getItem("accountList")) || [];
-      const currentAccount = accountList.filter(item => {
-        return item.address[network] === address
-      })
+      const currentAccount = getCurrentAccount(this.address)
+      if (!currentAccount) {
+        this.$message({
+          message: "Unknown error",
+          type: "warning",
+          duration: 2000
+        })
+        this.$router.push("/")
+        return;
+      }
       let list = []
-      if (currentAccount[0]) {
-        const pubKey = currentAccount[0].pub;
+      if (currentAccount) {
+        const pubKey = currentAccount.pub;
         const accountInfo = await this.$request({
           url: "/wallet/chain/main",
           data: { pubKey }
@@ -73,14 +90,15 @@ export default {
               icon: v.icon
             })
           })
-          const order = ["Ethereum", "BSC", "Polygon", "Heco", "OKExChain", "Harmony", "KCC", "NERVE", "NULS"]
+          const order = ["Ethereum", "BSC", "Polygon", "Heco", "OKExChain", "Harmony", "KCC", "NULS", "NERVE"]
           list = list.sort((a, b) => {
             return order.indexOf(a.chain) - order.indexOf(b.chain)
           })
         }
       }
-      this.loading = false;
+      console.log(list, 4564)
       this.accountList = list
+      this.loading = false;
     },
     superLong(str, len = 5) {
       return superLong(str, len)

@@ -247,7 +247,7 @@
       toUrl(name) {
         this.$router.push({
           name,
-          query: { address: this.address }
+          // query: { address: this.address }
         })
         this.toggleMenu();
       },

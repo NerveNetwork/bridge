@@ -289,12 +289,6 @@ export default {
       this.stepList.push(step);
     },
     async runTransfer() {
-      console.log(this.stepList, 55)
-      /* this.stepList.map((step, i) => {
-        if (i < currentStep && !step.needBroadcast) {
-          step.done = true;
-        }
-      }); */
       const { fromChain, toChain, fromAddress, toAddress, chainId, assetId, contractAddress, amount, symbol } = this.sessionInfo;
       const broadcastData = {
         fromChain,
@@ -365,14 +359,6 @@ export default {
         // 最终更新广播交易
         this.updateTx(updateTx)
       } catch (e) {
-        console.error("error: " + e, typeof(e));
-        // const oecHashErrorReg = /tx \([0-9a-fA-F]*\) not found/
-        // if (oecHashErrorReg.test(e) && fromChain === "OKExChain") {
-        //   const hash = "0x" + e.split("(")[1].split(")")[0]
-        //   broadcastData.txHash = hash;
-        //   updateTx.txHash = hash;
-        //   await this.broadcast(broadcastData)
-        // } else {
           if (updateTx.txHash) {
             reportError(updateTx.txHash, e.toString())
           }
