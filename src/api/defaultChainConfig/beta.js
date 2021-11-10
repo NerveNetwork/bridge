@@ -5,9 +5,7 @@ const beta = [
     'prefix': 'tNULS',
     'nativeId': 0,
     'chainId': 2,
-    'tokenFlag': true,
-    'nulsFlag': 1,
-    'dappFlag': false,
+    'chainType': 1,
     'crossAddress': null,
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NULS.png',
@@ -32,7 +30,7 @@ const beta = [
       'symbolBase': 'NULS',
       'configType': 1,
       'source': 7,
-      'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NULS.png',
+      'icon': 'https://files.nabox.io/icon/NULS.png',
       'nulsCross': true,
       'heterogeneousList': [
         {
@@ -60,28 +58,28 @@ const beta = [
           'heterogeneousChainId': 105,
           'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
           'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-          'chainName': 'ONE',
+          'chainName': 'Harmony',
           'token': true
         },
         {
           'heterogeneousChainId': 106,
           'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
           'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-          'chainName': 'MATIC',
+          'chainName': 'Polygon',
           'token': true
         },
         {
           'heterogeneousChainId': 107,
           'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
           'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-          'chainName': 'KCS',
+          'chainName': 'KCC',
           'token': true
         }
       ],
       'nerveChainId': 2,
       'nerveAssetId': 1,
       'nerveFlag': false,
-      'usdFlag': true
+      'usdFlag': false
     },
     'assets': [
       {
@@ -118,7 +116,7 @@ const beta = [
         'symbolBase': 'NULS',
         'configType': 1,
         'source': 7,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NULS.png',
+        'icon': 'https://files.nabox.io/icon/NULS.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -146,28 +144,28 @@ const beta = [
             'heterogeneousChainId': 105,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-            'chainName': 'ONE',
+            'chainName': 'Harmony',
             'token': true
           },
           {
             'heterogeneousChainId': 106,
             'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
             'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-            'chainName': 'MATIC',
+            'chainName': 'Polygon',
             'token': true
           },
           {
             'heterogeneousChainId': 107,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-            'chainName': 'KCS',
+            'chainName': 'KCC',
             'token': true
           }
         ],
         'nerveChainId': 2,
         'nerveAssetId': 1,
         'nerveFlag': false,
-        'usdFlag': true
+        'usdFlag': false
       }
     ]
   },
@@ -177,9 +175,7 @@ const beta = [
     'prefix': 'TNVT',
     'nativeId': 0,
     'chainId': 5,
-    'tokenFlag': false,
-    'nulsFlag': 1,
-    'dappFlag': false,
+    'chainType': 1,
     'crossAddress': null,
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NERVE.png',
@@ -204,7 +200,7 @@ const beta = [
       'symbolBase': 'NVT',
       'configType': 1,
       'source': 7,
-      'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NVT.png',
+      'icon': 'https://files.nabox.io/icon/NVT.png',
       'nulsCross': true,
       'heterogeneousList': [
         {
@@ -239,21 +235,21 @@ const beta = [
           'heterogeneousChainId': 105,
           'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
           'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-          'chainName': 'ONE',
+          'chainName': 'Harmony',
           'token': true
         },
         {
           'heterogeneousChainId': 106,
           'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
           'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-          'chainName': 'MATIC',
+          'chainName': 'Polygon',
           'token': true
         },
         {
           'heterogeneousChainId': 107,
           'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
           'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-          'chainName': 'KCS',
+          'chainName': 'KCC',
           'token': true
         },
         {
@@ -283,7 +279,7 @@ const beta = [
         'symbolBase': 'NVT',
         'configType': 1,
         'source': 7,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NVT.png',
+        'icon': 'https://files.nabox.io/icon/NVT.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -318,21 +314,21 @@ const beta = [
             'heterogeneousChainId': 105,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-            'chainName': 'ONE',
+            'chainName': 'Harmony',
             'token': true
           },
           {
             'heterogeneousChainId': 106,
             'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
             'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-            'chainName': 'MATIC',
+            'chainName': 'Polygon',
             'token': true
           },
           {
             'heterogeneousChainId': 107,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-            'chainName': 'KCS',
+            'chainName': 'KCC',
             'token': true
           },
           {
@@ -356,10 +352,8 @@ const beta = [
     'prefix': '0x',
     'nativeId': 3,
     'chainId': 101,
-    'tokenFlag': true,
-    'nulsFlag': 2,
-    'dappFlag': false,
-    'crossAddress': null,
+    'chainType': 2,
+    'crossAddress': '0x7D759A3330ceC9B766Aa4c889715535eeD3c0484',
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Ethereum.png',
     'apiUrl': 'https://ropsten.infura.io/v3/c8993eb6704e444889092bbb12312e31',
@@ -382,7 +376,7 @@ const beta = [
       'symbolBase': 'ETH',
       'configType': 1,
       'source': 9,
-      'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/ETH.png',
+      'icon': 'https://files.nabox.io/icon/ETH.png',
       'nulsCross': true,
       'heterogeneousList': [
         {
@@ -426,7 +420,7 @@ const beta = [
         'symbolBase': 'ETH',
         'configType': 1,
         'source': 9,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/ETH.png',
+        'icon': 'https://files.nabox.io/icon/ETH.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -464,13 +458,11 @@ const beta = [
     'prefix': '0x',
     'nativeId': 97,
     'chainId': 102,
-    'tokenFlag': true,
-    'nulsFlag': 2,
-    'dappFlag': false,
-    'crossAddress': null,
+    'chainType': 2,
+    'crossAddress': '0xf7915d4de86b856F3e51b894134816680bf09EEE',
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/BSC.png',
-    'apiUrl': 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+    'apiUrl': 'https://data-seed-prebsc-1-s2.binance.org:8545/',
     'psUrl': null,
     'tokenUrl': 'https://testnet.bscscan.com/token/',
     'txUrl': 'https://testnet.bscscan.com/tx/',
@@ -490,7 +482,7 @@ const beta = [
       'symbolBase': 'BNB',
       'configType': 1,
       'source': 9,
-      'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/BNB.png',
+      'icon': 'https://files.nabox.io/icon/BNB.png',
       'nulsCross': true,
       'heterogeneousList': [
         {
@@ -527,7 +519,7 @@ const beta = [
         'symbolBase': 'BUSD',
         'configType': 2,
         'source': 9,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/BUSD.png',
+        'icon': 'https://files.nabox.io/icon/BUSD.png',
         'nulsCross': false,
         'heterogeneousList': [
           {
@@ -562,21 +554,21 @@ const beta = [
             'heterogeneousChainId': 105,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0x04f8e3b9a7de4d3f90a0bd34325c35433d94482d',
-            'chainName': 'ONE',
+            'chainName': 'Harmony',
             'token': true
           },
           {
             'heterogeneousChainId': 106,
             'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
             'contractAddress': '0x04f8e3b9a7de4d3f90a0bd34325c35433d94482d',
-            'chainName': 'MATIC',
+            'chainName': 'Polygon',
             'token': true
           },
           {
             'heterogeneousChainId': 107,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0x04f8e3b9a7de4d3f90a0bd34325c35433d94482d',
-            'chainName': 'KCS',
+            'chainName': 'KCC',
             'token': true
           }
         ],
@@ -598,7 +590,7 @@ const beta = [
         'symbolBase': 'NVT',
         'configType': 2,
         'source': 7,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NVT.png',
+        'icon': 'https://files.nabox.io/icon/NVT.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -633,21 +625,21 @@ const beta = [
             'heterogeneousChainId': 105,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-            'chainName': 'ONE',
+            'chainName': 'Harmony',
             'token': true
           },
           {
             'heterogeneousChainId': 106,
             'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
             'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-            'chainName': 'MATIC',
+            'chainName': 'Polygon',
             'token': true
           },
           {
             'heterogeneousChainId': 107,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0xcea7f9f0354da1db6b649f25767412ec78c2fbf8',
-            'chainName': 'KCS',
+            'chainName': 'KCC',
             'token': true
           },
           {
@@ -676,7 +668,7 @@ const beta = [
         'symbolBase': 'NULS',
         'configType': 2,
         'source': 7,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NULS.png',
+        'icon': 'https://files.nabox.io/icon/NULS.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -704,21 +696,21 @@ const beta = [
             'heterogeneousChainId': 105,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-            'chainName': 'ONE',
+            'chainName': 'Harmony',
             'token': true
           },
           {
             'heterogeneousChainId': 106,
             'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
             'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-            'chainName': 'MATIC',
+            'chainName': 'Polygon',
             'token': true
           },
           {
             'heterogeneousChainId': 107,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '0x97893f1d41d151a9eec36d5b5a94cc3514d2c852',
-            'chainName': 'KCS',
+            'chainName': 'KCC',
             'token': true
           }
         ],
@@ -740,7 +732,7 @@ const beta = [
         'symbolBase': 'LINK',
         'configType': 2,
         'source': 9,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/LINK.png',
+        'icon': 'https://files.nabox.io/icon/LINK.png',
         'nulsCross': false,
         'heterogeneousList': [
           {
@@ -783,7 +775,7 @@ const beta = [
         'symbolBase': 'USDX',
         'configType': 2,
         'source': 9,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/USDX.png',
+        'icon': 'https://files.nabox.io/icon/USDX.png',
         'nulsCross': false,
         'heterogeneousList': [
           {
@@ -819,7 +811,7 @@ const beta = [
         'symbolBase': 'DAI',
         'configType': 2,
         'source': 9,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/DAI.png',
+        'icon': 'https://files.nabox.io/icon/DAI.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -862,7 +854,7 @@ const beta = [
         'symbolBase': 'BNB',
         'configType': 1,
         'source': 9,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/BNB.png',
+        'icon': 'https://files.nabox.io/icon/BNB.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -893,10 +885,8 @@ const beta = [
     'prefix': '0x',
     'nativeId': 256,
     'chainId': 103,
-    'tokenFlag': true,
-    'nulsFlag': 2,
-    'dappFlag': false,
-    'crossAddress': null,
+    'chainType': 2,
+    'crossAddress': '0xb339211438Dcbf3D00d7999ad009637472FC72b3',
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Heco.png',
     'apiUrl': 'https://http-testnet.hecochain.com',
@@ -919,7 +909,7 @@ const beta = [
       'symbolBase': 'HT',
       'configType': 1,
       'source': 4,
-      'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/HT.png',
+      'icon': 'https://files.nabox.io/icon/HT.png',
       'nulsCross': false,
       'heterogeneousList': [
         {
@@ -949,7 +939,7 @@ const beta = [
         'symbolBase': 'HUSD',
         'configType': 2,
         'source': 4,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/HUSD.png',
+        'icon': 'https://files.nabox.io/icon/HUSD.png',
         'nulsCross': false,
         'heterogeneousList': [
           {
@@ -978,7 +968,7 @@ const beta = [
         'symbolBase': 'HT',
         'configType': 1,
         'source': 4,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/HT.png',
+        'icon': 'https://files.nabox.io/icon/HT.png',
         'nulsCross': false,
         'heterogeneousList': [
           {
@@ -1002,10 +992,8 @@ const beta = [
     'prefix': '0x',
     'nativeId': 65,
     'chainId': 104,
-    'tokenFlag': true,
-    'nulsFlag': 2,
-    'dappFlag': false,
-    'crossAddress': null,
+    'chainType': 2,
+    'crossAddress': '0xab34B1F41dA5a32fdE53850EfB3e54423e93483e',
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/OKExChain.png',
     'apiUrl': 'https://exchaintestrpc.okex.org',
@@ -1028,7 +1016,7 @@ const beta = [
       'symbolBase': 'OKT',
       'configType': 1,
       'source': 4,
-      'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/OKT.png',
+      'icon': 'https://files.nabox.io/icon/OKT.png',
       'nulsCross': false,
       'heterogeneousList': [
         {
@@ -1058,7 +1046,7 @@ const beta = [
         'symbolBase': 'USDT',
         'configType': 2,
         'source': 9,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/USDT.png',
+        'icon': 'https://files.nabox.io/icon/USDT.png',
         'nulsCross': true,
         'heterogeneousList': [
           {
@@ -1101,7 +1089,7 @@ const beta = [
         'symbolBase': 'OKT',
         'configType': 1,
         'source': 4,
-        'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/OKT.png',
+        'icon': 'https://files.nabox.io/icon/OKT.png',
         'nulsCross': false,
         'heterogeneousList': [
           {
@@ -1120,15 +1108,13 @@ const beta = [
     ]
   },
   {
-    'id': 117,
+    'id': 120,
     'chain': 'Harmony',
     'prefix': '0x',
     'nativeId': 1666700000,
     'chainId': 105,
-    'tokenFlag': true,
-    'nulsFlag': 2,
-    'dappFlag': false,
-    'crossAddress': null,
+    'chainType': 2,
+    'crossAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png',
     'apiUrl': 'https://api.s0.b.hmny.io/',
@@ -1139,7 +1125,7 @@ const beta = [
       'crossAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883'
     },
     'mainAsset': {
-      'id': 18886,
+      'id': 18893,
       'chain': 'Harmony',
       'registerChain': 'Harmony',
       'chainId': 105,
@@ -1158,7 +1144,7 @@ const beta = [
           'heterogeneousChainId': 105,
           'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
           'contractAddress': '',
-          'chainName': 'ONE',
+          'chainName': 'Harmony',
           'token': false
         }
       ],
@@ -1169,7 +1155,7 @@ const beta = [
     },
     'assets': [
       {
-        'id': 18886,
+        'id': 18893,
         'chain': 'Harmony',
         'registerChain': 'Harmony',
         'chainId': 105,
@@ -1188,7 +1174,7 @@ const beta = [
             'heterogeneousChainId': 105,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '',
-            'chainName': 'ONE',
+            'chainName': 'Harmony',
             'token': false
           }
         ],
@@ -1200,15 +1186,13 @@ const beta = [
     ]
   },
   {
-    'id': 118,
+    'id': 121,
     'chain': 'Polygon',
     'prefix': '0x',
     'nativeId': 80001,
     'chainId': 106,
-    'tokenFlag': true,
-    'nulsFlag': 2,
-    'dappFlag': false,
-    'crossAddress': null,
+    'chainType': 2,
+    'crossAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png',
     'apiUrl': 'https://matic-mumbai.chainstacklabs.com',
@@ -1219,7 +1203,7 @@ const beta = [
       'crossAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862'
     },
     'mainAsset': {
-      'id': 18887,
+      'id': 18894,
       'chain': 'Polygon',
       'registerChain': 'Polygon',
       'chainId': 106,
@@ -1238,7 +1222,7 @@ const beta = [
           'heterogeneousChainId': 106,
           'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
           'contractAddress': '',
-          'chainName': 'MATIC',
+          'chainName': 'Polygon',
           'token': false
         }
       ],
@@ -1249,7 +1233,7 @@ const beta = [
     },
     'assets': [
       {
-        'id': 18887,
+        'id': 18894,
         'chain': 'Polygon',
         'registerChain': 'Polygon',
         'chainId': 106,
@@ -1268,7 +1252,7 @@ const beta = [
             'heterogeneousChainId': 106,
             'heterogeneousChainMultySignAddress': '0x2edcf5f18d949c51776afc42cdad667cda2cf862',
             'contractAddress': '',
-            'chainName': 'MATIC',
+            'chainName': 'Polygon',
             'token': false
           }
         ],
@@ -1280,15 +1264,13 @@ const beta = [
     ]
   },
   {
-    'id': 119,
+    'id': 122,
     'chain': 'KCC',
     'prefix': '0x',
     'nativeId': 322,
     'chainId': 107,
-    'tokenFlag': true,
-    'nulsFlag': 2,
-    'dappFlag': false,
-    'crossAddress': null,
+    'chainType': 2,
+    'crossAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
     'intro': null,
     'icon': 'https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png',
     'apiUrl': 'https://rpc-testnet.kcc.network',
@@ -1299,7 +1281,7 @@ const beta = [
       'crossAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883'
     },
     'mainAsset': {
-      'id': 18888,
+      'id': 18895,
       'chain': 'KCC',
       'registerChain': 'KCC',
       'chainId': 107,
@@ -1318,7 +1300,7 @@ const beta = [
           'heterogeneousChainId': 107,
           'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
           'contractAddress': '',
-          'chainName': 'KCS',
+          'chainName': 'KCC',
           'token': false
         }
       ],
@@ -1329,7 +1311,7 @@ const beta = [
     },
     'assets': [
       {
-        'id': 18888,
+        'id': 18895,
         'chain': 'KCC',
         'registerChain': 'KCC',
         'chainId': 107,
@@ -1348,7 +1330,7 @@ const beta = [
             'heterogeneousChainId': 107,
             'heterogeneousChainMultySignAddress': '0x74a163fcd791ec7aab2204ffabf1a1dfb8854883',
             'contractAddress': '',
-            'chainName': 'KCS',
+            'chainName': 'KCC',
             'token': false
           }
         ],
@@ -1361,4 +1343,4 @@ const beta = [
   }
 ]
 
-export default beta;
+export default beta

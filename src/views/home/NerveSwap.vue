@@ -135,7 +135,6 @@ supportChainList.map(v => {
    chainToSymbol[v.value] = v.symbol
 });
 
-const config = JSON.parse(sessionStorage.getItem("config"))
 
 export default {
   data () {
@@ -145,6 +144,7 @@ export default {
     this.getFeeDebounce = debounce(this.getTransferFee, 1000)
     this.getAllowanceTimer = null; // 查询授权额度定时器
     this.currentAccount = null; // 当前连接的多链账户信息
+    this.config = JSON.parse(sessionStorage.getItem("config"))
     return {
       toNetwork: "",
       assetListModal: false,
@@ -369,7 +369,7 @@ export default {
       });
       const assetInfo = await this.getAssetInfo(params);
       if (assetInfo) {
-        this.isMainAsset = config[this.fromNetwork].assetId === assetInfo.assetId && config[this.fromNetwork].chainId === assetInfo.chainId;
+        this.isMainAsset = this.config[this.fromNetwork].assetId === assetInfo.assetId && this.config[this.fromNetwork].chainId === assetInfo.chainId;
         this.available = divisionDecimals(assetInfo.balance, assetInfo.decimals);
       }
     },
@@ -573,7 +573,7 @@ export default {
     },
     // 查询兑换一定数量nvt需要花费的异构链主资产数量
     async getSwapCost(amount) {
-      const swapAssetInfo = config[this.fromNetwork];
+      const swapAssetInfo = this.config[this.fromNetwork];
       const nerveInfoParams = {
         assetsChainId: swapAssetInfo.chainId,
         assetsId: swapAssetInfo.assetId,
@@ -648,7 +648,7 @@ export default {
     async next() {
       const asset = this.chooseAsset;
       const { nerveChainId: chainId, nerveAssetId: assetId } = this.chooseAsset;
-      const mainAssetInfo = config[this.fromNetwork];
+      const mainAssetInfo = this.config[this.fromNetwork];
       const addressInfo = this.currentAccount.address
       const transferInfo = {
         fromChain: this.fromNetwork,
@@ -714,7 +714,7 @@ export default {
       //手续费不够，需要闪兑
       let swapInfo, crossInForSwapInfo
       if (this.extraFee) {
-        const fromChainInfo = config[this.fromNetwork];
+        const fromChainInfo = this.config[this.fromNetwork];
         if (this.fromNetwork !== "NULS") {
           // 异构链跨链转入一笔主资产作为手续费
           crossInForSwapInfo = {
@@ -827,7 +827,7 @@ export default {
       let flag = true;
       const asset = this.chooseAsset;
       const assetSymbol = asset.symbol;
-      const mainAssetInfo = config[this.fromNetwork]; // 发起链
+      const mainAssetInfo = this.config[this.fromNetwork]; // 发起链
       const isMainAsset = asset.chainId === mainAssetInfo.chainId && asset.assetId === mainAssetInfo.assetId;
       if (this.fromNetwork === "NERVE") {
         if (this.toNetwork === "NULS") {
@@ -853,7 +853,7 @@ export default {
     // 验证主资产是否够手续费/手续费+转账数量
     async checkFee(fee, isMainAsset) {
       let flag = true;
-      const fromChainInfo = config[this.fromNetwork];
+      const fromChainInfo = this.config[this.fromNetwork];
       const params = {
         chain: this.fromNetwork,
         address: this.fromAddress,
@@ -898,7 +898,7 @@ export default {
       let result = null;
       let params = {};
       if (data.contractAddress) {
-        const mainAsset = config[this.fromNetwork]; //来源链(eth,bnb,heco)主资产信息
+        const mainAsset = this.config[this.fromNetwork]; //来源链(eth,bnb,heco)主资产信息
         params = {
           chainId: mainAsset.chainId,
           contractAddress: data.contractAddress,
