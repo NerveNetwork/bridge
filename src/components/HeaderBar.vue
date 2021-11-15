@@ -38,12 +38,12 @@
                   <span>SwapBox</span>
                 </a>
               </li>
-              <li>
+<!--              <li>
                 <a :href="walletAddress" :target="isMobile && '_self' || '_blank'">
                   <i class="iconfont icon-wallet"></i>
                   <span>{{ $t("header.header9") }}</span>
                 </a>
-              </li>
+              </li>-->
               <li>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPXX4EDtzxqBg3OBMIq7EtoiBxnxcqokIeVzAqyXQFYbmf4w/viewform" :target="isMobile && '_self' || '_blank'">
                   <i class="iconfont icon-zichanshangjia"></i>

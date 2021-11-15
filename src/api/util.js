@@ -4,6 +4,7 @@ import copy from 'copy-to-clipboard'
 import {MAIN_INFO, NULS_INFO, ETHNET} from '@/config.js'
 import {post, request} from './https'
 import * as LogoConfig from "./logoConfig"
+import defaultIcon from "@/assets/img/default.png"
 
 /**
  * 10的N 次方
@@ -568,7 +569,7 @@ export const networkOrigin = {
 }
 
 export function getLogoSrc(icon) {
-  return icon || "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NERVE_NULL.png"
+  return icon || defaultIcon//"https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NERVE_NULL.png"
   // return "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/" + symbol + ".png"
 }
 

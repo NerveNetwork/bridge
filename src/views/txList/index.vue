@@ -3,7 +3,7 @@
 <!--    <back-bar :backTitle="$t('txList.txList1')"></back-bar>-->
     <div class="content">
       <div class="content-inner">
-        <tab-switch v-model="swapType"></tab-switch>
+<!--        <tab-switch v-model="swapType"></tab-switch>-->
         <div class="tab-wrap" v-show="swapType==='swft'" v-loading="loading1">
           <div class="search">
             <el-select v-model="depositCoinCode" clearable :placeholder="$t('txList.txList7')">
@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import BackBar from '@/components/BackBar';
+// import BackBar from '@/components/BackBar';
 import TxList from "@/components/TxList";
-import TabSwitch from "@/components/TabSwitch";
+// import TabSwitch from "@/components/TabSwitch";
 import { valideNetwork, networkToChain } from "../home/SwftSwap"
 import moment from "moment"
 import {getCurrentAccount, superLong, supportChainList} from '@/api/util'
@@ -97,7 +97,7 @@ export default {
   components: {
     // BackBar,
     TxList,
-    TabSwitch
+    // TabSwitch
   },
 
   watch: {
@@ -121,8 +121,8 @@ export default {
 
   methods: {
     init() {
-      this.getCoins();
-      this.getSwftTxList();
+      // this.getCoins();
+      // this.getSwftTxList();
       this.getTxList();
     },
     superLong(str, len = 5) {
