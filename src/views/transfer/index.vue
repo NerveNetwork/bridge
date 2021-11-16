@@ -360,7 +360,7 @@ export default {
         this.updateTx(updateTx)
       } catch (e) {
           if (updateTx.txHash) {
-            reportError(updateTx.txHash, e.toString())
+            reportError(updateTx.txHash, JSON.stringify(e))
           }
           if (this.destroyed) return;
           this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });

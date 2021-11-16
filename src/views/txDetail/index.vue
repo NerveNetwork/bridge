@@ -460,7 +460,7 @@ export default {
         this.runTransfer();
       } catch (e) {
         console.log(e, "eee", e.toString())
-        reportError(this.txInfo.txHash, e.toString())
+        reportError(this.txInfo.txHash, JSON.stringify(e))
         this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
         this.showRetryDialog = false;
       }
@@ -843,7 +843,7 @@ export default {
         this.updateTx(updateTx)
       } catch (e) {
         console.error("error: " + e);
-        reportError(this.txInfo.txHash, e)
+        reportError(this.txInfo.txHash, JSON.stringify(e))
         if (this.destroyed) return;
         this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
       }
