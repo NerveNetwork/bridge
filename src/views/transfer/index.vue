@@ -337,7 +337,7 @@ export default {
                 } else {
                   // 异构链转入手续费
                   updateTx.feeTxHash = res.hash;
-                  this.updateTx(updateTx, true)
+                  await this.updateTx(updateTx, true)
                 }
               } else {
                 if (updateTx.feeTxHash && !updateTx.convertTxHex) {
@@ -357,7 +357,7 @@ export default {
           }
         }
         // 最终更新广播交易
-        this.updateTx(updateTx)
+        await this.updateTx(updateTx)
       } catch (e) {
           if (updateTx.txHash) {
             reportError(updateTx.txHash, JSON.stringify(e))

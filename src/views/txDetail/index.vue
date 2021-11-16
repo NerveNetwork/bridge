@@ -840,7 +840,7 @@ export default {
           }
         }
         // 最终更新广播交易
-        this.updateTx(updateTx)
+        await this.updateTx(updateTx)
       } catch (e) {
         console.error("error: " + e);
         reportError(this.txInfo.txHash, JSON.stringify(e))
