@@ -12,7 +12,8 @@ export const NULS_INFO = { chainId: 1, assetId: 1, prefix: 'NULS',symbol:"NULS",
 //ETH 网络信息 测试网:ropsten, 主网:homestead
 export const ETHNET = 'homestead';
 
-export const BRIDGE_API_URL = IS_DEV ? "/bridge-api" : "https://api.bridge.nerve.network";
+// export const BRIDGE_API_URL = IS_DEV ? "/bridge-api" : "https://api.bridge.nerve.network";
+export const BRIDGE_API_URL = "https://api.bridge.nerve.network";
 
 
 

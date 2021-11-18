@@ -474,7 +474,7 @@
       left: 0;
       top: 0;
       overflow: hidden;
-      z-index: 9;
+      z-index: 99999;
       .model {
         width: 100%;
         height: 100%;

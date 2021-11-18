@@ -236,16 +236,13 @@ export default {
 
 
   mounted() {
-    const {txHash, orderId} = this.$route.query;
+    this.isSwftDetail = false;
+    this.setTimer();
+
+    /*const {txHash, orderId} = this.$route.query;
     if (txHash) {
       this.isSwftDetail = false;
       this.setTimer();
-      /* const timer = setInterval(() => {
-        this.getDetail();
-      }, 10000)
-      this.$once("hook:beforeDestroy", () => {
-        clearInterval(timer)
-      }) */
     } else if (orderId) {
       this.isSwftDetail = true;
       this.getSwftDetail();
@@ -255,7 +252,7 @@ export default {
       this.$once("hook:beforeDestroy", () => {
         clearInterval(timer)
       })
-    }
+    }*/
   },
 
   beforeDestroy() {

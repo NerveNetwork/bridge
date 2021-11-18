@@ -192,7 +192,14 @@ export default {
         data
       });
       if (res.code === 1000) {
-        res.data.records.map(v=> v.createTime = v.createTime.substring(5))
+        res.data.records.map(v=> {
+          v.createTime = v.createTime.substring(5)
+          const { feeTxHash, convertSymbol, status } = v;
+          if (status <= 2 && convertSymbol && !feeTxHash) {
+            // 未转入手续费
+            v.needFee = true;
+          }
+        })
         this.txList = res.data.records;
         this.txTotal = res.data.total;
         this.txLoading = false;

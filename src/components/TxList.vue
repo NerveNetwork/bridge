@@ -17,7 +17,13 @@
             <div class="time">{{ item.createTime }}</div>
             <div class="status">
               <!-- {{ getTxStatus(item.status) }} -->
-              <img src="../assets/img/tx-pending.svg" alt="" v-if="checkStatus(item.status)">
+              <template v-if="item.needFee">
+                <span>{{ $t("txList.txList9") }}</span>
+                <span class="pay-now click">{{ $t("txList.txList10") }}</span>
+              </template>
+              <template v-else>
+                <img src="../assets/img/tx-pending.svg" alt="" v-if="checkStatus(item.status)">
+              </template>
             </div>
           </div>
         </template>
@@ -172,6 +178,18 @@
         .time {
           font-size: 12px;
           color: #99A3C4
+        }
+        .status {
+          display: flex;
+          align-items: center;
+          span {
+            font-size: 12px;
+            margin-left: 5px;
+            color: #B8741A;
+            &.click {
+              color: #608FFF;
+            }
+          }
         }
         .icon-queren1 {
           font-size: 20px;

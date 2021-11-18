@@ -65,12 +65,14 @@ const en = {
     txList6: "Finished",
     txList7: "Send asset",
     txList8: "Receive asset",
+    txList9: "Payment requested.",
+    txList10: "Pay now",
   },
   txDetail: {
     txDetail1: "Detail",
     txDetail2: "(Transfer network fee)",
     txDetail3: "(Swap withdrawal fee)",
-    txDetail4: "To resend",
+    txDetail4: "Continue To Send",
   },
   transfer: {
     transfer1: "Transfer",

@@ -65,12 +65,14 @@ const cn = {
     txList6: "已完成",
     txList7: "兑换资产",
     txList8: "接收资产",
+    txList9: "等待支付手续费",
+    txList10: "立即支付",
   },
   txDetail: {
     txDetail1: "交易详情",
     txDetail2: "(转入网络费用)",
     txDetail3: "(闪兑提现手续费)",
-    txDetail4: "重新发送",
+    txDetail4: "继续发送",
   },
   transfer: {
     transfer1: "转账",
