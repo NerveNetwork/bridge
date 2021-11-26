@@ -64,6 +64,10 @@
       isSwft: {
         type: Boolean,
         default: false
+      },
+      autoScrollLoad: {
+        type: Boolean,
+        default: true
       }
     },
     data() {
@@ -89,7 +93,7 @@
             for (let item of val) {
               item.amount = tofix(item.amount, 6, 1)
             }
-            if (this.oldList.length !== 0) {
+            if (this.oldList.length !== 0 && this.autoScrollLoad) {
               this.oldList = [...this.oldList, ...val];
             } else {
               this.oldList = val;
@@ -137,18 +141,22 @@
 
 <style lang="less" scoped>
   .tx-list {
-    overflow: auto;
+    //overflow: auto;
     // height: calc(100% - 30px);
-    height: calc(100% - 45px);
+    //height: calc(100% - 45px);
+    padding-bottom: 20px;
     ul {
       margin-top: 20px;
-      border-top: 1px solid #E9EBF3;
+      //border-top: 1px solid #E9EBF3;
     }
     li {
       // height: 82px;
       padding: 12px 0;
       cursor: pointer;
       border-bottom: 1px solid #E9EBF3;
+      &:first-child {
+        padding-top: 0;
+      }
       &:last-child {
         border-bottom: none;
       }

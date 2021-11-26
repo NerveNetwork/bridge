@@ -4,6 +4,7 @@ const shell = require("shelljs");
 shell.cp(process.cwd() + "/config/" + process.env.NULS_ENV + ".js",process.cwd() + "/src/config.js");
 const isProduction = process.env.NODE_ENV === 'production';
 console.log("use config file : " + process.cwd() + "/config/" + process.env.NULS_ENV + ".js");
+// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 module.exports = {
 
   publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
@@ -34,6 +35,7 @@ module.exports = {
       'moment': 'moment',
       'element-ui': 'ELEMENT',
     }
+    // config.plugins.push(new BundleAnalyzerPlugin())
   },
 
   devServer: {

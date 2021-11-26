@@ -4,7 +4,7 @@
     <div class="content">
       <div class="content-inner">
 <!--        <tab-switch v-model="swapType"></tab-switch>-->
-        <div class="tab-wrap" v-show="swapType==='swft'" v-loading="loading1">
+<!--        <div class="tab-wrap" v-show="swapType==='swft'" v-loading="loading1">
           <div class="search">
             <el-select v-model="depositCoinCode" clearable :placeholder="$t('txList.txList7')">
               <el-option
@@ -29,7 +29,7 @@
           <tx-list :list="swftTxList" @toDetail="toSwftTxDetail" :total="txTotal1" :loading="txLoading1"
                     @loadMoreTx="getSwftTxList" isSwft>
           </tx-list>
-        </div>
+        </div>-->
         <div class="tab-wrap" v-show="swapType==='nerve'" v-loading="loading">
           <div class="search">
             <el-select v-model="fromChain" clearable :placeholder="$t('txList.txList2')">
@@ -260,21 +260,23 @@ export default {
       align-items: center;
       .el-select {
         width: 120px;
-        height: 34px;
+        height: 32px;
         margin-right: 20px;
       }
       /deep/.el-input__inner {
         border-radius: 8px;
         border-color: #EBEEF8;
         padding: 0 10px;
+        font-size: 12px;
       }
       .el-button {
-        width: 80px;
-        height: 30px;
+        width: 60px;
+        height: 32px;
         padding: 0;
         border-color: #5BCAF9;
         color: #5BCAF9;
-        border-radius: 4px;
+        border-radius: 10px;
+        font-size: 12px;
       }
       @media screen and (max-width: 1200px) {
         .el-select {

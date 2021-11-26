@@ -1,81 +1,24 @@
 <template>
   <div class="header">
-    <div class="left cursor_pointer" @click="$router.replace('/')">
+    <div class="left clicks" @click="$router.replace('/')">
       <img src="../assets/img/nervelogo.svg" alt="">
       <!-- NerveBridge -->
     </div>
     <div class="right" v-if="showAccountArea">
       <div class="address">
-        <div class="network" @click.stop="showNetworkList=!showNetworkList">
-          <img :src="chainSymbol[$store.state.network].active" alt="">
-          <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
-        </div>
-        <span @click="showAccountDialog=true">{{ superLong(address, 5) }}</span>
+        <template v-if="isWrongChain">
+          <div @click.stop="showNetworkList=!showNetworkList" class="wrong-chain">{{ $t("home.home28") }}</div></template>
+        <template v-else>
+          <div class="network" @click.stop="showNetworkList=!showNetworkList">
+            <img :src="chainSymbol[$store.state.network].active" alt="">
+            <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
+          </div>
+          <span @click="showAccountDialog=true">{{ superLong(address, 5) }}</span>
+        </template>
         <ChainList v-model="showNetworkList" :currentChain="currentChain" @change="switchChain"></ChainList>
       </div>
-      <img class="click" src="../assets/img/icon-menu.svg" alt="" @click="showMenu=true">
-<!--      <span @click="showMenu=true" class="iconfont icon-menu"></span>-->
+      <img class="click" src="../assets/img/icon-menu.svg" alt="" @click="toggleMenu">
     </div>
-    <transition name="drawer-fade">
-      <div class="nav-menu" v-show="showMenu">
-        <transition name="model">
-          <div class="model" v-show="showMenu" @click="toggleMenu"></div>
-        </transition>
-        <div class="header_content" :class="showMenu ? 'show' : 'hide'">
-          <div class="account">
-            <ul class="menu-wrap">
-              <li @click="toUrl('txList')">
-                <i class="iconfont icon-jiaoyijilu"></i>
-                <span>{{ $t("header.header1") }}</span>
-              </li>
-              <li @click="toUrl('accounts')">
-                <i class="iconfont icon-wangluozhanghu"></i>
-                <span>{{ $t("header.header2") }}</span>
-              </li>
-              <li>
-                <a href="https://swap.nabox.io/" :target="isMobile && '_self' || '_blank'">
-                  <i class="iconfont icon-swapbox"></i>
-                  <span>SwapBox</span>
-                </a>
-              </li>
-<!--              <li>
-                <a :href="walletAddress" :target="isMobile && '_self' || '_blank'">
-                  <i class="iconfont icon-wallet"></i>
-                  <span>{{ $t("header.header9") }}</span>
-                </a>
-              </li>-->
-              <li>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPXX4EDtzxqBg3OBMIq7EtoiBxnxcqokIeVzAqyXQFYbmf4w/viewform" :target="isMobile && '_self' || '_blank'">
-                  <i class="iconfont icon-zichanshangjia"></i>
-                  <span>{{ $t("header.header3") }}</span>
-                </a>
-              </li>
-              <li>
-               <a href="https://drive.google.com/drive/folders/13gk5XzfJmCUyRCmoleWH47REUOyGc4yo" :target="isMobile && '_self' || '_blank'">
-                  <i class="iconfont icon-shenjibaogao"></i>
-                  <span>{{ $t("header.header4") }}</span>
-               </a>
-              </li>
-            </ul>
-          </div>
-          <div class="bottom-wrap">
-            <div class="community">
-              <a href="https://t.me/NerveNetwork" :target="isMobile && '_self' || '_blank'">
-                <img src="../assets/img/Telegram.svg" alt="">
-              </a>
-              <a href="https://discord.gg/PBkHeD7" :target="isMobile && '_self' || '_blank'" style="padding-top: 1px">
-                <img src="../assets/img/Discord.svg" alt="">
-              </a>
-            </div>
-            <div class="language clicks" @click="lang=lang==='cn' ? 'en' : 'cn'" style="padding-top: 3px">
-              <!-- <span class="iconfont icon-yuyan"> -->
-              <img style="margin: 0 5px 0 10px" src="../assets/img/lang.svg" alt="">
-              <span>{{ lang === "cn" ? "EN" : "中文" }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
     <el-dialog
       title="账户"
       :visible.sync="showAccountDialog"
@@ -99,7 +42,6 @@
   import { superLong, copys, networkOrigin, supportChainList } from '@/api/util'
   import { isBeta, getCurrentAccount } from '@/api/util';
   import { ETHNET } from "@/config"
-  import { ethers } from 'ethers'
 
   const chainSymbol = {}
   supportChainList.map(chain => {
@@ -115,8 +57,6 @@
       this.chainSymbol = chainSymbol;
       return {
         showNetworkList: false,
-        showMenu: false,
-        lang: localStorage.getItem("lang") || "en",
         showAccountDialog: false,
         walletAddress: isBeta ? "http://beta.wallet.nerve.network" : "https://wallet.nerve.network",
         provider: null
@@ -137,6 +77,9 @@
       },
       chainId() {
         return this.$store.state.chainId
+      },
+      isWrongChain() {
+        return this.$store.state.isWrongChain
       },
       walletType() {
         return this.$store.state.walletType
@@ -161,11 +104,11 @@
           // }, 500)
         }
       },
-      lang(val) {
-        if (val) {
-          this.$i18n.locale = val;
-          localStorage.setItem("lang", val)
-          this.toggleMenu();
+      '$store.state.network': {
+        handler(val) {
+          if (val === "NULS" || val === "NERVE") {
+            this.$store.commit("changeIsWrongChain", false)
+          }
         }
       }
     },
@@ -231,6 +174,8 @@
         const result = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
         this.$store.commit("changeChainId", result);
         const chain = supportChainList.find(v => +v.ropsten === +result || +v.homestead === +result);
+        const isWrongChain = !supportChainList.find(v => +v[ETHNET] === +result);
+        this.$store.commit("changeIsWrongChain", isWrongChain);
         if (chain) {
           this.$store.commit("changeNetwork", chain.value);
         } /*else {
@@ -242,14 +187,7 @@
         return superLong(str, len)
       },
       toggleMenu() {
-        this.showMenu = !this.showMenu
-      },
-      toUrl(name) {
-        this.$router.push({
-          name,
-          // query: { address: this.address }
-        })
-        this.toggleMenu();
+        this.$emit("toggleMenu");
       },
       openUrl() {
         const baseUrl = networkOrigin[this.currentChain];
@@ -335,21 +273,14 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 15px;
-    border-bottom: 1px solid #EBF0F3;
+    border-bottom: 1px solid #CED3E5;
     background-color: #fff;
     .left img {
       width: 96px;
-      //margin-left: 5px;
       @media screen and (max-width: 400px){
         width: 75px;
-        //margin-left: 0;
       }
     }
-    // img {
-    //   width: 34px;
-    //   height: 34px;
-    //   margin-right: 5px;
-    // }
     .left, .right {
       display: flex;
       align-items: center;
@@ -357,57 +288,43 @@
 
     .right {
       .address {
-        // width: 170px;
-        // width: 150px;
+        min-width: 170px;
         height: 32px;
         line-height: 32px;
         padding: 0 10px;
         background-color: #EBEEF8;
-        color: #5BCAF9;
-        font-weight: bold;
+        color: #99A3C4;
         font-size: 14px;
         border-radius: 18px;
         text-align: center;
-        margin-right: 15px;
+        margin-right: 20px;
         cursor: pointer;
         position: relative;
         display: flex;
         align-items: center;
         @media screen and (max-width: 400px){
-          margin-right: 5px;
+          margin-right: 15px;
           padding: 0 8px;
+        }
+        .wrong-chain {
+          width: 100%;
+          color: #B8741A;
+          font-weight: 600;
+          /*&:hover {
+            opacity: 0.65;
+          }*/
         }
         .network {
           display: flex;
           align-items: center;
           height: 100%;
           padding: 2px 0;
-          margin-right: 8px;
+          margin-right: 5px;
           img {
-            width: 26px;
+            width: 25px;
             margin-right: 8px;
           }
         }
-        /*.network {
-          font-size: 15px;
-          color: #99A3C4;
-          // margin-right: 10px;
-          padding: 0 10px 0 5px;
-          &:hover {
-            // background: 
-            opacity: 0.65;
-          }
-          &::before {
-            content: " ";
-            display: inline-block;
-            vertical-align: middle;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            // margin: 0 2px;
-            background-color: #5BCAF9;
-          }
-        }*/
         .support-network-list {
           position: absolute;
           top: 30px;
@@ -466,129 +383,7 @@
         font-size: 24px;
         color: #515B7D;
       }
-    } 
-    .nav-menu {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      overflow: hidden;
-      z-index: 99999;
-      .model {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0.46;
-        background-color: rgb(33, 33, 33);
-      }
-      .header_content {
-        &.show {
-          animation: rtl-drawer-in .3s;
-        }
-        animation: rtl-drawer-out .3s;
-        background-color: #fff;
-        position: absolute;
-        width: 210px;
-        height: 100%;
-        right: 0;
-        top: 0;
-        padding-top: 15px;
-        // padding: 30px 20px 20px;
-        .menu-wrap {
-          li {
-            padding: 15px 20px;
-            cursor: pointer;
-            line-height: 1;
-            .iconfont {
-              margin-right: 10px;
-              font-size: 18px;
-            }
-            &:hover {
-              background-color: rgb(239, 244, 245);
-            }
-          }
-        }
-      }
-      .network {
-        padding: 10px 20px 0;
-        .label {
-          color: #99A3C4;
-          font-size: 12px;
-          margin-bottom: 5px;
-        }
-        .el-radio-group {
-          .el-radio-button {
-            margin: 0 10px 15px 0;
-            &.is-active .el-radio-button__inner {
-              box-shadow: none;
-              // border-color: #409EFF;
-              background-color: #5BCAF9;
-              color: #fff;
-            }
-            &:nth-of-type(2n) {
-              margin-right: 0;
-            }
-          }
-          .el-radio-button__inner {
-            // border: 1px solid #DCDFE6;
-            border-radius: 10px;
-            font-size: 12px;
-            width: 80px;
-            height: 35px;
-            line-height: 35px;
-            padding: 0;
-            color: #515E7B;
-            background-color: #EBEEF8;
-            border: none;
-            &:hover {
-              color: #5BCAF9;
-            }
-          }
-        }
-      }
-      .bottom-wrap {
-        display: flex;
-        align-items: center;
-        margin-top: 40px;
-        padding: 0 20px;
-        .community, .language {
-          display: flex;
-          align-items: center;
-        }
-        img {
-          width: 22px;
-          height: 22px;
-          margin-right: 20px;
-          cursor: pointer;
-          vertical-align: middle;
-          &:hover {
-            opacity: 0.65;
-          }
-        }
-        .language {
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          &:hover {
-            opacity: 0.65;
-          }
-        }
-        .icon-yuyan {
-          font-size: 22px;
-          margin-right: 5px;
-          margin-left: 10px;
-        }
-      }
     }
-    /* .account-dialog {
-      position: absolute;
-    }
-    .v-modal {
-      position: absolute;
-    } */
     .account-dialog {
 
       .address {
@@ -606,8 +401,6 @@
         }
       }
       .el-button {
-        // width: 80px;
-        // height: 34px;
         padding: 12px 30px;
         border-color: #5BCAF9;
         color: #5BCAF9;
@@ -615,41 +408,4 @@
       }
     }
   }
-  .drawer-fade-enter-active,.drawer-fade-leave-active {
-    transition: opacity 0.3s
-  }
-
-  .drawer-fade-enter, .drawer-fade-leave-to {
-    opacity: 0;
-  }
-
-  .model-enter-active,.model-leave-active {
-    transition: opacity 0.2s
-  }
-
-  .model-enter, .model-leave-to {
-    opacity: 0;
-  }
-
-  @keyframes rtl-drawer-in {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(0%);
-    }
-  }
-  @keyframes rtl-drawer-out {
-    0% {
-      transform: translateX(0%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
-  .cursor_pointer {
-    cursor: pointer;
-  }
-
 </style>

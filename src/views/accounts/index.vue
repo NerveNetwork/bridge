@@ -123,12 +123,14 @@ export default {
 .account-list {
   .content {
     padding: 0 15px 20px;
+    background-color: #F0F2F7;
     h3 {
-      width: 60%;
+      //width: 60%;
       margin: 0 auto;
-      padding: 15px 0;
+      //padding: 15px 0;
       font-size: 12px;
       color: #99A3C4;
+      padding: 15px 20%;
     }
     ul {
       background-color: #fff;

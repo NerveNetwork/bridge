@@ -10,7 +10,8 @@ export default new Vuex.Store({
     address: '',
     network: sessionStorage.getItem("network") || "NERVE",
     walletType: localStorage.getItem('walletType'),
-    chainId: ''
+    chainId: '',
+    isWrongChain: false
   },
   getters: {
 
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     changeChainId(state, chainId) {
       state.chainId = chainId;
+    },
+    changeIsWrongChain(state, isWrongChain) {
+      state.isWrongChain = isWrongChain
     }
   },
 

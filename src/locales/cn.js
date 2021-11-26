@@ -39,6 +39,9 @@ const cn = {
     home23: "所有手续费由第三方平台收取，NerveBridge未收取任何费用",
     home24: "输入代币名称或合约地址",
     home25: "请等待当前交易完成再发送下一笔",
+    home26: "请选择跨链资产",
+    home27: "待处理交易",
+    home28: "网络错误"
   },
   public: {
     amount: "数量",
@@ -73,6 +76,9 @@ const cn = {
     txDetail2: "(转入网络费用)",
     txDetail3: "(闪兑提现手续费)",
     txDetail4: "继续发送",
+    txDetail5: "待支付手续费",
+    txDetail6: "可用余额",
+    txDetail7: " (预计5-10分钟)"
   },
   transfer: {
     transfer1: "转账",

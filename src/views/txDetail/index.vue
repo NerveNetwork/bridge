@@ -11,17 +11,12 @@
             <img src="../../assets/img/detail-fail.svg" alt="" v-else-if="failStatus.indexOf(txInfo.status) > -1 || failType === 1">
             <img src="../../assets/img/detail-pending.svg" alt="" v-else>
           </div>
-          <span>{{ failType === 1 ? $t("crossStatusType.noFee") : $t("crossStatusType." + txInfo.status) }}</span>
-          <!-- <p v-if="failStatus.indexOf(txInfo.status) > -1">{{ txInfo.errorMsg }}</p> -->
+          <span>{{ statusText }}</span>
         </div>
         <div class="amount">
           {{txInfo.amount}} {{txInfo.symbol}}
         </div>
         <div class="other-info">
-          <!-- <p class="info-item">
-            <span class="left">手续费</span>
-            <span class="right">88NVT</span>
-          </p> -->
           <p class="info-item">
             <span class="left">{{ $t("public.time") }}</span>
             <span class="right">{{txInfo.createTime}}</span>
@@ -36,8 +31,32 @@
             </span>
           </p>
         </div>
+        <div class="fee-info" v-if="failType===1">
+          <p class="info-item">
+            <span class="left">{{ $t("txDetail.txDetail5") }}</span>
+            <span class="right">
+              <template v-if="fee">
+                {{ fee || "--" }} {{ feeSymbol }}
+              </template>
+              <template v-else>
+                <span class="el-icon-loading"></span>
+              </template>
+            </span>
+          </p>
+          <p class="info-item">
+            <span class="left">{{ $t("txDetail.txDetail6") }}</span>
+            <span class="right">
+              <template v-if="balance">
+                {{ balance || "--" }} {{ feeSymbol }}
+              </template>
+              <template v-else>
+                <span class="el-icon-loading"></span>
+              </template>
+            </span>
+          </p>
+        </div>
         <div class="fail-retry" v-if="showRetry">
-          <el-button type="primary" @click="retry">{{ $t('txDetail.txDetail4') }}</el-button>
+          <el-button type="primary" @click="retry" :disabled="disableRetry">{{ retryBtnText }}</el-button>
         </div>
       </div>
       <div class="content-inner swft-detail" v-else>
@@ -162,7 +181,11 @@ import {
   Times,
   getCurrentAccount,
   withdrawalToNulsFee,
-  withdrawFeeRate, fixNumber, Division
+  withdrawFeeRate,
+  fixNumber,
+  Division,
+  supportChainList,
+  Minus
 } from '@/api/util'
 import moment from "moment"
 import { ETransfer, NTransfer, getSymbolUSD, swapScale, swapSymbolConfig, crossFee, reportError, gasLimitConfig } from "@/api/api";
@@ -203,7 +226,9 @@ export default {
       currentStep: 1,
       stepList: [],
       destroyed: false,
-      failType: "", // 1、需要闪兑，但是未跨入手续费；2、闪兑失败；3、nerve跨出失败
+      failType: 0, // 1、需要闪兑，但是未跨入手续费；2、闪兑失败；3、nerve跨出失败
+      fee: "",
+      balance: ""
     }
   },
 
@@ -211,8 +236,6 @@ export default {
 
   watch: {
     showRetryDialog(val) {
-      this.currentStep = 1;
-      this.stepList = [];
       if (!val) {
         this.setTimer();
       } else {
@@ -230,6 +253,33 @@ export default {
         return "fail"
       } else {
         return "pending"
+      }
+    },
+    feeSymbol() {
+      const { fromChain } = this.txInfo;
+      if (!fromChain) return null
+      const chainInfo = supportChainList.find(v => v.value === fromChain);
+      return chainInfo.symbol;
+    },
+    disableRetry() {
+      return this.failType!==1 ||
+        !this.fee ||
+        !this.balance ||
+        Minus(this.balance, this.fee) < 0 ||
+        this.$store.state.isWrongChain
+    },
+    retryBtnText() {
+      return Minus(this.balance, this.fee) < 0 ? this.$t("tips.tips12") : this.$t('txDetail.txDetail4')
+    },
+    statusText() {
+      const status = this.txInfo.status;
+      const pendingStatus = [0, 1, 2, 3, 5, 6]
+      if (this.failType === 1) {
+        return this.$t("crossStatusType.noFee")
+      } else if (pendingStatus.indexOf(status) > -1) {
+        return this.$t("crossStatusType." + status) + this.$t("txDetail.txDetail7")
+      } else {
+        return this.$t("crossStatusType." + status)
       }
     }
   },
@@ -281,7 +331,7 @@ export default {
     async getSwftDetail() {
       const {equipmentNo, orderId} = this.$route.query
       if (!equipmentNo || !orderId) {
-        this.$message({message: "not fount", type: 'warning', duration: 2000});
+        this.$message({message: "Tx not found", type: 'warning', duration: 2000});
         this.$router.push('/')
       }
       const res = await this.$request({
@@ -322,17 +372,21 @@ export default {
             hash: data.txHash
           })
         }
+        this.loading = false;
+      } else {
+        // this.$message({message: "Network error", type: "warning"})
       }
-      this.loading = false;
     },
     // 检查交易是否失败或者签名流程未完成
-    checkIsFailed() {
+    async checkIsFailed() {
       // failType 1、需要闪兑，但是未跨入手续费；2、闪兑失败；3、nerve跨出失败
       const { feeTxHash, convertSymbol, status } = this.txInfo;
       if (status <= 2 && convertSymbol && !feeTxHash) {
         // 返回状态为失败
         this.showRetry = true;
         this.failType = 1;
+        this.fee = await this.getFee();
+        this.balance = await this.getMainAssetBalance();
       }/*  else if (status === 4) {
         this.showRetry = true;
         this.failType = 2;
@@ -389,6 +443,8 @@ export default {
     async retry() {
       this.showRetryDialog = true;
       this.retryLoading = true;
+      this.currentStep = 1;
+      this.stepList = [];
       // nerve作为中转链时,固定的中转nerve地址
       const crossAddressMap = JSON.parse(localStorage.getItem("crossAddressMap"))
       const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
@@ -405,13 +461,14 @@ export default {
         // const transferAmount = timesDecimals(amount, assetInfo.decimals);
         this.assetOnNerve = await this.getAssetNerveInfo();
         if (this.failType !== 1) {
-          this.$message({ message: "Unkonwn tx type", type: "warning", duration: 2000 });
+          this.$message({ message: "Unknown tx type", type: "warning", duration: 2000 });
           this.showRetryDialog = false;
           this.retryLoading = false;
           return;
         }
         if (fromChain !== "NULS") {
           const chain = sessionStorage.getItem("network");
+          // 判断当前选择链是否和交易fromChain一致
           if (chain !== fromChain) {
             this.$message({ message: this.$t("tips.tips11"), type: "warning", duration: 2000 });
             this.showRetryDialog = false;
@@ -419,8 +476,8 @@ export default {
             return;
           }
         }
-        const fee = await this.getFee();
-        await this.constructCrossInTx(crossAddress_Nerve, fee);
+        // const fee = await this.getFee();
+        await this.constructCrossInTx(crossAddress_Nerve, this.fee);
 
         /*const crossoutTransferInfo = await this.getCrossoutTransferInfo(assetInfo, nerveAddress, transferAmount);
         const { transferInfo, type, swapNVT } = crossoutTransferInfo;
@@ -457,14 +514,14 @@ export default {
         this.runTransfer();
       } catch (e) {
         console.log(e, "eee", e.toString())
-        reportError(this.txInfo.txHash, JSON.stringify(e))
+        reportError(this.txInfo.txHash, e.toString() + JSON.stringify(e))
         this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
         this.showRetryDialog = false;
       }
       this.retryLoading = false;
     },
     async getFee() {
-      const { fromChain, toChain } = this.txInfo;
+      const { fromChain, toChain, fromAddress, assetId, chainId, contractAddress } = this.txInfo;
       const nvtUSD = await getSymbolUSD("NERVE");
       const fromChainMainAssetUSD = await getSymbolUSD(fromChain);
       let nvtAmountForWithdrawal = withdrawalToNulsFee;
@@ -473,7 +530,15 @@ export default {
         nvtAmountForWithdrawal = withdrawalToNulsFee;
         finalFee = fixNumber(Division(Times(nvtAmountForWithdrawal, nvtUSD), fromChainMainAssetUSD).toFixed(8), 8);
       } else {
-        const asset = await this.getAssetInfo();
+        const params = {
+          chain: fromChain,
+          address: fromAddress,
+          chainId,
+          assetId,
+          contractAddress,
+          refresh: true
+        }
+        const asset = await this.getAssetInfo(params);
         const assetHeterogeneousInfo = asset.heterogeneousList.filter(
           (v) => v.chainName === toChain
         )[0];
@@ -493,17 +558,8 @@ export default {
       }
       return finalFee;
     },
-    // 获取跨链资产信息
-    async getAssetInfo() {
-      const { fromChain, fromAddress, assetId, chainId, contractAddress } = this.txInfo;
-      const params = {
-        chain: fromChain,
-        address: fromAddress,
-        chainId,
-        assetId,
-        contractAddress,
-        refresh: true
-      };
+    // 获取资产信息
+    async getAssetInfo(params) {
       const res = await this.$request({
         url: "/wallet/address/asset",
         data: params,
@@ -610,7 +666,7 @@ export default {
 
     // 组装其他链转入主资产到nerve交易
     async constructCrossInTx(nerveAddress, fee) {
-      console.log(fee, 44)
+      // console.log(fee, 44)
       const { fromChain, fromAddress } = this.txInfo;
       const config = JSON.parse(sessionStorage.getItem("config"));
       const fromChainInfo = config[fromChain];
@@ -839,8 +895,8 @@ export default {
         // 最终更新广播交易
         await this.updateTx(updateTx)
       } catch (e) {
-        console.error("error: " + e);
-        reportError(this.txInfo.txHash, JSON.stringify(e))
+        console.log("error: " + e);
+        reportError(this.txInfo.txHash, e.toString() + JSON.stringify(e))
         if (this.destroyed) return;
         this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
       }
@@ -879,6 +935,22 @@ export default {
       } else {
         this.$message({ message: res.msg, type: "warning", duration: 2000 })
       }
+    },
+    async getMainAssetBalance() {
+      const { fromChain, fromAddress } = this.txInfo;
+      const config = JSON.parse(sessionStorage.getItem("config"));
+      const fromChainInfo = config[fromChain];
+      // params = { chainId: fromChainInfo.chainId, assetId: fromChainInfo.assetId }
+      const params = {
+        chain: fromChain,
+        address: fromAddress,
+        chainId: fromChainInfo.chainId,
+        assetId: fromChainInfo.assetId,
+        contractAddress: "",
+        refresh: true
+      }
+      const mainAsset = await this.getAssetInfo(params);
+      return divisionDecimals(mainAsset.balance, mainAsset.decimals)
     }
   }
 }
@@ -886,6 +958,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .tx-detail {
+  background-color: #F0F2F7;
+  padding: 15px 15px 0;
   .content-inner {
     position: relative;
     margin-top: 20px;

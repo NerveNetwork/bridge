@@ -86,6 +86,13 @@ export default {
     async initTransfer() {
       // nerve作为中转链时,固定的中转nerve地址
       const crossAddressMap = JSON.parse(localStorage.getItem("crossAddressMap"))
+      if (!crossAddressMap) {
+        this.$message({
+          message: 'Unknown error',
+          type: "warning"
+        })
+        this.$router.push("/")
+      }
       const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
       try {
         const {
@@ -142,8 +149,6 @@ export default {
                 fromChain, 10, crossInForSwapInfo, {}, this.$t("transfer.transfer3"), true
               )
             }
-            //组装闪兑交易/闪兑+提现交易
-            //await this.constructSwapAndWithdrawalTx() // 使用中转地址 不再需要组装闪兑交易/闪兑+提现交易
             
           }
         } else {
@@ -157,7 +162,6 @@ export default {
               crossInForSwapInfo.nerveAddress = crossAddress_Nerve // 使用中转地址
               await this.constructCrossInTx(crossInForSwapInfo, this.$t("transfer.transfer3"));
             }
-            //await this.constructSwapAndWithdrawalTx() // 使用中转地址 不再需要组装闪兑交易/闪兑+提现交易
           } else {
             // 异构链转入
             await this.constructCrossInTx(crossInInfo, this.$t("transfer.transfer2"));
@@ -206,77 +210,6 @@ export default {
       this.stepList.push(step);
     },
 
-    // 组装闪兑交易
-    async constructSwapAndWithdrawalTx() {
-      const { toChain, crossInfo, crossOutInfo, isTransferMainAsset, swapInfo} = this.sessionInfo;
-
-      let type, transferInfo;
-      if (toChain === "NULS") {
-        type = 10;
-        transferInfo = crossInfo
-      } else {
-        type = 43;
-        transferInfo = crossOutInfo
-      }
-      const txData = transferInfo.txData || {};
-
-      if (swapInfo) {
-        const txHexForSign = await this.getSwapHex(swapInfo);
-        await this.constructSwapTx(swapInfo, txHexForSign);
-        if (isTransferMainAsset) {
-          const bufferReader = new BufferReader(Buffer.from(txHexForSign, "hex"), 0);
-          // 反序列回交易对象
-          const tAssemble = new txs.Transaction();
-          tAssemble.parse(bufferReader);
-          const hash = tAssemble.getHash().toString("hex");
-          // console.log(hash, "====hash====")
-          const nonce = hash.slice(-16);
-          transferInfo.nonce = nonce
-          await this.constructTx(
-            "NERVE", type, transferInfo, txData, this.$t("transfer.transfer5"), false
-          )
-        } else {
-          await this.constructTx(
-            "NERVE", type, transferInfo, txData, this.$t("transfer.transfer5"), false
-          )
-        }
-      } else {
-        await this.constructTx(
-          "NERVE", type, transferInfo, txData, this.$t("transfer.transfer5"), false
-        )
-      }
-    },
-
-    async constructSwapTx(swapInfo, txHexForSign) {
-      const swapLabel = this.$t("transfer.transfer4");
-      const fn = async () => {
-        const transfer = new NTransfer({ chain: "NERVE" }); 
-        const { pub, signAddress } = this.sessionInfo;
-        return await transfer.appendSignature({
-          txHexForSign,
-          pub,
-          signAddress
-        });
-      }
-      this.stepList.push({
-        label: swapLabel,
-        done: false,
-        fn
-      });
-    },
-    // 获取闪兑hex
-    async getSwapHex(swapInfo) {
-      const res = await this.$request({
-        url: "/tx/exchange",
-        data: swapInfo
-      });
-      console.log(res.code, res.data.data)
-      if (res.code === 1000 && res.data.data) {
-        return res.data.data
-      } else {
-        throw this.$t("tips.tips2")
-      }
-    },
     // 组装异构链跨链转入交易
     async constructCrossInTx(crossInInfo, label) {
       const transfer = new ETransfer();
@@ -360,7 +293,7 @@ export default {
         await this.updateTx(updateTx)
       } catch (e) {
           if (updateTx.txHash) {
-            reportError(updateTx.txHash, JSON.stringify(e))
+            reportError(updateTx.txHash, e.toString() + JSON.stringify(e))
           }
           if (this.destroyed) return;
           this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
@@ -431,7 +364,7 @@ export default {
         })
       }
       setTimeout(() => {
-        this.$router.replace("/")
+        this.$router.replace("/tx-detail?txHash=" + data.txHash)
       }, 2000)
     }
   },
@@ -442,6 +375,8 @@ export default {
   height: 100%;
   .content {
     height: calc(~'100% - 40px');
+    background-color: #f0f2f7;
+    padding: 15px 15px 0;
   }
   .sign-tips {
     font-size: 14px;

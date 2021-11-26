@@ -15,8 +15,9 @@ export const ETHNET = 'ropsten';
 // export const BRIDGE_API_URL = IS_DEV ? "/bridge-api" : "http://beta.bridge.nerve.network/bridge-api";
 export const BRIDGE_API_URL = "http://beta.api.bridge.nerve.network";
 
-/* //开发模式
-export const IS_DEV = process.env.NODE_ENV === 'development';
+
+
+/*export const IS_DEV = process.env.NODE_ENV === 'development';
 
 //燃烧地址的公钥
 export const API_BURNING_ADDRESS_PUB = 'NERVEepb63T1M8JgQ26jwZpZXYL8ZMLdUAK31L';
@@ -28,5 +29,7 @@ export const NULS_INFO = { chainId: 1, assetId: 1, prefix: 'NULS',symbol:"NULS",
 //ETH 网络信息 测试网:ropsten, 主网:homestead
 export const ETHNET = 'homestead';
 
-export const BRIDGE_API_URL = "/bridge-api"; */
+// export const BRIDGE_API_URL = IS_DEV ? "/bridge-api" : "https://api.bridge.nerve.network";
+export const BRIDGE_API_URL = "https://api.bridge.nerve.network";*/
+
 

@@ -39,6 +39,9 @@ const en = {
     home23: "All fees are charged by the third-party platform, NerveBridge charge no fees",
     home24: "Enter the token symbol or address",
     home25: "Please wait for the current transaction to complete before sending the next one",
+    home26: "Please select an assets",
+    home27: "Pending Txs",
+    home28: "Wrong Network"
   },
   public: {
     amount: "Amount",
@@ -65,7 +68,7 @@ const en = {
     txList6: "Finished",
     txList7: "Send asset",
     txList8: "Receive asset",
-    txList9: "Payment requested.",
+    txList9: "Payment requested",
     txList10: "Pay now",
   },
   txDetail: {
@@ -73,6 +76,9 @@ const en = {
     txDetail2: "(Transfer network fee)",
     txDetail3: "(Swap withdrawal fee)",
     txDetail4: "Continue To Send",
+    txDetail5: "Fees to be paid",
+    txDetail6: "Available",
+    txDetail7: " (5-10 minutes expected)"
   },
   transfer: {
     transfer1: "Transfer",

@@ -116,9 +116,10 @@ export default {
       return this.$store.state.walletType
     },
     fromChainError() {
-      if (!this.fromChainId) return true;
+      return this.$store.state.isWrongChain;
+      /*if (!this.fromChainId) return true;
       if (this.fromNetwork === 'NULS' || this.fromNetwork === 'NERVE') return false;
-      return !supportChainList.find(v => v[ETHNET] === this.fromChainId);
+      return !supportChainList.find(v => v[ETHNET] === this.fromChainId);*/
     }
   },
 
@@ -268,16 +269,16 @@ export default {
 @BColor: #ebeef8;
 @labelColor: #99a3c4;
 .home {
-  background-color: #f0f2f7;
-  //height: 100%;
-  padding-top: 15px;
+  padding: 20px;
   height: calc(~'100% - 64px');
   .home-content {
-    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    /*background-color: #fff;
     margin: 0 15px 15px;
     padding: 25px 15px;
     min-height: calc(100% - 15px);
-    border-radius: 6px;
+    border-radius: 6px;*/
   }
   .support-list {
     //width: 96%;
@@ -298,26 +299,20 @@ export default {
       width: 50%;
       display: flex;
       align-items: center;
-      //justify-content: space-between;
       height: 40px;
-      // line-height: 50px;
       padding: 0 15px;
       margin-bottom: 15px;
       border-radius: 16px;
-      //background-color: rgb(239, 244, 245);
-      transition: background-color 0.2s ease 0s;
       cursor: pointer;
       color: #a1a4b1;
       font-size: 14px;
       font-weight: 600;
       border: 1px solid transparent;
       &:hover {
-        //opacity: 0.65;
         border-color: #5bcaf9;
         color: #333;
       }
       img {
-        // margin-top: 7px;
         width: 28px;
         height: 28px;
         margin-right: 10px;
@@ -339,241 +334,6 @@ export default {
       // padding: 12px 50px;
       border-radius: 10px;
       padding: 16px 50px;
-    }
-  }
-  .account-select {
-    .from,
-    .to {
-      width: 100%;
-      height: 54px;
-      font-size: 14px;
-      border-radius: 10px;
-      background-color: @BColor;
-      padding: 15px;
-      display: flex;
-      align-items: center;
-      color: @labelColor;
-      padding-left: 21px;
-    }
-
-    .network {
-      // color: #515e7b;
-      margin: 0 15px 0 10px;
-      width: 66px;
-    }
-    .to {
-      margin-bottom: 30px;
-      .address {
-        //position: absolute;
-        font-size: 14px;
-        //left: 147px;
-        color: #515B7D;
-      }
-    }
-    .el-select {
-      width: 100%;
-      left: 10px;
-      z-index: 2;
-      .el-input__inner {
-        background: transparent;
-        border: none;
-        height: auto;
-        line-height: initial;
-        padding: 0;
-        color: #515B7D;
-        // font-size: 14px;
-      }
-      .el-input__suffix {
-        .el-input__icon {
-          line-height: initial;
-          font-size: 16px;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-  .amount,
-  .fee {
-    .label {
-      font-size: 12px;
-      color: @labelColor;
-      margin-right: 5px;
-      margin-bottom: 6px;
-      line-height: 1;
-    }
-  }
-  .amount {
-    .label-wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      span {
-        color: @labelColor;
-        font-size: 12px;
-      }
-    }
-    .amount-inner {
-      height: 74px;
-      background-color: @BColor;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-    }
-    .select-asset-btn {
-      cursor: pointer;
-      color: #99a3c4;
-      padding: 5px 10px;
-      border-radius: 15px;
-      display: flex;
-      //justify-content: space-between;
-      align-items: center;
-      // min-width: 130px;
-      &:hover {
-        background-color: rgb(224, 217, 235);
-      }
-    }
-    .el-input-group__prepend {
-      .el-select .el-input {
-        width: auto;
-        min-width: 150px;
-      }
-    }
-    .el-input-group__prepend,
-    .el-input-group__append {
-      background-color: @BColor;
-      padding: 0 10px;
-      border: none;
-      width: auto;
-      .el-button {
-        //color: @labelColor;
-        //font-weight: bold;
-        font-size: 12px;
-        font-weight: normal;
-        color: #515B7D;
-      }
-    }
-    .el-select .el-select__caret {
-      font-weight: bold;
-      color: #99a3c4;
-    }
-    .el-input__inner {
-      background-color: @BColor !important;
-      border: none !important;
-      /* font-weight: bold;
-      color: #99a3c4 !important; */
-      font-size: 16px;
-      font-weight: normal !important;
-      color: #515B7D !important;
-      &::-webkit-input-placeholder {
-        font-weight: normal;
-        color: #515B7D !important;
-      }
-     /*  &::-webkit-input-placeholder {
-        font-weight: bold;
-        color: #99a3c4;
-      } */
-    }
-  }
-  .fee {
-    margin-bottom: 30px;
-    .fee-inner {
-      font-size: 15px;
-    }
-  }
-  .msg-wrap {
-    margin-bottom: 30px;
-    position: relative;
-    .from-validate-msg,
-    .amount-validate-msg {
-      position: absolute;
-      color: #f56c6c;
-      font-size: 12px;
-      line-height: 1;
-      padding: 4px 0 0 5px;
-    }
-  }
-
-  .btn-wrap {
-    width: 100%;
-    margin: 20px auto 0;
-    .el-button {
-      width: 100%;
-      border-radius: 10px;
-      padding: 16px 20px;
-    }
-  }
-  .asset-info-wrap {
-    display: flex;
-    flex-direction: column;
-  }
-  .logo-img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 5px;
-  }
-  .origin-chain {
-    display: inline-block;
-    border: 1px solid #5BCAF9;
-    border-radius: 4px;
-    padding: 1px 5px;
-    font-size: 16px;
-    font-weight: normal;
-    // margin-left: -6px;
-    color: #5BCAF9;
-    transform: translate(-20%, -10%) scale(0.5);
-    //min-width: 45px;
-    text-align: center;
-  }
-}
-.assets-list-dialog {
-  .el-dialog {
-    max-height: 60vh;
-    overflow: auto;
-    .el-dialog__body {
-      padding: 5px 20px 15px;
-    }
-  }
-  .search-input {
-    margin: 10px 0;
-    .el-input__inner {
-      border-radius: 20px;
-      height: 40px;
-      line-height: 40px;
-    }
-  }
-  li {
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    height: 55px;
-    &:hover {
-      // background-color: rgb(224, 217, 235);
-    }
-    .logo-wrap {
-      width: 30px;
-      height: 30px;
-      margin-right: 15px;
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-    }
-    .asset-info {
-      p {
-        font-size: 15px;
-        font-weight: bold;
-        color: #515b7d;
-      }
-      span {
-        font-size: 13px;
-        color: @labelColor;
-      }
-    }
-    &.active {
-      opacity: 0.65;
     }
   }
 }

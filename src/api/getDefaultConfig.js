@@ -17,7 +17,8 @@ export function setChainConfig(config) {
       symbol: mainInfo ? mainInfo.symbol : '',
       decimal: mainInfo ? mainInfo.decimals : '',
       assets: v.assets,
-      config: v.configs
+      config: v.configs,
+      apiUrl: v.apiUrl
     }
   });
   sessionStorage.setItem("config", JSON.stringify(result))
