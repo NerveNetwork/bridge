@@ -1,7 +1,7 @@
 <template>
   <div class="tx-detail second-page">
     <div class="content" v-loading="loading">
-      <div class="content-inner" v-if="!isSwftDetail">
+      <div class="content-inner">
         <div 
           class="status tc"
           :class="status">
@@ -57,42 +57,6 @@
         </div>
         <div class="fail-retry" v-if="showRetry">
           <el-button type="primary" @click="retry" :disabled="disableRetry">{{ retryBtnText }}</el-button>
-        </div>
-      </div>
-      <div class="content-inner swft-detail" v-else>
-        <div 
-          class="status tc"
-          :class="status">
-          <div class="status-icon">
-            <!-- <i class="iconfont icon-queren"></i> -->
-            <img src="../../assets/img/detail-success.svg" alt="" v-if="swftSuccessStatus.indexOf(txInfo.detailState) > -1">
-            <img src="../../assets/img/detail-fail.svg" alt="" v-else-if="swftFailStatus.indexOf(txInfo.detailState) > -1">
-            <img src="../../assets/img/detail-pending.svg" alt="" v-else>
-          </div>
-          <span>{{ $t("swftStatusType." + txInfo.detailState) }}</span>
-        </div>
-        <div class="amount">
-          <!-- {{txInfo.amount}} {{txInfo.symbol}} -->
-          <span>{{ txInfo.depositCoinAmt }} {{ txInfo.depositCoinCode }}</span>
-          <i class="iconfont icon-to"></i>
-          <span>{{ txInfo.receiveCoinAmt }} {{ txInfo.receiveCoinCode }}</span>
-        </div>
-        <div class="other-info">
-          <!-- <p class="info-item">
-            <span class="left">手续费</span>
-            <span class="right">88NVT</span>
-          </p> -->
-          <p class="info-item">
-            <span class="left">{{ $t("public.time") }}</span>
-            <span class="right">{{txInfo.createTime}}</span>
-          </p>
-          <p class="info-item">
-            <span class="left">{{ $t("public.fee") }}</span>
-            <span class="right">
-              {{ txInfo.depositCoinFeeAmt }} {{ txInfo.depositCoinCode }} + 
-              {{ txInfo.estimatedFee }} {{ txInfo.receiveCoinCode }}
-            </span>
-          </p>
         </div>
       </div>
     </div>
@@ -219,7 +183,6 @@ export default {
       loading: true,
       txInfo: {},
       hashList: [],
-      isSwftDetail: false,
       showRetry: false,
       showRetryDialog: false,
       retryLoading: true,
@@ -286,23 +249,7 @@ export default {
 
 
   mounted() {
-    this.isSwftDetail = false;
     this.setTimer();
-
-    /*const {txHash, orderId} = this.$route.query;
-    if (txHash) {
-      this.isSwftDetail = false;
-      this.setTimer();
-    } else if (orderId) {
-      this.isSwftDetail = true;
-      this.getSwftDetail();
-      const timer = setInterval(() => {
-        this.getSwftDetail();
-      }, 10000)
-      this.$once("hook:beforeDestroy", () => {
-        clearInterval(timer)
-      })
-    }*/
   },
 
   beforeDestroy() {
@@ -327,26 +274,6 @@ export default {
     },
     superLong(str, len = 5) {
       return superLong(str, len)
-    },
-    async getSwftDetail() {
-      const {equipmentNo, orderId} = this.$route.query
-      if (!equipmentNo || !orderId) {
-        this.$message({message: "Tx not found", type: 'warning', duration: 2000});
-        this.$router.push('/')
-      }
-      const res = await this.$request({
-        url: "/orderinfo",
-        data: {
-          sourceType: "H5",
-          orderId,
-          equipmentNo
-        }
-      });
-      if (res.msg === "success") {
-        res.data.createTime = moment(res.data.createTime).format("MM-DD HH:mm:ss")
-        this.txInfo = res.data;
-      }
-      this.loading = false;
     },
     async getDetail() {
       const txHash = this.$route.query.txHash;
@@ -447,6 +374,13 @@ export default {
       this.stepList = [];
       // nerve作为中转链时,固定的中转nerve地址
       const crossAddressMap = JSON.parse(localStorage.getItem("crossAddressMap"))
+      if (!crossAddressMap || !crossAddressMap.crossNerveAddress) {
+        this.$message({
+          message: 'Get Nerve Address Error',
+          type: "warning"
+        })
+        return;
+      }
       const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
       try {
         const { amount, fromAddress, fromChain } = this.txInfo;
@@ -455,11 +389,6 @@ export default {
           pub: currentAccount.pub,
           signAddress: currentAccount.address.Ethereum
         }
-        // this.accountInfo = currentAccount;
-        // const nerveAddress = currentAccount.address.NERVE;
-        // const assetInfo = await this.getAssetInfo();
-        // const transferAmount = timesDecimals(amount, assetInfo.decimals);
-        this.assetOnNerve = await this.getAssetNerveInfo();
         if (this.failType !== 1) {
           this.$message({ message: "Unknown tx type", type: "warning", duration: 2000 });
           this.showRetryDialog = false;
@@ -476,41 +405,7 @@ export default {
             return;
           }
         }
-        // const fee = await this.getFee();
         await this.constructCrossInTx(crossAddress_Nerve, this.fee);
-
-        /*const crossoutTransferInfo = await this.getCrossoutTransferInfo(assetInfo, nerveAddress, transferAmount);
-        const { transferInfo, type, swapNVT } = crossoutTransferInfo;
-        if (this.failType === 3) {
-          // nerve跨出失败, 重新发送跨出交易
-          await this.constructTx("NERVE", type, transferInfo, transferInfo.txData || {}, this.$t("transfer.transfer5"), false);
-        } else {
-          const { chainId, assetId } = await this.getAssetNerveInfo(true);
-          // 用于闪兑nvt的主资产数量, nvt数量已*2
-          let fee = await this.getSwapCost(swapNVT, nerveAddress, chainId, assetId); 
-          if (this.failType === 1) {
-            // console.log(555)
-            if (fromChain !== "NULS") {
-              const chain = sessionStorage.getItem("network");
-              if (chain !== fromChain) {
-                this.$message({ message: this.$t("tips.tips11"), type: "warning", duration: 2000 });
-                this.showRetryDialog = false;
-                this.retryLoading = false;
-                return;
-              }
-            }
-            // 未转入手续费, 转入手续费再闪兑提现
-            // const address = fromChain === "NULS" ? nerveAddress :crossAddress_Nerve
-            await this.constructCrossInTx(crossAddress_Nerve, fee);
-            //  使用中转nerve后，不需要再组装闪兑提现交易
-            // await this.constructSwapAndWithdrawalTx(nerveAddress, transferInfo, type, fee, chainId, assetId);
-          } else {
-            // 已转入手续费，进行闪兑+提现， 闪兑NVT数量*0.8， 避免价格波动引起闪兑时主资产余额不足
-            throw "Unknown error" //  使用中转nerve后，不会出现此情况
-            // fee = Times(fee, 0.8).toString();
-            // await this.constructSwapAndWithdrawalTx(nerveAddress, transferInfo, type, fee, chainId, assetId);
-          }
-        }*/
         this.runTransfer();
       } catch (e) {
         console.log(e, "eee", e.toString())
@@ -520,6 +415,7 @@ export default {
       }
       this.retryLoading = false;
     },
+    // 计算补发手续费
     async getFee() {
       const { fromChain, toChain, fromAddress, assetId, chainId, contractAddress } = this.txInfo;
       const nvtUSD = await getSymbolUSD("NERVE");
@@ -571,99 +467,6 @@ export default {
       }
     },
 
-    // 获取资产在nerve链上的信息
-    async getAssetNerveInfo(forSwap = false) {
-      const { fromChain, assetId, chainId, contractAddress } = this.txInfo;
-      let params
-      if (forSwap) {
-        // 查询主资产在nerve链上的chainId assetId
-        const config = JSON.parse(sessionStorage.getItem("config"));
-        const fromChainInfo = config[fromChain];
-        params = { chainId: fromChainInfo.chainId, assetId: fromChainInfo.assetId }
-      } else {
-        if (fromChain === "NULS" || fromChain === "NERVE") return { chainId, assetId };
-        params = contractAddress ? { chainId, contractAddress } : { chainId, assetId }
-      }
-      const res = await this.$request({
-        url: "/asset/nerve/chain/info",
-        data: params,
-      });
-      if (res.code === 1000) {
-        return res.data;
-      } else {
-        throw "Get nerve info error"
-      }
-    },
-
-    // 获取nerve转出transferInfo、type、swapNVT(需要闪兑的NVT)
-    async getCrossoutTransferInfo(assetInfo, nerveAddress, transferAmount) {
-      const { toChain, toAddress } = this.txInfo;
-      let transferInfo, type, swapNVT
-      const { chainId, assetId } = this.assetOnNerve;
-      if (toChain !== "NULS") {
-        const withdrawalNVTFee = await this.getCrossOutFee(assetInfo);
-        const proposalPrice = timesDecimals(withdrawalNVTFee, MAIN_INFO.decimal);
-        const heterogeneousChain_Out = assetInfo.heterogeneousList.filter(
-          (v) => v.chainName === toChain
-        )[0];
-        const txData = {
-          heterogeneousAddress: this.accountInfo.address[toChain],
-          heterogeneousChainId: heterogeneousChain_Out.heterogeneousChainId,
-        };
-        transferInfo = {
-          from: nerveAddress,
-          assetsChainId: chainId,
-          assetsId: assetId,
-          amount: transferAmount,
-          fee: 0,
-          proposalPrice,
-          txData
-        }
-        type = 43
-        swapNVT = withdrawalNVTFee
-      } else {
-        const baseCrossFee = timesDecimals(crossFee, MAIN_INFO.decimal);
-        transferInfo = {
-          from: nerveAddress,
-          to: toAddress,
-          assetsChainId: chainId,
-          assetsId: assetId,
-          amount: transferAmount,
-          fee: baseCrossFee
-        }
-        type = 10
-        swapNVT = withdrawalToNulsFee
-      }
-      return {
-        transferInfo,
-        type,
-        swapNVT
-      }
-    },
-
-    // nerve转出到异构链手续费
-    async getCrossOutFee(assetInfo) {
-      const assetHeterogeneousInfo = assetInfo.heterogeneousList.filter(
-        (v) => v.chainName === this.txInfo.toChain
-      )[0];
-      const isToken = assetHeterogeneousInfo.token;
-      const transfer = new ETransfer({chain: this.txInfo.toChain});
-      let nvtUSD = await getSymbolUSD("NERVE");
-      nvtUSD = nvtUSD + "";
-      let heterogeneousChainUSD = await getSymbolUSD(this.txInfo.toChain);
-      heterogeneousChainUSD = heterogeneousChainUSD + "";
-      const res = await transfer.calWithdrawalNVTFee(
-        nvtUSD,
-        heterogeneousChainUSD,
-        isToken
-      );
-      let nvtFee = divisionDecimals(res, 8); // 异构跨链手续费-nvtBalance
-
-      const type = "normal"
-      const scale = withdrawFeeRate[this.txInfo.toChain][type];
-      return Times(nvtFee, scale).toString()
-    },
-
     // 组装其他链转入主资产到nerve交易
     async constructCrossInTx(nerveAddress, fee) {
       // console.log(fee, 44)
@@ -703,124 +506,6 @@ export default {
           fromChain, 10, crossInInfo, {}, this.$t("transfer.transfer3"), true
         )
       }
-    },
-
-    /**
-     * @desc 组装闪兑&转出交易
-     * @param nerveAddress
-     * @param transferInfo
-     * @param type
-     * @param swapAmount
-     * @param chainId // 闪兑资产chainId
-     * @param assetId // 闪兑资产assetId
-     */
-    async constructSwapAndWithdrawalTx(nerveAddress, transferInfo, type, swapAmount, chainId, assetId) {
-      const { fromChain, symbol } = this.txInfo;
-
-      const config = JSON.parse(sessionStorage.getItem("config"));
-      // const fromChainInfo = config[fromChain];
-      const { symbol: fromSymbol, decimal } = config[fromChain]
-      const isTransferMainAsset = fromSymbol === symbol;
-      console.log(isTransferMainAsset, "isTransferMainAsset")
-      const swapInfo = {
-        fromToken: {
-          symbol: swapSymbolConfig[fromSymbol],
-          chainId,
-          assetId
-        },
-        toToken: {
-          symbol: "NVT",
-          chainId: MAIN_INFO.chainId,
-          assetId: MAIN_INFO.assetId
-        },
-        fromAmount: timesDecimals(swapAmount, decimal),
-        address: nerveAddress
-      }
-      
-      const txData = transferInfo.txData || {};
-
-      const txHexForSign = await this.getSwapHex(swapInfo);
-      await this.constructSwapTx(txHexForSign);
-      if (isTransferMainAsset) {
-        const bufferReader = new BufferReader(Buffer.from(txHexForSign, "hex"), 0);
-        // 反序列回交易对象
-        const tAssemble = new txs.Transaction();
-        tAssemble.parse(bufferReader);
-        const hash = tAssemble.getHash().toString("hex");
-        const nonce = hash.slice(-16);
-        transferInfo.nonce = nonce
-      }
-      await this.constructTx(
-        "NERVE", type, transferInfo, txData, this.$t("transfer.transfer5"), false
-      )
-    },
-
-    // 查询兑换一定数量nvt需要花费的异构链主资产数量
-    async getSwapCost(amount, nerveAddress, chainId, assetId) {
-      const { fromChain } = this.txInfo
-      const config = JSON.parse(sessionStorage.getItem("config"));
-      const { symbol: fromSymbol } = config[fromChain]
-      
-      // const swapAmount = timesDecimals(Times(amount, swapScale), 8).split(".")[0];
-      const swapAmount = timesDecimals(amount, 8).split(".")[0];
-      console.log(amount, swapScale, swapAmount, 789)
-      const params = {
-        address: nerveAddress,
-        toAmount: swapAmount,
-        fromToken: {
-          symbol: swapSymbolConfig[fromSymbol],
-          chainId,
-          assetId
-        },
-        toToken: {
-          symbol: "NVT",
-          chainId: MAIN_INFO.chainId,
-          assetId: MAIN_INFO.assetId
-        }
-      }
-      const res = await this.$request({
-        url: "/tx/quantity",
-        data: params
-      });
-      if (res.code === 1000 && res.data.data) {
-        return res.data.data.quantityPlain
-      } else {
-        throw res.data
-      }
-    },
-
-    // 获取闪兑hex
-    async getSwapHex(swapInfo) {
-      const res = await this.$request({
-        url: "/tx/exchange",
-        data: swapInfo
-      });
-      // console.log(res.code, res.data.data)
-      if (res.code === 1000 && res.data.data) {
-        return res.data.data
-      } else {
-        throw this.$t("tips.tips2")
-      }
-    },
-
-    // 构造nerve闪兑交易
-    async constructSwapTx(txHexForSign) {
-      const fn = async () => {
-        // const txHexForSign = await this.getSwapHex(swapInfo);
-        const transfer = new NTransfer({ chain: "NERVE" }); 
-        const { pub, signAddress } = this.signInfo;
-        return await transfer.appendSignature({
-          txHexForSign,
-          pub,
-          signAddress
-        });
-      }
-      if (this.destroyed || !this.showRetryDialog) return
-      this.stepList.push({
-        label: this.$t("transfer.transfer4"),
-        done: false,
-        fn
-      });
     },
 
     /**
@@ -870,7 +555,13 @@ export default {
             if (step.needBroadcast) {
               res = await this.broadcastHex(res)
             }
-            if (res) {
+            if (res && res.hash) {
+              updateTx.feeTxHash = res.hash;
+            }
+            await sleep(500);
+            this.stepList[i].done = true;
+            this.currentStep++;
+            /*if (res) {
               if (res.hash) {
                 // 异构链转入手续费
                 updateTx.feeTxHash = res.hash;
@@ -889,7 +580,7 @@ export default {
               this.currentStep++;
             } else {
               break;
-            }
+            }*/
           }
         }
         // 最终更新广播交易
@@ -912,7 +603,7 @@ export default {
       if (res.result && res.result.hash) {
         return { hash: res.result.hash };
       } else {
-        throw "Broadcast tx failed"
+        throw this.$t("tips.tips17")
       }
     },
     /**
@@ -936,6 +627,8 @@ export default {
         this.$message({ message: res.msg, type: "warning", duration: 2000 })
       }
     },
+
+    // 获取网络主资产余额
     async getMainAssetBalance() {
       const { fromChain, fromAddress } = this.txInfo;
       const config = JSON.parse(sessionStorage.getItem("config"));

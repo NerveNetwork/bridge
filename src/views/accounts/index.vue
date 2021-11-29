@@ -89,10 +89,10 @@ export default {
           list = list.sort((a, b) => {
             return order.indexOf(a.chain) - order.indexOf(b.chain)
           })
+          this.accountList = list
         }
       }
       console.log(list, 4564)
-      this.accountList = list
       this.loading = false;
     },
     superLong(str, len = 5) {
@@ -135,12 +135,13 @@ export default {
     ul {
       background-color: #fff;
       border-radius: 10px;
-      padding: 20px;
+      padding: 5px 20px;
     }
     ul li {
-      margin-bottom: 20px;
+      border-bottom: 1px solid #E9EBF3;
+      padding: 10px 0;
       &:last-child {
-        margin-bottom: 0;
+        border-bottom: none;
       }
       div {
         display: flex;

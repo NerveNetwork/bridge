@@ -102,6 +102,11 @@ const en = {
     tips10: "Failed to create order",
     tips11: "The current network is inconsistent with the trading network",
     tips12: "Insufficient balance",
+    tips13: "Failed to assemble cross-chain transaction",
+    tips14: "Assembled NERVE withdrawal transaction failed",
+    tips15: "Assembled cross-chain transfer transaction failed",
+    tips16: "Assembly transferring fee transaction failed",
+    tips17: "Broadcast transaction failed",
   },
 
   crossStatusType: {

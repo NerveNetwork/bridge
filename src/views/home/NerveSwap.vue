@@ -662,48 +662,22 @@ export default {
         value: str.match(/[\d|.]+/gi)[0],
       };
     },
-    async newNext() {
-      const asset = this.chooseAsset;
+    async next() {
+      const transferAsset = this.chooseAsset;
+      const mainAssetInfo = this.config[this.fromNetwork];
       const { address: addressInfo, pub } = this.currentAccount
       const transferInfo = {
         fromChain: this.fromNetwork,
         toChain: this.toNetwork,
         fromAddress: addressInfo[this.fromNetwork],
         toAddress: addressInfo[this.toNetwork],
-        transferAsset: asset,
         amount: this.amount,
         pub,
         signAddress: addressInfo.Ethereum,
-        gasPrice: this.gasPrice,
-        gasLimit: this.gasLimit
-      }
-      if (this.extraFee) {
-        transferInfo.feeInfo = {
-
-        }
-      }
-    },
-    async next() {
-      const asset = this.chooseAsset;
-      const { nerveChainId: chainId, nerveAssetId: assetId } = this.chooseAsset;
-      const mainAssetInfo = this.config[this.fromNetwork];
-      const addressInfo = this.currentAccount.address
-      const transferInfo = {
-        fromChain: this.fromNetwork,
-        toChain: this.toNetwork,
-        fromAddress: addressInfo[this.fromNetwork],
-        toAddress: addressInfo[this.toNetwork],
-        chainId: asset.chainId,
-        assetId: asset.assetId,
-        contractAddress: asset.contractAddress,
-        amount: this.amount,
-        symbol: asset.symbol,
-        pub: this.currentAccount.pub,
-        signAddress: addressInfo.Ethereum,
-        isTransferMainAsset: mainAssetInfo.symbol === asset.symbol,
-        asset,
-        gasPrice: this.gasPrice,
-        gasLimit: this.gasLimit
+        // isTransferMainAsset: mainAssetInfo.symbol === transferAsset.symbol,
+        transferAsset,
+        // gasPrice: this.gasPrice,
+        // gasLimit: this.gasLimit
       };
 
       // nerve nuls间跨链手续费
@@ -711,19 +685,107 @@ export default {
       const from = transferInfo.fromAddress;
       const to = transferInfo.toAddress;
       const nerveAddress = addressInfo.NERVE;
-      const amount = timesDecimals(this.amount, asset.decimals);
-      const assetsId = assetId === 0 ? asset.assetId : assetId; //nuls上的token资产通过getAssetNerveInfo查出来assetId为0
+      const amount = timesDecimals(this.amount, transferAsset.decimals);
+      const assetsId = transferAsset.nerveAssetId === 0 ? transferAsset.assetId : transferAsset.nerveAssetId; //nuls上的token资产通过getAssetNerveInfo查出来assetId为0
       // nerve nuls跨链
       const crossInfo = {
         from,
         to,
-        assetsChainId: chainId,
-        assetsId, 
+        assetsChainId: transferAsset.nerveChainId,
+        assetsId,
         amount,
         fee: baseCrossFee,
         // type: 10
       }
-      // 跨链转入
+      if (this.fromNetwork === "NERVE") {
+        if (this.toNetwork === "NULS") {
+          transferInfo.crossInfo = crossInfo
+        } else {
+          const proposalPrice = timesDecimals(
+            this.withdrawalNVTFee,
+            MAIN_INFO.decimal
+          );
+          const heterogeneousChain_Out = transferAsset.heterogeneousList.filter(
+            (v) => v.chainName === this.toNetwork
+          )[0];
+          const txData = {
+            heterogeneousAddress: addressInfo[this.toNetwork],
+            heterogeneousChainId: heterogeneousChain_Out.heterogeneousChainId,
+          };
+          transferInfo.crossOutInfo = {
+            from: nerveAddress,
+            assetsChainId: transferAsset.nerveChainId,
+            assetsId,
+            amount,
+            fee: 0,
+            proposalPrice,
+            txData,
+            // type: 43
+          }
+        }
+      } else if (this.fromNetwork === "NULS") {
+        if (transferAsset.contractAddress) {
+          // nuls合约资产跨链
+          const price = 25;
+          transferInfo.NULSContractInfo = {
+            from,
+            assetsChainId: NULS_INFO.chainId,
+            assetsId: NULS_INFO.assetId,
+            amount: Plus(20000000, Times(this.NULSContractGas, price)).toFixed(),
+            toContractValue: 10000000,
+            to: transferAsset.contractAddress,
+            txData: this.NULSContractTxData,
+            fee: timesDecimals(0.1, MAIN_INFO.decimal),
+            // type: 16
+          }
+        } else {
+          crossInfo.to = nerveAddress
+          transferInfo.crossInfo = crossInfo
+        }
+        if (this.toNetwork !== "NERVE") {
+          // 另外转入一笔nuls作为闪兑nvt手续费
+          transferInfo.crossInForSwapInfo = {
+            from,
+            to: nerveAddress,
+            assetsChainId: NULS_INFO.chainId,
+            assetsId: NULS_INFO.assetId,
+            amount: timesDecimals(this.extraFee, NULS_INFO.decimal),
+            fee: baseCrossFee,
+            // type: 10
+          }
+        }
+      } else {
+        // 异构链跨链转入nerve
+        const heterogeneousChain_In = transferAsset.heterogeneousList.filter(
+          (v) => v.chainName === this.fromNetwork
+        )[0];
+        transferInfo.crossInInfo = {
+          multySignAddress: heterogeneousChain_In.heterogeneousChainMultySignAddress,
+          nerveAddress: nerveAddress,
+          numbers: this.amount,
+          fromAddress: from,
+          contractAddress: heterogeneousChain_In.contractAddress,
+          decimals: transferAsset.decimals,
+          gasLimit: this.gasLimit,
+          gasPrice: this.gasPrice
+        };
+        if (this.toNetwork !== "NERVE") {
+          // 另外转入一笔主资产作为闪兑nvt手续费
+          transferInfo.crossInForSwapInfo = {
+            multySignAddress: mainAssetInfo.config.crossAddress,
+            nerveAddress: nerveAddress,
+            numbers: this.extraFee,
+            fromAddress: from,
+            // contractAddress: mainAssetInfo.contractAddress,
+            decimals: mainAssetInfo.decimal,
+            gasLimit: gasLimitConfig.default,
+            gasPrice: this.gasPrice
+          };
+
+        }
+      }
+
+      /*// 跨链转入
       // 提现
       let crossOutInfo
       if (this.withdrawalNVTFee) {
@@ -731,7 +793,7 @@ export default {
           this.withdrawalNVTFee,
           MAIN_INFO.decimal
         );
-        const heterogeneousChain_Out = asset.heterogeneousList.filter(
+        const heterogeneousChain_Out = transferAsset.heterogeneousList.filter(
           (v) => v.chainName === this.toNetwork
         )[0];
         const txData = {
@@ -740,7 +802,7 @@ export default {
         };
         crossOutInfo = {
           from: nerveAddress,
-          assetsChainId: chainId,
+          assetsChainId: transferAsset.nerveChainId,
           assetsId,
           amount,
           fee: 0,
@@ -751,7 +813,7 @@ export default {
       }
 
       //手续费不够，需要闪兑
-      let swapInfo, crossInForSwapInfo
+      let crossInForSwapInfo
       if (this.extraFee) {
         const fromChainInfo = this.config[this.fromNetwork];
         if (this.fromNetwork !== "NULS") {
@@ -777,23 +839,6 @@ export default {
             // type: 10
           }
         }
-
-        const { nerveChainId: chainId, nerveAssetId: assetId } = this.chooseAsset;
-
-        swapInfo = {
-          fromToken: {
-            symbol: swapSymbolConfig[fromChainInfo.symbol],
-            chainId,
-            assetId
-          },
-          toToken: {
-            symbol: "NVT",
-            chainId: MAIN_INFO.chainId,
-            assetId: MAIN_INFO.assetId
-          },
-          fromAmount: timesDecimals(this.extraFee, fromChainInfo.decimal),
-          address: nerveAddress
-        }
       }
 
       if (this.fromNetwork === "NERVE") {
@@ -806,13 +851,13 @@ export default {
         if (this.chooseAsset.contractAddress) {
           // nuls合约资产跨链
           const price = 25;
-          transferInfo.NULSContracInfo = {
+          transferInfo.NULSContractInfo = {
             from,
             assetsChainId: NULS_INFO.chainId,
             assetsId: NULS_INFO.assetId,
             amount: Plus(20000000, Times(this.NULSContractGas, price)).toFixed(),
             toContractValue: 10000000,
-            to: asset.contractAddress,
+            to: transferAsset.contractAddress,
             txData: this.NULSContractTxData,
             fee: timesDecimals(0.1, MAIN_INFO.decimal),
             // type: 16
@@ -824,13 +869,12 @@ export default {
         if (this.toNetwork !== "NERVE") {
           if (this.extraFee) {
             transferInfo.crossInForSwapInfo = crossInForSwapInfo;
-            transferInfo.swapInfo = swapInfo;
           }
           transferInfo.crossOutInfo = crossOutInfo
         }
       } else {
         // 异构链跨链转入nerve
-        const heterogeneousChain_In = asset.heterogeneousList.filter(
+        const heterogeneousChain_In = transferAsset.heterogeneousList.filter(
           (v) => v.chainName === this.fromNetwork
         )[0];
         transferInfo.crossInInfo = {
@@ -839,14 +883,13 @@ export default {
           numbers: this.amount,
           fromAddress: from,
           contractAddress: heterogeneousChain_In.contractAddress,
-          decimals: asset.decimals,
+          decimals: transferAsset.decimals,
           gasLimit: this.gasLimit,
           gasPrice: this.gasPrice
         };
         if (this.toNetwork !== "NERVE") {
           if (this.extraFee) {
             transferInfo.crossInForSwapInfo = crossInForSwapInfo;
-            transferInfo.swapInfo = swapInfo;
           }
           if (this.toNetwork !== "NULS") {
             transferInfo.crossOutInfo = crossOutInfo
@@ -855,7 +898,7 @@ export default {
             transferInfo.crossInfo = crossInfo
           }
         }
-      }
+      }*/
       sessionStorage.setItem("transferInfo", JSON.stringify(transferInfo));
       this.$router.push({
         name: "transfer",

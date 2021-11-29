@@ -86,12 +86,12 @@ export default {
     async initTransfer() {
       // nerve作为中转链时,固定的中转nerve地址
       const crossAddressMap = JSON.parse(localStorage.getItem("crossAddressMap"))
-      if (!crossAddressMap) {
+      if (!crossAddressMap || !crossAddressMap.crossNerveAddress) {
         this.$message({
-          message: 'Unknown error',
+          message: 'Get Nerve Address Error',
           type: "warning"
         })
-        this.$router.push("/")
+        this.$router.replace("/")
       }
       const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
       try {
@@ -101,35 +101,35 @@ export default {
           crossInfo, //普通nerve nuls跨链信息
           crossOutInfo, // 提现
           crossInInfo, // 异构链转入
-          NULSContracInfo, // nuls 合约token跨链
+          NULSContractInfo, // nuls 合约token跨链
           crossInForSwapInfo, // 闪兑资产
-          swapInfo, // 闪兑交易
         } = this.sessionInfo;
+        let errorMsg = this.$t("tips.tips13")
         if (fromChain === "NERVE") {
-          let type, transferInfo;
+          let type, transferInfo, errorMsg;
           if (toChain === "NULS") {
             type = 10;
             transferInfo = crossInfo;
           } else {
             type = 43;
             transferInfo = crossOutInfo;
+            errorMsg = this.$t("tips.tips14")
           }
           const txData = transferInfo.txData || {}
           await this.constructTx(
-            fromChain, type, transferInfo, txData, this.$t("transfer.transfer5"), true
+            fromChain, type, transferInfo, txData, this.$t("transfer.transfer5"), errorMsg
           )
         } else if (fromChain === "NULS") {
           let type, transferInfo;
-          if (NULSContracInfo) {
+          if (NULSContractInfo) {
             type = 16;
-            transferInfo = NULSContracInfo;
+            transferInfo = NULSContractInfo;
           } else {
             type = 10;
             transferInfo = crossInfo;
           }
           const txData = transferInfo.txData || {};
           if (toChain !== "NERVE") {
-            if (!crossAddress_Nerve) throw "Unknown error"
             if (type === 16) {
               txData.args[0] = [crossAddress_Nerve] // 跨链合约资产时
             } else {
@@ -138,39 +138,38 @@ export default {
           }
           // 转入
           await this.constructTx(
-            fromChain, type, transferInfo, txData, this.$t("transfer.transfer2"), true
+            fromChain, type, transferInfo, txData, this.$t("transfer.transfer2"), errorMsg
           )
           if (toChain !== "NERVE") {
-            if (swapInfo) {
-              if (!crossAddress_Nerve) throw "Unknown error"
-              // 转入一笔主资产用于闪兑手续费
-              crossInForSwapInfo.to = crossAddress_Nerve // 使用中转地址
-              await this.constructTx(
-                fromChain, 10, crossInForSwapInfo, {}, this.$t("transfer.transfer3"), true
-              )
-            }
-            
+            // 转入一笔主资产用于闪兑手续费
+            crossInForSwapInfo.to = crossAddress_Nerve // 使用中转地址
+            errorMsg = this.$t("tips.tips16")
+            await this.constructTx(
+              fromChain, 10, crossInForSwapInfo, {}, this.$t("transfer.transfer3"), errorMsg
+            )
           }
         } else {
+          errorMsg = this.$t("tips.tips15")
           if (toChain !== "NERVE") {
-            if (!crossAddress_Nerve) throw "Unknown error"
             crossInInfo.nerveAddress = crossAddress_Nerve // 使用中转地址
-            // 异构链转入
-            await this.constructCrossInTx(crossInInfo, this.$t("transfer.transfer2"));
-            if (swapInfo) {
-              // 转入一笔主资产用于闪兑手续费
-              crossInForSwapInfo.nerveAddress = crossAddress_Nerve // 使用中转地址
-              await this.constructCrossInTx(crossInForSwapInfo, this.$t("transfer.transfer3"));
-            }
+            await this.constructCrossInTx(crossInInfo, this.$t("transfer.transfer2"), errorMsg);
+            // 转入一笔主资产用于闪兑手续费
+            crossInForSwapInfo.nerveAddress = crossAddress_Nerve // 使用中转地址
+            errorMsg = this.$t("tips.tips16")
+            await this.constructCrossInTx(crossInForSwapInfo, this.$t("transfer.transfer3"), errorMsg);
           } else {
-            // 异构链转入
-            await this.constructCrossInTx(crossInInfo, this.$t("transfer.transfer2"));
+            await this.constructCrossInTx(crossInInfo, this.$t("transfer.transfer2"), errorMsg);
           }
+
         }
         this.runTransfer();
       } catch (e) {
         console.log(e, "===组装交易失败===");
-        this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
+        this.$message({
+          message: e,
+          type: "warning",
+          duration: 2000
+        });
         setTimeout(() => {
           this.$router.replace("/")
         }, 2000)
@@ -179,50 +178,58 @@ export default {
     },
 
     /**
-     * @desc 组装nerve nuls普通跨链，token跨链交易
-     * @param needBroadcast 是否需要自己先广播
+     * @desc 组装nerve nuls普通跨链，token跨链, nerve提现到L1交易
      */
-    async constructTx(chain, type, transferInfo, txData, label, needBroadcast) {
-      const fn = async (hash) => {
-        const { pub, signAddress } = this.sessionInfo
-        const transfer = new NTransfer({ chain, type });
-        // nuls往异构链转账时，如果需要转入手续费，则第二条转入手续交易的nonce由第一条的hash来计算
-        if (hash) {
-          transferInfo.nonce = hash.slice(-16)
+    async constructTx(chain, type, transferInfo, txData, label, errorMsg) {
+      try {
+        const fn = async (hash) => {
+          const { pub, signAddress } = this.sessionInfo
+          const transfer = new NTransfer({ chain, type });
+          // nuls往异构链转账时，如果需要转入手续费，则第二条转入手续交易的nonce由第一条的hash来计算
+          if (hash) {
+            transferInfo.nonce = hash.slice(-16)
+          }
+          const inputOutput = await transfer.inputsOrOutputs(transferInfo);
+          const data = {
+            inputs: inputOutput.inputs,
+            outputs: inputOutput.outputs,
+            txData,
+            pub,
+            signAddress,
+          };
+          this.firstNULSHash = "";
+          return await transfer.getTxHex(data);
         }
-        const inputOutput = await transfer.inputsOrOutputs(transferInfo);
-        const data = {
-          inputs: inputOutput.inputs,
-          outputs: inputOutput.outputs,
-          txData,
-          pub,
-          signAddress,
+        const step = {
+          label,
+          done: false,
+          fn,
+          needBroadcast: true // 需要自己调用rpc广播
         };
-        this.firstNULSHash = "";
-        return await transfer.getTxHex(data);
+        this.stepList.push(step);
+      } catch (e) {
+        throw errorMsg
       }
-      const step = {
-        label,
-        done: false,
-        fn,
-        needBroadcast
-      };
-      this.stepList.push(step);
     },
 
     // 组装异构链跨链转入交易
-    async constructCrossInTx(crossInInfo, label) {
-      const transfer = new ETransfer();
-      const fn = async () => await transfer.crossIn(crossInInfo);
-      const step = {
-        label,
-        done: false,
-        fn
-      };
-      this.stepList.push(step);
+    async constructCrossInTx(crossInInfo, label, errorMsg) {
+      try {
+        const transfer = new ETransfer();
+        const fn = async () => await transfer.crossIn(crossInInfo);
+        const step = {
+          label,
+          done: false,
+          fn
+        };
+        this.stepList.push(step);
+      } catch (e) {
+        throw errorMsg
+      }
     },
     async runTransfer() {
-      const { fromChain, toChain, fromAddress, toAddress, chainId, assetId, contractAddress, amount, symbol } = this.sessionInfo;
+      const { fromChain, toChain, fromAddress, toAddress, transferAsset, amount } = this.sessionInfo;
+      const { chainId, assetId, contractAddress, symbol } = transferAsset
       const broadcastData = {
         fromChain,
         toChain,
@@ -252,8 +259,7 @@ export default {
           if (!step.done) {
             //  调用metamask转账/签名hash
             let res = await step.fn(this.firstNULSHash);
-            // console.log(res, 123);
-            // 广播nuls转入nerve的交易, 转账交易、转入闪兑手续费交易
+            // 广播nuls、nerve的跨链, nerve提现交易
             if (step.needBroadcast) {
               res = await this.broadcastHex(res)
             }
@@ -273,13 +279,13 @@ export default {
                   await this.updateTx(updateTx, true)
                 }
               } else {
-                if (updateTx.feeTxHash && !updateTx.convertTxHex) {
+                /*if (updateTx.feeTxHash && !updateTx.convertTxHex) {
                   // 兑换手续费
                   updateTx.convertTxHex = res
                 } else {
                   // nerve转出
                   updateTx.crossTxHex = res
-                }
+                }*/
               }
               await sleep(500);
               this.stepList[i].done = true;
@@ -292,15 +298,14 @@ export default {
         // 最终更新广播交易
         await this.updateTx(updateTx)
       } catch (e) {
-          if (updateTx.txHash) {
-            reportError(updateTx.txHash, e.toString() + JSON.stringify(e))
-          }
-          if (this.destroyed) return;
-          this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
-          setTimeout(() => {
-            this.$router.replace("/")
-          }, 2000)
-        // }
+        if (updateTx.txHash) {
+          reportError(updateTx.txHash, e.toString() + JSON.stringify(e))
+        }
+        if (this.destroyed) return;
+        this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
+        setTimeout(() => {
+          this.$router.replace("/")
+        }, 2000)
       }
     },
     //广播nerve nuls跨链转账交易
@@ -312,7 +317,7 @@ export default {
       if (res.result && res.result.hash) {
         return { hash: res.result.hash };
       } else {
-        throw "广播nerve nuls交易失败"
+        throw this.$t("tips.tips17")
       }
     },
     // 将交易txHash及其他基本信息发给后台已记录该交易
@@ -326,7 +331,7 @@ export default {
         });
         if (this.destroyed) return
         if (res.code !== 1000) {
-          throw "交易失败"
+          throw res.msg
         }
       } catch(e) {
         console.log(e, this.countResent);
@@ -356,16 +361,19 @@ export default {
           type: "success",
           duration: 2000
         })
+        setTimeout(() => {
+          this.$router.replace("/tx-detail?txHash=" + data.txHash)
+        }, 2000)
       } else {
         this.$message({
           message: res.msg,
           type: "warning",
           duration: 2000
         })
+        setTimeout(() => {
+          this.$router.replace("/")
+        }, 2000)
       }
-      setTimeout(() => {
-        this.$router.replace("/tx-detail?txHash=" + data.txHash)
-      }, 2000)
     }
   },
 };
