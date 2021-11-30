@@ -65,12 +65,16 @@ const erc20BalanceAbiFragment = [
  * @param contractList 需要查询的合约资产地址list
  * @param userAddress 用户L1网络地址
  * @param multiCallAddress 当前L1网络下面的批量查询合约地址
+ * @param rpcUrl 当前L1网络RPC
  * @returns tokensRes {Promise<*>} 当前返回的批量查询数据
  */
-export async function getERC20AssetsBalance(contractList, userAddress, multiCallAddress) {
+export async function getERC20AssetsBalance(contractList, userAddress, multiCallAddress, rpcUrl) {
   try {
-    const web3 = new Web3(window.ethereum);
+    const web3 = new Web3(rpcUrl);
+    // const walletType = localStorage.getItem("walletType")
+    // const web3 = new Web3(window[walletType]);
     const multiCall = new MultiCall(web3, multiCallAddress);
+    // console.log(contractList, userAddress, 6666333322, multiCallAddress)
     const tokens = contractList.map(address => {
       const token = new web3.eth.Contract(erc20BalanceAbiFragment, address);
       return {
@@ -80,12 +84,21 @@ export async function getERC20AssetsBalance(contractList, userAddress, multiCall
         decimals: address === multiCallAddress ? '' : token.methods.decimals()
       }
     });
+    /*const token = new web3.eth.Contract(erc20BalanceAbiFragment, "0x04f8e3b9a7de4d3f90a0bd34325c35433d94482d");
+    const tokens = [{
+      balance: token.methods.balanceOf(userAddress), //token.methods.getEthBalance(userAddress),
+      symbol: token.methods.symbol(),
+      contractAddress: "0x04f8e3b9a7de4d3f90a0bd34325c35433d94482d",
+      decimals: token.methods.decimals()
+    }]
+    console.log(tokens, 4564564)*/
     const [tokensRes] = await multiCall.all([tokens]);
     // tokensRes.map(v => {
     //   v.available = v.balance
     // })
     return tokensRes;
   } catch (e) {
+    console.log(e, 132)
     return []
   }
 }

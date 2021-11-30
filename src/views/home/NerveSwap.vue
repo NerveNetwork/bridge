@@ -58,7 +58,7 @@
     <div class="amount-info">
       <div class="label-wrap mb_5">
         <span class="text-label">{{ $t("public.amount") }}</span>
-        <span class="text-label">{{ $t("home.home3") }} {{ available }}</span>
+        <span class="text-label">{{ $t("home.home3") }} {{ fixedAvaliable }}</span>
       </div>
       <div class="border-wrap">
         <el-input
@@ -245,6 +245,10 @@ export default {
     showSpeedUp() {
       const parallelChain = ["NERVE", "NULS"]
       return !(parallelChain.indexOf(this.fromNetwork) > -1 && parallelChain.indexOf(this.toNetwork) > -1);
+    },
+    fixedAvaliable() {
+      if (!this.available) return 0;
+      return fixNumber(this.available, 6)
     }
   },
 
@@ -323,6 +327,7 @@ export default {
           return a.symbol.toLowerCase() > b.symbol.toLowerCase() ? 1 : -1
         });
         const config = JSON.parse(sessionStorage.getItem("config"));
+        const psUrl = config[this.fromNetwork].apiUrl;
         data.map(v => {
           // 去除ETH资产contractAddress为ETH
           v.contractAddress = v.contractAddress && v.assetId !== 1 ? v.contractAddress : "";
@@ -346,12 +351,12 @@ export default {
             })
           }
           const chainId = config[this.fromNetwork].chainId;
-          const psUrl = config[this.fromNetwork].apiUrl;
           const tokenInfo = await getNAssetsBalance(psUrl, chainId, this.fromAddress, assetsInfo)
           data.map(v => {
             tokenInfo.map(token => {
               if (v.chainId === token.assetChainId && v.assetId === token.assetId) {
                 v.balance = divisionDecimals(token.balance, v.decimals)
+                v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
               }
             })
           })
@@ -361,17 +366,19 @@ export default {
           const contractList = data.map(v => {
             return v.contractAddress || multiCallAddress
           })
-          const tokenInfo = await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress)
+          const tokenInfo = await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl)
           // console.log(tokenInfo, "tokenInfo-erc")
           data.map(v => {
             tokenInfo.map(token => {
               if (v.contractAddress) {
                 if (v.contractAddress === token.contractAddress) {
                   v.balance = divisionDecimals(token.balance, token.decimals)
+                  v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
                 }
               } else {
                 if (!token.contractAddress) {
                   v.balance = divisionDecimals(token.balance, 18)
+                  v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
                 }
               }
             })
@@ -907,6 +914,12 @@ export default {
     // 验证主资产余额是否够转账,手续费
     async checkAmountFee() {
       let flag = true;
+      // 验证可用余额
+      if (Minus(this.amount, this.available) > 0) {
+        // 验证可用余额
+        this.amountMsg = this.$t("home.home7");
+        return;
+      }
       const asset = this.chooseAsset;
       const assetSymbol = asset.symbol;
       const mainAssetInfo = this.config[this.fromNetwork]; // 发起链
@@ -928,8 +941,6 @@ export default {
         const { value } = this.splitFeeSymbol(this.fee);
         flag = await this.checkFee(value, isMainAsset)
       }
-      // 验证可用余额
-      if (Minus(this.amount, this.available) > 0) flag = false;
       this.amountMsg = flag ? "" : this.$t("home.home7");
     },
     // 验证主资产是否够手续费/手续费+转账数量
@@ -1018,7 +1029,7 @@ export default {
     border: 1px solid #CED3E5;
     border-radius: 10px;
     padding: 0 20px 0 15px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   .text-label {
     color: #99A3C4;
@@ -1184,7 +1195,7 @@ export default {
     }
   }
   .fee {
-    margin-top: 15px;
+    margin-top: 20px;
     margin-bottom: 30px;
     .label {
       color: #99A3C4;

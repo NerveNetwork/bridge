@@ -408,9 +408,9 @@ export default {
         await this.constructCrossInTx(crossAddress_Nerve, this.fee);
         this.runTransfer();
       } catch (e) {
-        console.log(e, "eee", e.toString())
+        console.log("error: " + e.toString() + JSON.stringify(e));
         reportError(this.txInfo.txHash, e.toString() + JSON.stringify(e))
-        this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });
+        this.$message({ message: this.$t("tips.tips16"), type: "warning", duration: 2000 });
         this.showRetryDialog = false;
       }
       this.retryLoading = false;
@@ -586,7 +586,7 @@ export default {
         // 最终更新广播交易
         await this.updateTx(updateTx)
       } catch (e) {
-        console.log("error: " + e);
+        console.log("error: " + e.toString() + JSON.stringify(e));
         reportError(this.txInfo.txHash, e.toString() + JSON.stringify(e))
         if (this.destroyed) return;
         this.$message({ message: this.$t("tips.tips6"), type: "warning", duration: 2000 });

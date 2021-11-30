@@ -165,6 +165,7 @@
           } else {
             network = "NERVE"
           }
+          this.$store.commit("changeIsWrongChain", false);
           this.$store.commit("changeNetwork", network)
         }
       },

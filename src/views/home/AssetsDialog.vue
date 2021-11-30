@@ -36,7 +36,7 @@
           <img src="../../assets/img/balance-loading.svg" alt="">
         </div>
         <div class="balance" v-else>
-          <span>{{ item.balance }}</span>
+          <span>{{ item.fixedBalance }}</span>
         </div>
       </li>
     </ul>
@@ -150,6 +150,7 @@ export default {
       //height: 55px;
       padding: 12px 0;
       border-bottom: 1px solid #E9EBF3;
+      overflow: hidden;
       &:hover {
         // background-color: rgb(224, 217, 235);
       }

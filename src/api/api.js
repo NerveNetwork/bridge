@@ -439,13 +439,15 @@ export class ETransfer {
 
   getProvider(chain) {
     if (!this.walletType) return null;
+    const config = JSON.parse(sessionStorage.getItem("config"));
     if (!chain) {
       this.provider = new ethers.providers.Web3Provider(window[this.walletType]);
     } else {
       if (chain === "Ethereum") {
         this.provider = ethers.getDefaultProvider(ETHNET);
       } else {
-        this.provider =  new ethers.providers.JsonRpcProvider(RPC_URL[chain][ETHNET]);
+        // this.provider =  new ethers.providers.JsonRpcProvider(RPC_URL[chain][ETHNET]);
+        this.provider =  new ethers.providers.JsonRpcProvider(config[chain].apiUrl);
       }
     }
   }
