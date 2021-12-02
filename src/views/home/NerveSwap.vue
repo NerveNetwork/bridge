@@ -270,7 +270,7 @@ export default {
         fromChain: "",
         toChain: "",
         addressList: [addressObj.BSC, addressObj.NERVE, addressObj.NULS],
-        pageSize: 10,
+        pageSize: 20,
         pageNumber: 1
       }
       const res = await this.$request({

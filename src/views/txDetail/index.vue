@@ -157,6 +157,7 @@ import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import BufferReader from "nerve-sdk-js/lib/utils/bufferreader";
 import txs from "nerve-sdk-js/lib/model/txs";
 import { ethers } from 'ethers'
+import {getCrossAddress} from '@/api/getDefaultConfig'
 
 
 // function getCurrentAccount(address) {
@@ -372,17 +373,13 @@ export default {
       this.retryLoading = true;
       this.currentStep = 1;
       this.stepList = [];
-      // nerve作为中转链时,固定的中转nerve地址
-      const crossAddressMap = JSON.parse(localStorage.getItem("crossAddressMap"))
-      if (!crossAddressMap || !crossAddressMap.crossNerveAddress) {
-        this.$message({
-          message: 'Get Nerve Address Error',
-          type: "warning"
-        })
-        return;
-      }
-      const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
       try {
+        // nerve作为中转链时,固定的中转nerve地址
+        const crossAddressMap = await getCrossAddress();
+        if (!crossAddressMap || !crossAddressMap.crossNerveAddress) {
+          throw this.$t("tips.tips18")
+        }
+        const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
         const { amount, fromAddress, fromChain } = this.txInfo;
         const currentAccount = getCurrentAccount(fromAddress);
         this.signInfo = {

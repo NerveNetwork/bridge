@@ -5,7 +5,7 @@ import store from './store'
 import i18n from './i18n'
 import {post, request} from './api/https'
 import { toThousands, isBeta } from "./api/util";
-import { getChainConfig, getCrossAddress, setChainConfig, defaultConfig } from '@/api/getDefaultConfig'
+import { getChainConfig, setChainConfig, defaultConfig } from '@/api/getDefaultConfig'
 import { hackAddChain } from '@/api/hackAddChain'
 // import './api/rem'
 // import VConsole from 'vconsole'
@@ -38,8 +38,6 @@ async function setConfig() {
   const apiConfig = await getChainConfig();
   // 接口返回的config
   const config = setChainConfig(apiConfig);
-  // 获取nerve地址
-  await getCrossAddress();
   // 新添加链后同步更新本地地址
   hackAddChain(config);
 }

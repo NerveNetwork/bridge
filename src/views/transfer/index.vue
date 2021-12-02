@@ -37,6 +37,7 @@ import { MAIN_INFO, NULS_INFO } from "@/config"
 import BufferReader from "nerve-sdk-js/lib/utils/bufferreader";
 import txs from "nerve-sdk-js/lib/model/txs";
 import { genID } from "@/api/util"
+import { getCrossAddress } from '@/api/getDefaultConfig';
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -84,17 +85,13 @@ export default {
 
   methods: {
     async initTransfer() {
-      // nerve作为中转链时,固定的中转nerve地址
-      const crossAddressMap = JSON.parse(localStorage.getItem("crossAddressMap"))
-      if (!crossAddressMap || !crossAddressMap.crossNerveAddress) {
-        this.$message({
-          message: 'Get Nerve Address Error',
-          type: "warning"
-        })
-        this.$router.replace("/")
-      }
-      const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
       try {
+        // nerve作为中转链时,固定的中转nerve地址
+        const crossAddressMap = await getCrossAddress();
+        if (!crossAddressMap || !crossAddressMap.crossNerveAddress) {
+          throw this.$t("tips.tips18")
+        }
+        const crossAddress_Nerve = crossAddressMap.crossNerveAddress;
         const {
           fromChain,
           toChain,

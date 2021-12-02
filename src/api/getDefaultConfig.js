@@ -44,10 +44,11 @@ export async function getCrossAddress() {
   try {
     const res = await request({url: '/api/common/config', method: 'get'})
     if (res.code === 1000) {
-      localStorage.setItem('crossAddressMap', JSON.stringify(res.data))
+      return res.data;
+    } else {
+      return null;
     }
   } catch (e) {
-    console.error('获取crossAddressMap失败' + e);
-    localStorage.removeItem('crossAddressMap');
+    return null;
   }
 }
