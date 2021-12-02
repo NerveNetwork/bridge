@@ -69,7 +69,7 @@ const cn = {
     txList7: "兑换资产",
     txList8: "接收资产",
     txList9: "等待支付手续费",
-    txList10: "立即支付",
+    txList10: "继续发送",
   },
   txDetail: {
     txDetail1: "交易详情",
@@ -78,7 +78,8 @@ const cn = {
     txDetail4: "继续发送",
     txDetail5: "待支付手续费",
     txDetail6: "可用余额",
-    txDetail7: " (预计5-10分钟)"
+    txDetail7: " (预计5~10分钟)",
+    txDetail8: "使用支持",
   },
   transfer: {
     transfer1: "转账",

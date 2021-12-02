@@ -120,9 +120,9 @@
         this.$emit("loadMoreTx");
       },
       checkStatus(status) {
-        const hideStatus = [8, 4, 7, 9]
+        const pendingStatus = [0, 1, 2, 3, 5, 6]
         // console.log(status, hideStatus.indexOf(status), 52)
-        return hideStatus.indexOf(status) < 0
+        return pendingStatus.indexOf(status) > -1;
       },
       // getTxStatus(status) {
       //   const failStatus = [4, 7, 9]

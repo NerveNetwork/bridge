@@ -16,7 +16,7 @@
               <span>{{ $t('header.header2') }}</span>
             </li>
             <li>
-              <a href="https://swap.nabox.io/" :target="isMobile && '_self' || '_blank'">
+              <a href="https://swapbox.nabox.io/" :target="isMobile && '_self' || '_blank'">
                 <i class="iconfont icon-swapbox"></i>
                 <span>SwapBox</span>
               </a>
@@ -44,6 +44,9 @@
               </a>
               <a href="https://discord.gg/PBkHeD7" :target="isMobile && '_self' || '_blank'" style="padding-top: 1px">
                 <img style="padding-top: 2px;" src="../assets/img/Discord.svg" alt="">
+              </a>
+              <a href="https://twitter.com/nerve_network" :target="isMobile && '_self' || '_blank'">
+                <img src="../assets/img/twitter.svg" alt="">
               </a>
             </div>
             <div class="language clicks" @click="lang=lang==='cn' ? 'en' : 'cn'">

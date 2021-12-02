@@ -69,7 +69,7 @@ const en = {
     txList7: "Send asset",
     txList8: "Receive asset",
     txList9: "Payment requested",
-    txList10: "Pay now",
+    txList10: "Continue to send",
   },
   txDetail: {
     txDetail1: "Detail",
@@ -78,7 +78,8 @@ const en = {
     txDetail4: "Continue To Send",
     txDetail5: "Fees to be paid",
     txDetail6: "Available",
-    txDetail7: " (5-10 minutes expected)"
+    txDetail7: " (5~10 minutes expected)",
+    txDetail8: "User Support"
   },
   transfer: {
     transfer1: "Transfer",

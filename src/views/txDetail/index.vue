@@ -58,6 +58,9 @@
         <div class="fail-retry" v-if="showRetry">
           <el-button type="primary" @click="retry" :disabled="disableRetry">{{ retryBtnText }}</el-button>
         </div>
+        <div class="support-link">
+          <a href="https://t.me/NerveNetwork" :target="isMobile && '_self' || '_blank'">{{ $t("txDetail.txDetail8") }}</a>
+        </div>
       </div>
     </div>
     <el-dialog
@@ -180,6 +183,7 @@ export default {
     this.swftSuccessStatus = ["receive_complete"];
     this.swftFailStatus = ["timeout", "ERROR/error", "wait_refund_send", "wait_refund_confirm", "refund_complete", "WAIT_KYC"];
     this.swftPendingStatus = ["wait_deposit_send", "wait_exchange_push", "wait_exchange_return", "wait_receive_send", "wait_receive_confirm"];
+    this.isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)
     return {
       loading: true,
       txInfo: {},
@@ -715,6 +719,15 @@ export default {
   .fail-retry {
     .el-button {
       width: 100%;
+    }
+  }
+  .support-link {
+    text-align: center;
+    padding: 30px 0 0;
+    margin-bottom: -10px;
+    a {
+      color: #18CCB1;
+      font-size: 14px;
     }
   }
   .retry-dialog {

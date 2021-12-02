@@ -279,12 +279,15 @@ export default {
       });
       if (res.code === 1000) {
         const list = []
+        const pendingStatus = [0, 1, 2, 3, 5, 6]
         res.data.records.map(v=> {
           v.createTime = v.createTime.substring(5)
           const { feeTxHash, convertSymbol, status } = v;
-          if (status <= 2 && convertSymbol && !feeTxHash) {
-            // 未转入手续费
-            v.needFee = true;
+          if (pendingStatus.indexOf(status) > -1) {
+            if (status <= 2 && convertSymbol && !feeTxHash) {
+              // 未转入手续费
+              v.needFee = true;
+            }
             list.push(v)
           }
         })
