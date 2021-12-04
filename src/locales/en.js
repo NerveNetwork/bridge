@@ -109,6 +109,7 @@ const en = {
     tips16: "Assembly transferring fee transaction failed",
     tips17: "Broadcast transaction failed",
     tips18: "Failed to get cross-chain configuration",
+    tips19: "Cross-chain channels need to be upgraded and maintained"
   },
 
   crossStatusType: {

@@ -109,6 +109,7 @@ const cn = {
     tips16: "组装转入网络费用交易失败",
     tips17: "广播交易失败",
     tips18: "获取跨链配置失败",
+    tips19: "跨链通道需要升级维护"
   },
 
   crossStatusType: {

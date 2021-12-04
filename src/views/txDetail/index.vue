@@ -373,6 +373,11 @@ export default {
     },
     // bridge失败重发
     async retry() {
+      console.log(1231233);
+      if (this.txInfo.fromChain === 'NULS') {
+        this.$message({ message: this.$t("tips.tips19"), type: "warning", duration: 2000 });
+        return false;
+      }
       this.showRetryDialog = true;
       this.retryLoading = true;
       this.currentStep = 1;

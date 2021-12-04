@@ -673,6 +673,10 @@ export default {
       };
     },
     async next() {
+      if (this.fromNetwork === 'NULS') {
+        this.$message({ message: this.$t("tips.tips19"), type: "warning", duration: 2000 });
+        return false;
+      }
       const transferAsset = this.chooseAsset;
       const mainAssetInfo = this.config[this.fromNetwork];
       const { address: addressInfo, pub } = this.currentAccount
@@ -1004,6 +1008,10 @@ export default {
       // return str.length > 6 ? str.slice(0, 6) + '...' : str
     },
     toTxDetail(txData) {
+      if (txData.fromChain === 'NULS') {
+        this.$message({ message: this.$t("tips.tips19"), type: "warning", duration: 2000 });
+        return false;
+      }
       this.$router.push({
         path: "/tx-detail",
         query: {
