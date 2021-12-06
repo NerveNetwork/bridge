@@ -41,7 +41,8 @@ const en = {
     home25: "Please wait for the current transaction to complete before sending the next one",
     home26: "Please select an assets",
     home27: "Pending Txs",
-    home28: "Wrong Network"
+    home28: "Wrong Network",
+    home29: "Select"
   },
   public: {
     amount: "Amount",

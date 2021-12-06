@@ -3,11 +3,17 @@
       title=""
       :visible.sync="show"
       :modal-append-to-body="false"
-      width="80%"
+      width="90%"
       top="10vh"
       class="assets-list-dialog"
       @close="$emit('input', false)"
   >
+    <div class="asset-select-header">
+      {{ $t("home.home29") }}
+      <span @click="show = false">
+        <img src="../../assets/img/back-icon.svg" alt="">
+      </span>
+    </div>
     <el-input v-model="searchVal" :placeholder="$t('home.home24')" class="search-input"></el-input>
     <ul v-if="filteredList.length">
       <li
@@ -21,15 +27,12 @@
             <img :src="getLogoSrc(item.icon)" alt="" />
           </div>
           <div class="asset-info">
-            <div class="symbol-name">
+            <div class="symbol-name">{{ item.symbol }}</div>
+            <div class="symbol-origin-chain" v-if="showRegisterChain">{{item.registerChain}}</div>
+<!--            <div class="symbol-name">
               <p>{{ item.symbol }}</p>
               <span class="origin-chain" v-if="showRegisterChain">{{item.registerChain}}</span>
-            </div>
-            <span
-              v-if="item.contractAddress && item.contractAddress.length > 20"
-            >
-              {{ $t("home.home9") + superLong(item.contractAddress) }}
-            </span>
+            </div>-->
           </div>
         </div>
         <div class="balance-loading" v-if="item.balance===undefined">
@@ -119,11 +122,27 @@ export default {
     .el-dialog {
       max-height: 60vh;
       .el-dialog__header {
-        border: none;
-        margin-bottom: 5px;
+        //border: none;
+        //margin-bottom: 5px;
+        display: none;
+      }
+      .asset-select-header {
+        margin-top: 10px;
+        position: relative;
+        text-align: center;
+        font-size: 18px;
+        padding: 10px 0;
+        span {
+          padding-top: 6px;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+        }
       }
       .el-dialog__body {
-        padding: 5px 20px 15px;
+        padding: 5px 20px 20px;
         .el-input__inner {
           border-color: #E9EBF3;
         }
@@ -132,13 +151,13 @@ export default {
     .search-input {
       margin: 10px 0;
       .el-input__inner {
-        border-radius: 20px;
+        border-radius: 10px;
         height: 40px;
         line-height: 40px;
       }
     }
     ul {
-      max-height: calc(60vh - 110px);
+      max-height: calc(60vh - 140px);
       overflow: auto;
     }
     li {
@@ -148,11 +167,14 @@ export default {
       justify-content: space-between;
       cursor: pointer;
       //height: 55px;
-      padding: 12px 0;
+      padding: 12px 8px 12px 0;
       border-bottom: 1px solid #E9EBF3;
       overflow: hidden;
       &:hover {
         // background-color: rgb(224, 217, 235);
+      }
+      &:last-of-type {
+        border-bottom: none;
       }
       .left {
         display: flex;
@@ -169,30 +191,33 @@ export default {
         }
       }
       .asset-info {
+        display: flex;
+        flex-direction: column;
+        position: relative;
         .symbol-name {
           line-height: 1;
-          display: flex;
-          align-items: center;
-          height: 16px;
-          p {
-            white-space: nowrap;
-            overflow: hidden;
-            max-width: 120px;
-            text-overflow: ellipsis;
-            font-size: 15px;
-            font-weight: bold;
-            color: #515b7d;
-          }
+          margin-bottom: 10px;
+          color: #515b7d;
+          white-space: nowrap;
+          overflow: hidden;
+          max-width: 150px;
+          text-overflow: ellipsis;
+          font-size: 15px;
+          font-weight: bold;
         }
-        span {
-          font-size: 13px;
-          color: #99a3c4;
-          &.origin-chain {
-            font-size: 20px;
-            transform: translate(-20%, 0) scale(0.5);
-            color: #5BCAF9;
-            padding: 0 5px;
-          }
+        .symbol-origin-chain {
+          border: 1px solid #5BCAF9;
+          border-radius: 4px;
+          font-size: 16px;
+          font-weight: normal;
+          color: #5BCAF9;
+          transform: translate(-20%, -10%) scale(0.5);
+          text-align: center;
+          position: absolute;
+          top: 13px;
+          left: -3px;
+          padding: 0 8px;
+          word-break: initial;
         }
       }
       .balance {
@@ -200,8 +225,9 @@ export default {
         text-align: right;
         white-space: nowrap;
         overflow: hidden;
-        max-width: 80px;
+        max-width: 150px;
         text-overflow: ellipsis;
+        margin-left: 10px;
       }
       .balance-loading {
         //display: inline-block;
