@@ -685,6 +685,7 @@ export default {
       font-size: 24px;
       text-align: center;
       margin-bottom: 30px;
+      word-break: break-all;
     }
     .info-item {
       font-size: 14px;

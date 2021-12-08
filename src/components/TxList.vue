@@ -179,6 +179,7 @@
         }
         .amount {
           font-size: 15px;
+          padding-top: 5px;
         }
       }
       .bottom {

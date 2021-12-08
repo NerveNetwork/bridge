@@ -15,12 +15,33 @@
       </span>
     </div>
     <el-input v-model="searchVal" :placeholder="$t('home.home24')" class="search-input"></el-input>
-    <ul v-if="filteredList.length">
+    <VirtualList :list="filteredList" ref="virtualList">
+      <template v-slot="scope">
+        <div @click="selectAsset(scope.item)" :class="{ active: activeId === scope.item.id, 'list-item': true }">
+          <div class="left">
+            <div class="logo-wrap">
+              <img :src="getLogoSrc(scope.item.icon)" alt="" />
+            </div>
+            <div class="asset-info">
+              <div class="symbol-name">{{ scope.item.symbol }}</div>
+              <div class="symbol-origin-chain">{{ scope.item.registerChain }}</div>
+            </div>
+          </div>
+          <div class="balance-loading" v-if="scope.item.balance===undefined">
+            <img src="../../assets/img/balance-loading.svg" alt="">
+          </div>
+          <div class="balance" v-else>
+            <span>{{ scope.item.fixedBalance }}</span>
+          </div>
+        </div>
+      </template>
+    </VirtualList>
+<!--    <ul v-if="filteredList.length">
       <li
           v-for="item in filteredList"
           :key="item.id"
           @click="selectAsset(item)"
-          :class="{ active: activeId === item.id }"
+          :class="{ active: activeId === item.id, 'list-item': true }"
       >
         <div class="left">
           <div class="logo-wrap">
@@ -29,10 +50,10 @@
           <div class="asset-info">
             <div class="symbol-name">{{ item.symbol }}</div>
             <div class="symbol-origin-chain" v-if="showRegisterChain">{{item.registerChain}}</div>
-<!--            <div class="symbol-name">
+&lt;!&ndash;            <div class="symbol-name">
               <p>{{ item.symbol }}</p>
               <span class="origin-chain" v-if="showRegisterChain">{{item.registerChain}}</span>
-            </div>-->
+            </div>&ndash;&gt;
           </div>
         </div>
         <div class="balance-loading" v-if="item.balance===undefined">
@@ -43,14 +64,18 @@
         </div>
       </li>
     </ul>
-    <p class="no-data" v-else>No Data</p>
+    <p class="no-data" v-else>No Data</p>-->
   </el-dialog>
 </template>
 
 <script>
-import { superLong, getLogoSrc } from "@/api/util";
+import { getLogoSrc } from "@/api/util";
+import VirtualList from '@/components/VirtualList'
 export default {
   name: "AssetsDialog",
+  components: {
+    VirtualList
+  },
   props: {
     value: Boolean,
     list: {
@@ -67,7 +92,8 @@ export default {
       show: false,
       searchVal: "",
       filteredList: [],
-      activeId: ""
+      activeId: "",
+      refreshVirtualList: false
     }
   },
   watch: {
@@ -77,6 +103,7 @@ export default {
     show(val) {
       if (!val) {
         this.searchVal = "";
+        this.$refs.virtualList.resetScroll();
       }
     },
     searchVal(val) {
@@ -109,10 +136,7 @@ export default {
     },
     getLogoSrc(url) {
       return getLogoSrc(url);
-    },
-    superLong(str, len = 5) {
-      return superLong(str, len);
-    },
+    }
   }
 }
 </script>
@@ -120,7 +144,7 @@ export default {
 <style lang="less">
   .assets-list-dialog {
     .el-dialog {
-      max-height: 60vh;
+      //max-height: 80vh;
       .el-dialog__header {
         //border: none;
         //margin-bottom: 5px;
@@ -160,7 +184,7 @@ export default {
       max-height: calc(60vh - 140px);
       overflow: auto;
     }
-    li {
+    .list-item {
       display: flex;
       // justify-content: space-between;
       align-items: center;

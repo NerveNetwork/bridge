@@ -427,7 +427,7 @@ export default {
           ...params,
         },
       });
-      if (asset.balance) {
+      if (asset.balance && Number(asset.balance)) {
         this.isMainAsset = this.config[this.fromNetwork].assetId === asset.assetId && this.config[this.fromNetwork].chainId === asset.chainId;
         this.available = asset.balance;
       } else {
