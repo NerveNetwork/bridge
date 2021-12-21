@@ -1008,10 +1008,10 @@ export default {
       // return str.length > 6 ? str.slice(0, 6) + '...' : str
     },
     toTxDetail(txData) {
-      if (txData.fromChain === 'NULS') {
+      /*if (txData.fromChain === 'NULS') {
         this.$message({ message: this.$t("tips.tips19"), type: "warning", duration: 2000 });
         return false;
-      }
+      }*/
       this.$router.push({
         path: "/tx-detail",
         query: {
