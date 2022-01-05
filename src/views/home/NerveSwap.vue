@@ -602,7 +602,7 @@ export default {
         contractAddress,
         decimals: this.chooseAsset.decimals
       })
-      const gasLimit = await transfer.estimateGas(tx);
+      const gasLimit = (await transfer.estimateGas(tx)).add(10000);
       // console.log(tx, 1333, gasLimit, ethers.utils.bigNumberify('150000').toHexString(), gasLimit.toHexString())
       // const isToken = assetHeterogeneousInfo.token;
       // const gasLimit = isToken ? gasLimitConfig.token : gasLimitConfig.default;
