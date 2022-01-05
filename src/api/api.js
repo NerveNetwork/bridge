@@ -38,7 +38,9 @@ export class NTransfer {
     if (!this.walletType) {
       return null
     }
-    let flat = await window[this.walletType].request({
+    const signature = await this.signHash(hash, signAddress)
+
+    /*let flat = await window[this.walletType].request({
       method: "eth_sign",
       params: [signAddress, hash]
     })
@@ -48,12 +50,11 @@ export class NTransfer {
     const s = flat.slice(64, 128);
     // const recoveryParam = flat.slice(128)
     let signature = new Signature({r, s}).toDER("hex");
-    // signature = signature.slice(2)
+    // signature = signature.slice(2)*/
 
     const signData = this.sdk.appSplicingPub(signature, pub);
     tAssemble.signatures = signData;
-    const txHex = tAssemble.txSerialize().toString("hex");
-    return txHex
+    return tAssemble.txSerialize().toString("hex");
   }
 
   async appendSignature(data) {
@@ -64,25 +65,7 @@ export class NTransfer {
     tAssemble.parse(bufferReader);
     const hash = "0x" + tAssemble.getHash().toString("hex");
 
-    /* //初始化签名对象
-    const txSignData = new txsignatures.TransactionSignatures();
-    // // 反序列化签名对象
-    const reader = new BufferReader(tAssemble.signatures, 0);
-    txSignData.parse(reader); */
-
-    let flat = await window[this.walletType].request({
-      method: "eth_sign",
-      params: [signAddress, hash]
-    })
-    // console.log(flat, 66, signAddress)
-    flat = flat.slice(2) // 去掉0x
-    const r = flat.slice(0, 64);
-    const s = flat.slice(64, 128);
-    // const recoveryParam = flat.slice(128)
-    let signature = new Signature({r, s}).toDER("hex");
-    // signature = signature.slice(2)
-    // const signData = this.sdk.appSplicingPub(signature, pub);
-
+    const signature = await this.signHash(hash, signAddress)
     //初始化签名对象
     const txSignData = new txsignatures.TransactionSignatures();
     // // 反序列化签名对象
@@ -96,8 +79,7 @@ export class NTransfer {
     }) */
     tAssemble.signatures = txSignData.serialize();
     // tAssemble.signatures = signData;
-    const txHex = tAssemble.txSerialize().toString("hex");
-    return txHex
+    return tAssemble.txSerialize().toString("hex");
   }
 
   async inputsOrOutputs(data) {
@@ -522,6 +504,34 @@ export class ETransfer {
     // return await this.sendTransaction(transactionParameters)
   }
 
+  // 组装跨链转入交易需要的txData
+  getCrossInTxData(params) {
+    const { multySignAddress, nerveAddress, numbers, fromAddress, contractAddress, decimals } = params;
+    let transactionParameters;
+    if (contractAddress) {
+      // token 转入
+      const numberOfTokens = ethers.utils.parseUnits(numbers, decimals);
+      const iface = new ethers.utils.Interface(CROSS_OUT_ABI);
+      const data = iface.functions.crossOut.encode([nerveAddress, numberOfTokens, contractAddress]);
+      transactionParameters = {
+        to: multySignAddress,
+        from: fromAddress, //验证合约调用需要from,必传
+        value: '0x00',
+        data: data
+      };
+    } else {
+      const amount = ethers.utils.parseEther(numbers).toHexString();
+      const iface = new ethers.utils.Interface(CROSS_OUT_ABI);
+      const data = iface.functions.crossOut.encode([nerveAddress, amount, '0x0000000000000000000000000000000000000000']);
+      transactionParameters = {
+        to: multySignAddress,
+        value: amount,
+        data: data
+      };
+    }
+    return transactionParameters
+  }
+
   // 普通链内转账
   async commonTransfer(params) {
     const wallet = await this.provider.getSigner();
@@ -665,6 +675,11 @@ export class ETransfer {
     return this.provider.getGasPrice().then(gasPrice => {
       return gasPrice.add(GWEI_10);
     });
+  }
+
+  // 预估交易需要的gas
+  async estimateGas(tx) {
+    return await this.provider.estimateGas(tx)
   }
 
   /**

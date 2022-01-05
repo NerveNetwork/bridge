@@ -158,7 +158,6 @@ export default {
     this.getFeeDebounce = debounce(this.getTransferFee, 1000)
     this.getAllowanceTimer = null; // 查询授权额度定时器
     this.currentAccount = null; // 当前连接的多链账户信息
-    this.config = JSON.parse(sessionStorage.getItem("config"))
     this.pendingTxTimer = null;
     return {
       toNetwork: "",
@@ -253,6 +252,7 @@ export default {
   },
 
   mounted() {
+    this.config = JSON.parse(sessionStorage.getItem("config"))
     this.getPendingTxList();
     const timer = setInterval(() =>{
       this.getPendingTxList();
@@ -591,10 +591,23 @@ export default {
       const assetHeterogeneousInfo = this.chooseAsset.heterogeneousList.filter(
         (v) => v.chainName === this.fromNetwork
       )[0];
-      const isToken = assetHeterogeneousInfo.token;
-      const gasLimit = isToken ? gasLimitConfig.token : gasLimitConfig.default;
-      this.gasLimit = ethers.utils.bigNumberify(gasLimit).toHexString()
+      const { token, heterogeneousChainMultySignAddress, contractAddress } = assetHeterogeneousInfo;
       const transfer = new ETransfer();
+      const addressInfo = this.currentAccount.address
+      const tx = transfer.getCrossInTxData({
+        fromAddress: addressInfo[this.fromNetwork],
+        multySignAddress: heterogeneousChainMultySignAddress,
+        nerveAddress: addressInfo.NERVE,
+        numbers: this.amount,
+        contractAddress,
+        decimals: this.chooseAsset.decimals
+      })
+      const gasLimit = await transfer.estimateGas(tx);
+      // console.log(tx, 1333, gasLimit, ethers.utils.bigNumberify('150000').toHexString(), gasLimit.toHexString())
+      // const isToken = assetHeterogeneousInfo.token;
+      // const gasLimit = isToken ? gasLimitConfig.token : gasLimitConfig.default;
+      // this.gasLimit = ethers.utils.bigNumberify(gasLimit).toHexString()
+      this.gasLimit = gasLimit.toHexString()
       const fee = await transfer.getGasPrice(gasLimit);
       // this.gasPrice = ethers.utils.bigNumberify(fee).div(gasLimit)
       this.gasPrice = ethers.utils.parseUnits(Division(fee, gasLimit).toFixed(), '18').toHexString()
@@ -698,7 +711,7 @@ export default {
       const baseCrossFee = timesDecimals(crossFee, MAIN_INFO.decimal);
       const from = transferInfo.fromAddress;
       const to = transferInfo.toAddress;
-      const nerveAddress = addressInfo.NERVE;
+      const nerveAddress = addressInfo.NERVE; // transfer中统一使用crossNerveAddress
       const amount = timesDecimals(this.amount, transferAsset.decimals);
       const assetsId = transferAsset.nerveAssetId === 0 ? transferAsset.assetId : transferAsset.nerveAssetId; //nuls上的token资产通过getAssetNerveInfo查出来assetId为0
       // nerve nuls跨链
