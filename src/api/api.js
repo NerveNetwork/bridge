@@ -82,6 +82,26 @@ export class NTransfer {
     return tAssemble.txSerialize().toString("hex");
   }
 
+  /**
+   * @desc 利用metamask签名hash
+   * @param hash 待签名交易hash
+   * @param signAddress 签名账户地址
+   */
+  async signHash(hash, signAddress) {
+    hash = hash.startsWith("0x") ? hash : "0x" + hash;
+    let flat = await window[this.walletType].request({
+      method: "eth_sign",
+      params: [signAddress, hash]
+    })
+    // console.log(flat, 66, signAddress)
+    flat = flat.slice(2) // 去掉0x
+    const r = flat.slice(0, 64);
+    const s = flat.slice(64, 128);
+    // const recoveryParam = flat.slice(128)
+    return new Signature({r, s}).toDER("hex");
+    // signature = signature.slice(2)
+  }
+
   async inputsOrOutputs(data) {
     if (!this.type) {
       throw "获取交易类型失败";
