@@ -3,51 +3,24 @@
 <!--    <back-bar :backTitle="$t('txList.txList1')"></back-bar>-->
     <div class="content">
       <div class="content-inner">
-<!--        <tab-switch v-model="swapType"></tab-switch>-->
-<!--        <div class="tab-wrap" v-show="swapType==='swft'" v-loading="loading1">
-          <div class="search">
-            <el-select v-model="depositCoinCode" clearable :placeholder="$t('txList.txList7')">
-              <el-option
-                v-for="item in supportList"
-                :key="item.coinId"
-                :disabled="item.coinCode === receiveCoinCode"
-                :label="item.coinCode"
-                :value="item.coinCode">
-              </el-option>
-            </el-select>
-            <el-select v-model="receiveCoinCode" clearable :placeholder="$t('txList.txList8')">
-              <el-option
-                v-for="item in supportList"
-                :key="item.coinId"
-                :disabled="item.coinCode === depositCoinCode"
-                :label="item.coinCode"
-                :value="item.coinCode">
-              </el-option>
-            </el-select>
-            <el-button @click="searchSwftList">{{ $t("public.filter") }}</el-button>
-          </div>
-          <tx-list :list="swftTxList" @toDetail="toSwftTxDetail" :total="txTotal1" :loading="txLoading1"
-                    @loadMoreTx="getSwftTxList" isSwft>
-          </tx-list>
-        </div>-->
-        <div class="tab-wrap" v-show="swapType==='nerve'" v-loading="loading">
+        <div class="tab-wrap" v-loading="loading">
           <div class="search">
             <el-select v-model="fromChain" clearable :placeholder="$t('txList.txList2')">
               <el-option
                 v-for="item in chainList"
-                :key="item.value"
+                :key="item.chain"
                 :disabled="item.value === toChain"
-                :label="item.label"
-                :value="item.value">
+                :label="item.chain"
+                :value="item.chain">
               </el-option>
             </el-select>
             <el-select v-model="toChain" clearable :placeholder="$t('txList.txList3')">
               <el-option
                 v-for="item in chainList"
-                :key="item.value"
-                :disabled="item.value === fromChain"
-                :label="item.label"
-                :value="item.value">
+                :key="item.chain"
+                :disabled="item.chain === fromChain"
+                :label="item.chain"
+                :value="item.chain">
               </el-option>
             </el-select>
             <el-button @click="searchList">{{ $t("public.filter") }}</el-button>
@@ -66,31 +39,20 @@
 // import BackBar from '@/components/BackBar';
 import TxList from "@/components/TxList";
 // import TabSwitch from "@/components/TabSwitch";
-import { valideNetwork, networkToChain } from "../home/SwftSwap"
-import moment from "moment"
-import {getCurrentAccount, superLong, supportChainList} from '@/api/util'
+import {getCurrentAccount, superLong, getChainConfigs} from '@/api/util'
 
 export default {
   data () {
-    this.chainList = supportChainList
     return {
-      swapType: "nerve",
-      loading1: true,
       loading: true,
-      depositCoinCode: "", // swft 发起兑换资产
-      receiveCoinCode: "", //swft 兑换得到资产
-      supportList: [],
       fromChain: "", //发起网络
       toChain: "", //接收网络
-      txLoading1: false,
       txLoading: false,
-      swftTxList: [],
       txList: [],
-      txTotal1: 1,
       txTotal: 1,
-      pageNumber1: 1,
       pageNumber: 1,
-      pageSize: 10
+      pageSize: 10,
+      chainList: []
     }
   },
 
@@ -117,60 +79,17 @@ export default {
     }
   },
 
-  mounted() {},
+  mounted() {
+    const configs = getChainConfigs();
+    this.chainList = Object.values(configs);
+  },
 
   methods: {
     init() {
-      // this.getCoins();
-      // this.getSwftTxList();
       this.getTxList();
     },
     superLong(str, len = 5) {
       return superLong(str, len);
-    },
-    // 获取swft支持的闪兑列表
-    async getCoins() {
-      const res = await this.$request({
-        url: "/coins"
-      });
-      if (res.msg === "success") {
-        const coins = res.data.filter(v => valideNetwork.indexOf(v.mainNetwork) > -1);
-        coins.map(v => {
-          const chain = networkToChain[v.mainNetwork]
-          v.chain = chain.chain
-          v.symbol = v.coinCode.split("(")[0]
-          /* v.chainId = chain.chainId
-          v.assetId = v.contact ? 0 : chain.assetId */
-          v.contractAddress = v.contact
-        })
-        this.supportList = coins;
-      }
-    },
-    async getSwftTxList() {
-      this.txLoading1 = true;
-      if ((this.pageNumber1 - 1) * this.pageSize > this.txTotal1) {
-        this.txLoading1 = false;
-        return;
-      }
-      const res = await this.$request({
-        url: "/list",
-        data: {
-          depositCoinCode: this.depositCoinCode,
-          receiveCoinCode: this.receiveCoinCode,
-          destinationAddr: this.address,
-          pageSize: this.pageSize,
-          pageNumber: this.pageNumber1
-        }
-      });
-      if (res.msg === "success") {
-        res.data.content.map(v=> {
-          v.createTime = moment(v.createdDate).format("MM-DD HH:mm:ss")
-        })
-        this.swftTxList = res.data.content;
-        this.txTotal1 = res.data.totalElements;
-        this.txLoading1 = false;
-      }
-      this.loading1 = false;
     },
     async getTxList() {
       this.txLoading = true;
@@ -206,27 +125,11 @@ export default {
       }
       this.loading = false;
     },
-    searchSwftList() {
-      this.pageNumber1 = 1;
-      this.txTotal1 = 0;
-      this.swftTxList = [];
-      this.getSwftTxList();
-    },
     searchList() {
       this.pageNumber = 1;
       this.txTotal = 0;
       this.txList = [];
       this.getTxList();
-    },
-    toSwftTxDetail(txData) {
-      console.log(txData, 665544)
-      this.$router.push({
-        path: "/tx-detail",
-        query: {
-          orderId: txData.orderId,
-          equipmentNo: txData.destinationAddr
-        }
-      })
     },
     toTxDetail(txData) {
       this.$router.push({

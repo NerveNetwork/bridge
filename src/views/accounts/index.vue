@@ -14,7 +14,7 @@
            <div>
             <span >
               <span class="clicks hover-bg" @click="copy(item.address)">{{ superLong(item.address) }}</span>
-              <i class="iconfont icon-lianjie clicks" @click="openUrl(item.address, item.chain)"></i>
+              <i class="iconfont icon-lianjie clicks" @click="openUrl(item.address, item.chain, item.scan)"></i>
             </span>
             <span>{{item.balance + item.symbol}}</span>
           </div>
@@ -27,7 +27,10 @@
 
 <script>
 // import BackBar from '@/components/BackBar'
-import { superLong, divisionAndFix, getLogoSrc, networkOrigin, copys, getCurrentAccount } from '@/api/util'
+import { superLong, getLogoSrc, copys, getCurrentAccount, getChainConfigs, fixNumber } from '@/api/util';
+import { getEVMBalance, getNBalance } from '@/api/api';
+
+let isLoading = false;
 export default {
   data () {
     return {
@@ -66,35 +69,68 @@ export default {
       const currentAccount = getCurrentAccount(this.address)
       if (!currentAccount) {
         this.$router.push("/")
+        isLoading = false;
         return;
       }
-      let list = []
+      if (isLoading) return;
+      isLoading = true;
+      let list = [];
       if (currentAccount) {
-        const pubKey = currentAccount.pub;
-        const accountInfo = await this.$request({
-          url: "/wallet/chain/main",
-          data: { pubKey }
-        })
-        if (accountInfo.code === 1000) {
-          accountInfo.data.map(v => {
-            list.push({
-              address: v.address,
-              chain: v.chain,
-              symbol: v.symbol,
-              balance: divisionAndFix(v.balance, v.decimals, 8),
-              icon: v.icon
-            })
-          })
-          const order = ["Ethereum", "BSC", "Polygon", "Heco", "OKExChain", "Harmony", "KCC", "NULS", "NERVE"]
-          list = list.sort((a, b) => {
-            return order.indexOf(a.chain) - order.indexOf(b.chain)
-          })
-          this.accountList = list
+        const configs = getChainConfigs();
+        const promiseList = []
+        for (let i in configs) {
+          const config = configs[i]
+          const address = currentAccount.address[config.chain]
+          let balance = 0;
+          if (Number(config.nativeId) > 0) {
+            promiseList.push(getEVMBalance(config.chain, address, ''))
+            // balance = await getEVMBalance(config.chain, address, '')
+          } else {
+            promiseList.push(getNBalance(config.chain, address, config.chainId, 1, '', 8))
+            // balance = await getNBalance(config.chain, address, config.chainId, 1, '', 8)
+          }
         }
+        const res = await Promise.all(promiseList);
+        Object.values(configs).map((config, index) => {
+          const address = currentAccount.address[config.chain]
+          list.push({
+            address: address,
+            chain: config.chain,
+            symbol: config.symbol,
+            balance: fixNumber(res[index], 8),
+            icon: config.icon,
+            scan: config.scan
+          })
+        })
+        this.accountList = list
       }
-      console.log(list, 4564)
+      // console.log(list, 4564)
+      isLoading = false;
       this.loading = false;
     },
+    /*async getEVMBalance(address, apiUrl) {
+      try {
+        const provider = new ethers.providers.JsonRpcProvider(apiUrl);
+        const balance = await provider.getBalance(address);
+        // return ethers.utils.formatEther(balance)
+        return divisionAndFix(balance, 18, 8)
+      } catch (e) {
+        return 0
+      }
+    },
+    async getNBalance(address, apiUrl, chainId) {
+      try {
+        const method = 'getAccountBalance';
+        const result = await post(apiUrl, method, [chainId, chainId, 1, address])
+        if (result.result) {
+          return divisionAndFix(result.result.balance, 8)
+        } else {
+          return 0
+        }
+      } catch (e) {
+        return 0
+      }
+    },*/
     superLong(str, len = 5) {
       return superLong(str, len)
     },
@@ -105,13 +141,12 @@ export default {
       copys(str)
       this.$message({message: this.$t('public.copySuccess'), type: 'success', duration: 1000});
     },
-    openUrl(address, chain) {
-      const baseUrl = networkOrigin[chain];
+    openUrl(address, chain, scanUrl) {
       let url;
       if (chain !== "NERVE" && chain !== "NULS") {
-        url = baseUrl + "/address/" + address;
+        url = scanUrl + "address/" + address;
       } else {
-        url = baseUrl + "/address/info?address=" + address
+        url = scanUrl + "address/info?address=" + address
       }
       window.open(url)
     }
@@ -152,7 +187,7 @@ export default {
           font-size: 15px;
         }
         .icon-lianjie {
-          margin-left: 20px
+          margin-left: 12px
         }
       }
       img {

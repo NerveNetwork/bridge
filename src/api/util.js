@@ -755,34 +755,21 @@ export function getCurrentAccount(address) {
 }
 
 export const withdrawFeeRate = {
-  Ethereum: {
-    normal: 1.3,
-    speed: 1.56
-  },
-  BSC: {
-    normal: 2,
-    speed: 2.4
-  },
-  Heco: {
-    normal: 5,
-    speed: 6
-  },
-  OKExChain: {
-    normal: 5,
-    speed: 6
-  },
-  Harmony: {
-    normal: 5,
-    speed: 6
-  },
-  Polygon: {
-    normal: 5,
-    speed: 6
-  },
-  KCC: {
-    normal: 5,
-    speed: 6
-  }
+  Ethereum: 1.3,
+  BSC: 2,
+  Heco: 5,
+  OKExChain: 5,
+  Harmony: 5,
+  Polygon: 5,
+  KCC:  5,
+  Cronos: 2,
+  Avalanche: 2,
+  Arbitrum: 2,
+  Fantom: 2,
 }
 
 export const withdrawalToNulsFee = 3
+
+export function getChainConfigs() {
+  return JSON.parse(sessionStorage.getItem('config'));
+}

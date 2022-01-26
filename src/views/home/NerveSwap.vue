@@ -130,29 +130,23 @@ import {
   timesDecimals,
   getLogoSrc,
   Times,
-  supportChainList,
   debounce,
   getCurrentAccount,
   withdrawFeeRate,
   withdrawalToNulsFee,
   Division,
-  fixNumber
+  fixNumber,
+  getChainConfigs
 } from "@/api/util";
-import { ETransfer, getSymbolUSD, swapScale, swapSymbolConfig, crossFee, gasLimitConfig } from "@/api/api";
+import { ETransfer, getSymbolUSD, crossFee, gasLimitConfig, getEVMBalance, getNBalance } from "@/api/api";
 import { getContractCallData } from "@/api/nulsContractValidate";
 import defaultIcon from "@/assets/img/commonIcon.png";
 import { ethers } from 'ethers'
 import { getERC20AssetsBalance, getNAssetsBalance } from '@/api/getBalanceInBatch'
 
-let chainToSymbol = {}
-supportChainList.map(v => {
-   chainToSymbol[v.value] = v.symbol
-});
-
 
 export default {
   data () {
-    this.networkList = supportChainList;
     this.withdrawalNVTFee = ""; // 提现nvt手续费
     this.extraFee = ""; //用于闪兑nvt的异构链主资产数量
     this.getFeeDebounce = debounce(this.getTransferFee, 1000)
@@ -252,7 +246,7 @@ export default {
   },
 
   mounted() {
-    this.config = JSON.parse(sessionStorage.getItem("config"))
+    this.configs = getChainConfigs();
     this.getPendingTxList();
     const timer = setInterval(() =>{
       this.getPendingTxList();
@@ -308,12 +302,13 @@ export default {
       this.clearGetAllowanceTimer();
     },
     changeToChain(item) {
-      this.toNetwork = item.value;
+      this.toNetwork = item.chain;
     },
     getChainLogo(chain) {
       if (!chain) return null;
-      const chainInfo = supportChainList.find(item => item.value===chain)
-      return chainInfo.logoActive || null;
+      const config = getChainConfigs();
+      const chainInfo = Object.values(config).find(item => item.chain === chain)
+      return chainInfo ? chainInfo.icon : null;
     },
     // 查询可跨链资产
     async getCanCrossAssets() {
@@ -419,23 +414,12 @@ export default {
         assetId: asset.assetId,
         contractAddress: asset.contractAddress
       };
-      //关注资产
-      await this.$request({
-        url: "/wallet/address/asset/focus",
-        data: {
-          focus: true,
-          ...params,
-        },
-      });
+      const fromChainInfo = this.configs[this.fromNetwork]
+      this.isMainAsset = fromChainInfo.assetId === asset.assetId && fromChainInfo.chainId === asset.chainId;
       if (asset.balance && Number(asset.balance)) {
-        this.isMainAsset = this.config[this.fromNetwork].assetId === asset.assetId && this.config[this.fromNetwork].chainId === asset.chainId;
         this.available = asset.balance;
       } else {
-        const assetInfo = await this.getAssetInfo(params);
-        if (assetInfo) {
-          this.isMainAsset = this.config[this.fromNetwork].assetId === assetInfo.assetId && this.config[this.fromNetwork].chainId === assetInfo.chainId;
-          this.available = divisionDecimals(assetInfo.balance, assetInfo.decimals);
-        }
+        this.available = await this.getAssetBalance(this.fromNetwork, this.fromAddress, asset);
       }
     },
     replaceImg(e) {
@@ -466,18 +450,13 @@ export default {
         this.clearGetAllowanceTimer();
       }
     },
-    async getAssetInfo(params) {
-      const res = await this.$request({
-        url: "/wallet/address/asset",
-        data: {
-          refresh: true,
-          ...params,
-        },
-      });
-      if (res.code === 1000) {
-        return res.data;
+    async getAssetBalance(chain, address, asset) {
+      const { chainId, assetId, decimals, contractAddress } = asset;
+      if (chain !== 'NULS' && chain !== 'NERVE') {
+        return await getEVMBalance(chain, address, contractAddress, decimals)
+      } else {
+        return await getNBalance(chain, address, chainId, assetId, contractAddress, decimals)
       }
-      return null
     },
     validateAmount(val, flag=false) {
       if (!flag) {
@@ -526,7 +505,7 @@ export default {
             const crossOutFee = await this.getCrossOutFee();
 
             // 统一收一笔主资产用作提现手续费
-            const symbol = chainToSymbol[this.fromNetwork];
+            const symbol = this.configs[this.fromNetwork].symbol;
             const extraFee = this.splitFeeSymbol(crossOutFee).value;
             this.extraFee = extraFee;
             const oldCrossInFee = this.splitFeeSymbol(crossInFee).value;
@@ -547,7 +526,7 @@ export default {
             this.fee = crossInFee;
           } else {
             const crossOutFee = await this.getCrossOutFee();
-            const symbol = chainToSymbol[this.fromNetwork];
+            const symbol = this.configs[this.fromNetwork].symbol;
             const extraFee = this.splitFeeSymbol(crossOutFee).value;
             this.extraFee = extraFee;
             const oldCrossInFee = this.splitFeeSymbol(crossInFee).value;
@@ -611,7 +590,7 @@ export default {
       const fee = await transfer.getGasPrice(gasLimit);
       // this.gasPrice = ethers.utils.bigNumberify(fee).div(gasLimit)
       this.gasPrice = ethers.utils.parseUnits(Division(fee, gasLimit).toFixed(), '18').toHexString()
-      return fee + chainToSymbol[this.fromNetwork];
+      return fee + this.configs[this.fromNetwork].symbol;
     },
     // nerve转出到异构链/NULS手续费
     async getCrossOutFee() {
@@ -635,14 +614,13 @@ export default {
           toChainMainAssetUSD,
           isToken
         );
-        const type = "normal";
-        const scale = withdrawFeeRate[this.toNetwork][type];
+        const scale = withdrawFeeRate[this.toNetwork] || 5;
         nvtAmountForWithdrawal = divisionDecimals(result * scale, 8)
         // console.log(nvtAmountForWithdrawal, 54444444444444)
         finalFee = fixNumber(Division(Times(nvtAmountForWithdrawal, nvtUSD), fromChainMainAssetUSD).toFixed(8), 8);
         this.withdrawalNVTFee = finalFee;
       }
-      return finalFee + chainToSymbol[this.fromNetwork];
+      return finalFee + this.configs[this.fromNetwork].symbol;
     },
 
     // 异构链token资产转入nerve授权
@@ -691,7 +669,7 @@ export default {
         return false;
       }*/
       const transferAsset = this.chooseAsset;
-      const mainAssetInfo = this.config[this.fromNetwork];
+      const mainAssetInfo = this.configs[this.fromNetwork];
       const { address: addressInfo, pub } = this.currentAccount
       const transferInfo = {
         fromChain: this.fromNetwork,
@@ -842,7 +820,7 @@ export default {
       //手续费不够，需要闪兑
       let crossInForSwapInfo
       if (this.extraFee) {
-        const fromChainInfo = this.config[this.fromNetwork];
+        const fromChainInfo = this.configs[this.fromNetwork];
         if (this.fromNetwork !== "NULS") {
           // 异构链跨链转入一笔主资产作为手续费
           crossInForSwapInfo = {
@@ -942,14 +920,14 @@ export default {
       }
       const asset = this.chooseAsset;
       const assetSymbol = asset.symbol;
-      const mainAssetInfo = this.config[this.fromNetwork]; // 发起链
+      const mainAssetInfo = this.configs[this.fromNetwork]; // 发起链
       const isMainAsset = asset.chainId === mainAssetInfo.chainId && asset.assetId === mainAssetInfo.assetId;
       if (this.fromNetwork === "NERVE") {
         if (this.toNetwork === "NULS") {
           if (assetSymbol === "NULS") {
             if (Minus(Plus(this.amount, crossFee), this.available) > 0) flag = false;
           } else {
-            const nulsBalance = await this.getNulsInfo(this.fromAddress);
+            const nulsBalance = await getNBalance('NULS', this.fromAddress, NULS_INFO.chainId, NULS_INFO.assetId, '', 8);
             if (nulsBalance - crossFee < 0) flag = false;
           }
           flag = await this.checkFee(crossFee, isMainAsset)
@@ -966,18 +944,14 @@ export default {
     // 验证主资产是否够手续费/手续费+转账数量
     async checkFee(fee, isMainAsset) {
       let flag = true;
-      const fromChainInfo = this.config[this.fromNetwork];
-      const params = {
-        chain: this.fromNetwork,
-        address: this.fromAddress,
+      const fromChainInfo = this.configs[this.fromNetwork];
+      const fromChainBalance = await this.getAssetBalance(this.fromNetwork, this.fromAddress, {
+        contractAddress: '',
         chainId: fromChainInfo.chainId,
         assetId: fromChainInfo.assetId,
-        contractAddress: ""
-      };
-      // fromChain主资产信息
-      const fromChainMainAsset = await this.getAssetInfo(params);
-      if (fromChainMainAsset) {
-        const fromChainBalance = divisionDecimals(fromChainMainAsset.balance, fromChainMainAsset.decimals);
+        decimals: fromChainInfo.decimal
+      });
+      if (fromChainBalance) {
         if (isMainAsset) {
           if (Minus(Plus(this.amount, fee), this.available) > 0) flag = false;
         } else {
@@ -993,28 +967,6 @@ export default {
     },
     getLogoSrc(url) {
       return getLogoSrc(url);
-    },
-    /**
-     * 查询nerve链上nuls余额
-     * @param address //nerveAddress
-     */
-    async getNulsInfo(address) {
-      const data = {
-        address,
-        assetId: NULS_INFO.assetId,
-        chainId: NULS_INFO.chainId,
-        chain: "NERVE",
-        refresh: true,
-      }
-      const res = await this.$request({
-        url: "/wallet/address/asset",
-        data
-      });
-      let balance = 0;
-      if (res.code === 1000) {
-        balance = divisionDecimals(res.data.balance, res.data.decimals);
-      }
-      return balance;
     },
     overflowToken(str) {
       return str;

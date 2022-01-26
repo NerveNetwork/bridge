@@ -2,8 +2,8 @@ import nuls from "nuls-sdk-js";
 import nerve from "nerve-sdk-js";
 import { ethers } from "ethers";
 import sdk from "nerve-sdk-js/lib/api/sdk";
-import { Plus, htmlEncode, timesDecimals, Minus } from "./util";
-import { request } from "./https";
+import { Plus, htmlEncode, timesDecimals, Minus, getChainConfigs, divisionAndFix } from './util';
+import { post, request } from './https';
 import { ETHNET } from "@/config"
 const Signature = require("elliptic/lib/elliptic/ec/signature");
 const txsignatures = require("nerve-sdk-js/lib/model/txsignatures");
@@ -135,50 +135,47 @@ export class NTransfer {
   //nuls nerve普通转账input output
   async transferTransaction(transferInfo) {
     const inputs = [], outputs = [];
+    const { from, assetsChainId, assetsId, amount, fee, to } = transferInfo;
     //转账资产nonce
-    const nonce = await this.getNonce(transferInfo);
+    const nonce = await this.getNonce(from, assetsChainId, assetsId);
     if (!nonce) throw "获取nonce值失败";
-    const config = JSON.parse(sessionStorage.getItem("config"));
+    const config = getChainConfigs();
     const mainAsset = config[this.chain];
-    if (mainAsset.chainId === transferInfo.assetsChainId && mainAsset.assetId === transferInfo.assetsId) {
+    if (mainAsset.chainId === assetsChainId && mainAsset.assetId === assetsId) {
       // 转账资产为本链主资产, 将手续费和转账金额合成一个input
-      const newAmount = Plus(transferInfo.amount, transferInfo.fee).toFixed();
+      const newAmount = Plus(amount, fee).toFixed();
       inputs.push({
-        address: transferInfo.from,
-        assetsChainId: transferInfo.assetsChainId,
-        assetsId: transferInfo.assetsId,
+        address: from,
+        assetsChainId,
+        assetsId,
         amount: newAmount,
         locked: 0,
         nonce: nonce
       });
     } else {
-      const mainAssetNonce = await this.getNonce({
-        from: transferInfo.from,
-        assetsChainId: mainAsset.chainId,
-        assetsId: mainAsset.assetId
-      });
+      const mainAssetNonce = await this.getNonce(from, mainAsset.chainId, mainAsset.assetId);
       inputs.push({
-        address: transferInfo.from,
-        assetsChainId: transferInfo.assetsChainId,
-        assetsId: transferInfo.assetsId,
-        amount: transferInfo.amount,
+        address: from,
+        assetsChainId,
+        assetsId,
+        amount,
         locked: 0,
         nonce:  transferInfo.nonce || nonce // 闪兑资产和跨链资产一样，闪兑后nonce值使用hash后16位
       });
       inputs.push({
-        address: transferInfo.from,
+        address: from,
         assetsChainId: mainAsset.chainId,
         assetsId: mainAsset.assetId,
-        amount: transferInfo.fee,
+        amount: fee,
         locked: 0,
         nonce: mainAssetNonce
       });
     }
     outputs.push({
-      address: transferInfo.to,
-      assetsChainId: transferInfo.assetsChainId,
-      assetsId: transferInfo.assetsId,
-      amount: transferInfo.amount,
+      address: to,
+      assetsChainId,
+      assetsId,
+      amount,
       lockTime: 0
     });
     return {inputs, outputs};
@@ -187,7 +184,9 @@ export class NTransfer {
   // nuls nerve跨链转账input output
   async crossChainTransaction(transferInfo) {
     const {inputs, outputs} = await this.transferTransaction(transferInfo);
-    const CROSS_INFO = JSON.parse(sessionStorage.getItem("config"))["NULS"];
+    const configs = getChainConfigs();
+    const { from } = transferInfo;
+    const CROSS_INFO = configs.NULS;
     if (this.chain === "NERVE") {
       // nerve资产跨链到nuls,要收取nuls手续费
       let isNULS = false;
@@ -201,21 +200,17 @@ export class NTransfer {
       }
       if (!isNULS) {
         // 跨链资产不是nuls
-        const nonce = await this.getNonce({
-          from: transferInfo.from,
-          assetsChainId: CROSS_INFO.chainId,
-          assetsId: CROSS_INFO.assetId
-        });
+        const nonce = await this.getNonce(from, CROSS_INFO.chainId, CROSS_INFO.assetId);
         console.log("nonce*************");
         console.log(nonce);
         if (!nonce) {
           return {
             success: false,
-            data: {from: transferInfo.from, assetsChainId: CROSS_INFO.chainId, assetsId: CROSS_INFO.assetId}
+            data: {from, assetsChainId: CROSS_INFO.chainId, assetsId: CROSS_INFO.assetId}
           };
         }
         inputs.push({
-          address: transferInfo.from,
+          address: from,
           assetsChainId: CROSS_INFO.chainId,
           assetsId: CROSS_INFO.assetId,
           amount: fee,
@@ -229,28 +224,29 @@ export class NTransfer {
 
   // 调用合约交易
   async callContractTransaction(transferInfo) {
-    // console.log("callContractTransaction:");
-    // console.log(transferInfo);
-    const nonce = await this.getNonce(transferInfo);
+    const config = getChainConfigs();
+    const mainAsset = config.NULS;
+    const { from, assetsChainId, assetsId, amount, toContractValue, to } = transferInfo;
+    const nonce = await this.getNonce(from, mainAsset.chainId, mainAsset.assetId);
     // const defaultFee = timesDecimals(0.001, 8);
     const defaultFee = 0;
     const inputs = [
       {
-        address: transferInfo.from,
-        assetsChainId: transferInfo.assetsChainId,
-        assetsId: transferInfo.assetsId,
-        amount: Plus(transferInfo.amount, defaultFee).toFixed(),
+        address: from,
+        assetsChainId,
+        assetsId,
+        amount: Plus(amount, defaultFee).toFixed(),
         locked: 0,
         nonce: nonce
       }
     ];
     const outputs = [];
-    if (transferInfo.toContractValue) {
+    if (toContractValue) {
       outputs.push({
-        address: transferInfo.to,
-        assetsChainId: transferInfo.assetsChainId,
-        assetsId: transferInfo.assetsId,
-        amount: transferInfo.toContractValue,
+        address: to,
+        assetsChainId,
+        assetsId,
+        amount: toContractValue,
         lockTime: 0
       });
     }
@@ -263,44 +259,40 @@ export class NTransfer {
     const config = JSON.parse(sessionStorage.getItem("config"));
     const mainAsset = config.NERVE;
     let nonce;
+    const { from, assetsChainId, assetsId, amount, proposalPrice, fee } = transferInfo;
     if (transferInfo.nonce) {
       nonce = transferInfo.nonce
     } else {
-      nonce = await this.getNonce(transferInfo);
+      nonce = await this.getNonce(from, assetsChainId, assetsId);
     }
-    // const nonce = await this.getNonce(transferInfo);
-    const mainAssetNonce = await this.getNonce({
-      from: transferInfo.from,
-      assetsChainId: mainAsset.chainId,
-      assetsId: mainAsset.assetId
-    });
+    const mainAssetNonce = await this.getNonce(from, mainAsset.chainId, mainAsset.assetId);
     let inputs = [];
-    const totalFee = Number(Plus(transferInfo.proposalPrice, transferInfo.fee));
+    const totalFee = Number(Plus(proposalPrice, fee));
     if (
-      mainAsset.chainId === transferInfo.assetsChainId &&
-      mainAsset.assetId === transferInfo.assetsId
+      mainAsset.chainId === assetsChainId &&
+      mainAsset.assetId === assetsId
     ) {
-      const newAmount = Number(Plus(transferInfo.amount, totalFee));
+      const newAmount = Number(Plus(amount, totalFee));
       inputs.push({
-        address: transferInfo.from,
+        address: from,
         amount: newAmount,
-        assetsChainId: transferInfo.assetsChainId,
-        assetsId: transferInfo.assetsId,
+        assetsChainId,
+        assetsId,
         nonce: nonce,
         locked: 0
       });
     } else {
       inputs = [
         {
-          address: transferInfo.from,
-          amount: transferInfo.amount,
-          assetsChainId: transferInfo.assetsChainId,
-          assetsId: transferInfo.assetsId,
-          nonce: nonce,
+          address: from,
+          amount,
+          assetsChainId,
+          assetsId,
+          nonce,
           locked: 0
         },
         {
-          address: transferInfo.from,
+          address: from,
           amount: totalFee,
           assetsChainId: mainAsset.chainId,
           assetsId: mainAsset.assetId,
@@ -315,14 +307,14 @@ export class NTransfer {
     let outputs = [
       {
         address: blockHoleAddress, //黑洞地址
-        amount: transferInfo.amount,
-        assetsChainId: transferInfo.assetsChainId,
-        assetsId: transferInfo.assetsId,
+        amount,
+        assetsChainId,
+        assetsId,
         locked: 0
       },
       {
         address: feeAddress, //提现费用地址
-        amount: transferInfo.proposalPrice,
+        amount: proposalPrice,
         assetsChainId: mainAsset.chainId,
         assetsId: mainAsset.assetId,
         locked: 0
@@ -331,26 +323,12 @@ export class NTransfer {
     return {inputs, outputs};
   }
 
-  async getNonce(info) {
-    if (info.nonce) return info.nonce;
-    try {
-      let data = {
-        chain: this.chain,
-        address: info.from,
-        chainId: info.assetsChainId,
-        assetId: info.assetsId,
-        refresh: true
-      };
-      // console.log(data);
-      const res = await request({url: "/wallet/address/asset", data: data});
-      // console.log(res);
-      if (res.code === 1000) {
-        return res.data.nonce;
-      }
-      return null;
-    } catch (e) {
-      console.error(e);
+  async getNonce(address, assetChainId, assetId) {
+    const assetInfo = await getNAssetInfo(this.chain, address, assetChainId, assetId);
+    if (assetInfo) {
+      return assetInfo.nonce;
     }
+    return null;
   }
 
   async getAssetNerveInfo(data) {
@@ -441,7 +419,7 @@ export class ETransfer {
 
   getProvider(chain) {
     if (!this.walletType) return null;
-    const config = JSON.parse(sessionStorage.getItem("config"));
+    const config = getChainConfigs();
     if (!chain) {
       this.provider = new ethers.providers.Web3Provider(window[this.walletType]);
     } else {
@@ -717,6 +695,12 @@ export class ETransfer {
     } else {
       gasLimit = new ethers.utils.BigNumber("190000");
     }
+    const configs = getChainConfigs();
+    // arbi网络特殊处理gasLimit
+    const isArbi = Number(this.provider.network.chainId) === Number(configs.Arbitrum.nativeId);
+    if (isArbi) {
+      gasLimit = new ethers.utils.BigNumber("4000000");
+    }
     const nvtUSDBig = ethers.utils.parseUnits(nvtUSD, 6);
     const ethUSDBig = ethers.utils.parseUnits(heterogeneousChainUSD, 6);
     const result = ethUSDBig.mul(gasPrice).mul(gasLimit).div(ethers.utils.parseUnits(nvtUSDBig.toString(), 10));
@@ -853,4 +837,49 @@ export async function reportError(txHash, errMsg) {
 export const gasLimitConfig = {
   default: 35000,
   token: 150000
+}
+
+// 查询eth系列资产余额
+export async function getEVMBalance(chain, address, contractAddress, tokenDecimals) {
+  try {
+    const configs = getChainConfigs();
+    const apiUrl = configs[chain].apiUrl;
+    const provider = new ethers.providers.JsonRpcProvider(apiUrl);
+    if (contractAddress) {
+      const contract = new ethers.Contract(contractAddress, erc20BalanceAbiFragment, provider);
+      const balance = await contract.balanceOf(address);
+      return ethers.utils.formatUnits(balance, tokenDecimals);
+    } else {
+      const balance = await provider.getBalance(address);
+      return ethers.utils.formatEther(balance)
+    }
+  } catch (e) {
+    return 0
+  }
+}
+
+// 查询nuls/nerve系列资产详情
+export async function getNAssetInfo(chain, address, assetChainId, assetId, contractAddress) {
+  try {
+    const configs = getChainConfigs();
+    const chainInfo = configs[chain];
+    let result;
+    if (contractAddress) {
+      result = await post(chainInfo.apiUrl, 'getTokenBalance', [chainInfo.chainId, contractAddress, address]);
+    } else {
+      result = await post(chainInfo.apiUrl, 'getAccountBalance', [chainInfo.chainId, assetChainId, assetId, address])
+    }
+    return result && result.result || null
+  } catch (e) {
+    return null
+  }
+}
+
+// 查询nuls/nerve系列资产余额
+export async function getNBalance(chain, address, assetChainId, assetId, contractAddress, tokenDecimals) {
+  const assetInfo = await getNAssetInfo(chain, address, assetChainId, assetId, contractAddress);
+  if (assetInfo) {
+    return divisionAndFix(assetInfo.balance, tokenDecimals)
+  }
+  return 0;
 }

@@ -18,7 +18,6 @@
         }}</el-button>
       </div>
       <div v-else>
-<!--        <tab-switch v-model="swapType"></tab-switch>-->
         <nerve-swap
           v-show="swapType==='nerve'"
           :address="address"
@@ -27,27 +26,16 @@
           :fromAddress="fromAddress"
           :fromChainError="fromChainError"
         ></nerve-swap>
-<!--        <swft-swap
-          v-show="swapType==='swft'"
-          :address="address"
-          :fromNetwork="fromNetwork"
-          :fromChainId="fromChainId"
-          :fromAddress="fromAddress"
-          :fromChainError="fromChainError"
-        >
-        </swft-swap>-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import TabSwitch from "@/components/TabSwitch";
 import NerveSwap from "./NerveSwap";
-// import SwftSwap from "./SwftSwap";
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import nerve from "nerve-sdk-js";
-import { supportChainList, getCurrentAccount } from "../../api/util";
+import { getCurrentAccount } from "../../api/util";
 import MetaMask from "../../assets/img/metamask.svg";
 import Nabox from "../../assets/img/nabox.svg";
 import TrustWallet from "../../assets/img/trustwallet.svg"
@@ -91,9 +79,7 @@ export default {
   },
 
   components: {
-    NerveSwap,
-    // SwftSwap,
-    // TabSwitch
+    NerveSwap
   },
 
   computed: {
@@ -117,9 +103,6 @@ export default {
     },
     fromChainError() {
       return this.$store.state.isWrongChain;
-      /*if (!this.fromChainId) return true;
-      if (this.fromNetwork === 'NULS' || this.fromNetwork === 'NERVE') return false;
-      return !supportChainList.find(v => v[ETHNET] === this.fromChainId);*/
     }
   },
 

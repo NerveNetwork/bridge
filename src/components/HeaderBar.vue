@@ -10,7 +10,7 @@
           <div @click.stop="showNetworkList=!showNetworkList" class="wrong-chain">{{ $t("home.home28") }}</div></template>
         <template v-else>
           <div class="network" @click.stop="showNetworkList=!showNetworkList">
-            <img :src="chainSymbol[$store.state.network].active" alt="">
+            <img :src="chainLogo" alt="">
             <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
           </div>
           <span @click="showAccountDialog=true">{{ superLong(address, 5) }}</span>
@@ -39,22 +39,12 @@
 
 <script>
   import ChainList from '@/components/ChainList';
-  import { superLong, copys, networkOrigin, supportChainList } from '@/api/util'
+  import { superLong, copys, getChainConfigs } from '@/api/util'
   import { isBeta, getCurrentAccount } from '@/api/util';
-  import { ETHNET } from "@/config"
-
-  const chainSymbol = {}
-  supportChainList.map(chain => {
-    chainSymbol[chain.value] = {
-      default: chain.logo,
-      active: chain.logoActive
-    }
-  })
 
   export default {
     data() {
       this.isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
-      this.chainSymbol = chainSymbol;
       return {
         showNetworkList: false,
         showAccountDialog: false,
@@ -93,6 +83,11 @@
       showAccountArea() {
         const currentAccount = getCurrentAccount(this.address)
         return !!currentAccount
+      },
+      chainLogo() {
+        const config = this.configs;
+        const chain = config[this.currentChain]
+        return chain ? chain.icon : ''
       }
     },
     watch: {
@@ -112,9 +107,12 @@
         }
       }
     },
-    mounted() {},
+    mounted() {
+      this.configs = getChainConfigs();
+    },
     methods: {
       async initConnect() {
+        this.configs = getChainConfigs();
         const walletType = localStorage.getItem('walletType');
         const provider = window[walletType];
         if (!walletType || !provider) return;
@@ -174,11 +172,11 @@
         chainId = chainId + ""
         const result = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
         this.$store.commit("changeChainId", result);
-        const chain = supportChainList.find(v => +v.ropsten === +result || +v.homestead === +result);
-        const isWrongChain = !supportChainList.find(v => +v[ETHNET] === +result);
+        const chainInfo = Object.values(this.configs).find(v => +v.nativeId === +result);
+        const isWrongChain = !Object.values(this.configs).find(v => +v.nativeId === +result);
         this.$store.commit("changeIsWrongChain", isWrongChain);
-        if (chain) {
-          this.$store.commit("changeNetwork", chain.value);
+        if (chainInfo) {
+          this.$store.commit("changeNetwork", chainInfo.chain);
         } /*else {
           this.$message("Chain Error")
         }*/
@@ -191,12 +189,12 @@
         this.$emit("toggleMenu");
       },
       openUrl() {
-        const baseUrl = networkOrigin[this.currentChain];
+        const baseUrl = this.configs[this.currentChain].scan;
         let url;
         if (this.currentChain !== "NERVE" && this.currentChain !== "NULS") {
-          url = baseUrl + "/address/" + this.address;
+          url = baseUrl + "address/" + this.address;
         } else {
-          url = baseUrl + "/address/info?address=" + this.address
+          url = baseUrl + "address/info?address=" + this.address
         }
         window.open(url)
         this.showAccountDialog = false
@@ -217,12 +215,13 @@
         window.open(url)
       },
       async switchChain(item) {
-        if (this.currentChain === item.value) return;
+        const chain = item.chain;
+        if (this.currentChain === chain) return;
         const provider =window[this.walletType]
-        if (item.value === "NULS" || item.value === "NERVE" || item[ETHNET] === provider.chainId) {
-          this.$store.commit('changeNetwork', item.value)
+        if (chain === "NULS" || chain === "NERVE" || item.nativeId === provider.chainId) {
+          this.$store.commit('changeNetwork', chain)
           const currentAccount = getCurrentAccount(this.address);
-          const newAddress = currentAccount.address[item.value]
+          const newAddress = currentAccount.address[chain]
           this.$store.commit('changeAddress', newAddress)
           return;
         }
@@ -230,17 +229,17 @@
         try {
           const providerType = localStorage.getItem("walletType");
           const provider = window[providerType];
-          if (item.value !== "Ethereum") {
+          if (chain !== "Ethereum") {
             const addItem = {
-              chainId: item[ETHNET],
-              rpcUrls: item.rpcUrl ? [item.rpcUrl[ETHNET]] : [],
-              chainName: item.value,
+              chainId: item.nativeId,
+              rpcUrls: item.apiUrl ? [item.apiUrl] : [],
+              chainName: chain,
               nativeCurrency: {
-                name: item.value,
+                name: chain,
                 symbol: item.symbol,
                 decimals: item.decimals,
               },
-              blockExplorerUrls: [item.origin]
+              blockExplorerUrls: [item.scan]
             }
             await provider.request({
               method: "wallet_addEthereumChain",
@@ -249,7 +248,7 @@
           } else {
             await provider.request({
               method: "wallet_switchEthereumChain",
-              params: [{ chainId: item[ETHNET] }]
+              params: [{ chainId: item.nativeId }]
             });
           }
           if (this.isMobile) {

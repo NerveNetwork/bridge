@@ -2,14 +2,14 @@
   <div class="chain-list" v-show="value" ref="wrap">
     <ul>
       <li
-        v-for="item in supportChainList"
-        :key="item.value"
+        v-for="item in chainConfig"
+        :key="item.chain"
         @click.stop="handleClick(item)"
       >
-        {{ item.chainName }}
-        <p :class="{'active': item.value === currentChain, 'disable': item.value === disabledChain}">
-          <img :src="chainSymbol[item.value].active" alt="">
-          {{ item.value }}
+<!--        {{ item.chainName }}-->
+        <p :class="{'active': item.chain === currentChain, 'disable': item.chain === disabledChain}">
+          <img :src="item.icon" alt="">
+          {{ item.chain }}
         </p>
       </li>
       <div class="pop-arrow"></div>
@@ -18,14 +18,7 @@
 </template>
 
 <script>
-import { supportChainList } from '@/api/util'
-const chainSymbol = {}
-supportChainList.map(chain => {
-  chainSymbol[chain.value] = {
-    default: chain.logo,
-    active: chain.logoActive
-  }
-})
+import { getChainConfigs } from '@/api/util';
 
 export default {
   name: 'ChainList',
@@ -39,8 +32,7 @@ export default {
   },
   data() {
     return {
-      chainSymbol,
-      supportChainList
+      chainConfig: {}
     }
   },
 
@@ -51,15 +43,20 @@ export default {
         this.$emit("input", false)
       }
     }, false)
+    this.setChainList()
   },
 
   methods: {
     handleClick(item) {
-      if (item.value === this.disabledChain) return;
+      if (item.chain === this.disabledChain) return;
       this.$emit("input", false);
-      if (item.value !== this.currentChain) {
+      if (item.chain !== this.currentChain) {
         this.$emit('change', item);
       }
+    },
+    setChainList() {
+      this.chainConfig = getChainConfigs();
+      console.log(this.chainConfig, 123465)
     }
   }
 }

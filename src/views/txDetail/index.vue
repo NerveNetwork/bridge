@@ -140,8 +140,6 @@ int BG_CROSS_TX_FAIL = 9; */
 // import BackBar from '@/components/BackBar';
 import {
   superLong,
-  divisionAndFix,
-  networkOrigin,
   copys,
   timesDecimals,
   divisionDecimals,
@@ -151,25 +149,21 @@ import {
   withdrawFeeRate,
   fixNumber,
   Division,
-  supportChainList,
-  Minus
+  Minus,
+  getChainConfigs
 } from '@/api/util'
-import moment from "moment"
-import { ETransfer, NTransfer, getSymbolUSD, swapScale, swapSymbolConfig, crossFee, reportError, gasLimitConfig } from "@/api/api";
+import {
+  ETransfer,
+  NTransfer,
+  getSymbolUSD,
+  crossFee,
+  reportError,
+  gasLimitConfig,
+  getEVMBalance, getNBalance
+} from '@/api/api';
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
-import BufferReader from "nerve-sdk-js/lib/utils/bufferreader";
-import txs from "nerve-sdk-js/lib/model/txs";
 import { ethers } from 'ethers'
 import {getCrossAddress} from '@/api/getDefaultConfig'
-
-
-// function getCurrentAccount(address) {
-//   const accountList = JSON.parse(localStorage.getItem("accountList")) || [];
-//   const currentAccount = accountList.find((item) => {
-//     return Object.keys(item.address).find(v => item.address[v] === address)
-//   });
-//   return currentAccount;
-// }
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -226,7 +220,8 @@ export default {
     feeSymbol() {
       const { fromChain } = this.txInfo;
       if (!fromChain) return null
-      const chainInfo = supportChainList.find(v => v.value === fromChain);
+      const configs = getChainConfigs();
+      const chainInfo = configs[fromChain]
       return chainInfo.symbol;
     },
     disableRetry() {
@@ -362,7 +357,8 @@ export default {
       this.$message({message: this.$t('public.copySuccess'), type: 'success', duration: 1000});
     },
     openUrl(hash, chain) {
-      const baseUrl = networkOrigin[chain];
+      const config = getChainConfigs();
+      const baseUrl = config[chain].scan;
       let url;
       if (chain !== "NERVE" && chain !== "NULS") {
         url = baseUrl + "/tx/" + hash;
@@ -432,52 +428,26 @@ export default {
         nvtAmountForWithdrawal = withdrawalToNulsFee;
         finalFee = fixNumber(Division(Times(nvtAmountForWithdrawal, nvtUSD), fromChainMainAssetUSD).toFixed(8), 8);
       } else {
-        const params = {
-          chain: fromChain,
-          address: fromAddress,
-          chainId,
-          assetId,
-          contractAddress,
-          refresh: true
-        }
-        const asset = await this.getAssetInfo(params);
-        const assetHeterogeneousInfo = asset.heterogeneousList.filter(
-          (v) => v.chainName === toChain
-        )[0];
         const toChainMainAssetUSD = await getSymbolUSD(toChain);
-        const isToken = assetHeterogeneousInfo.token;
         const transfer = new ETransfer({chain: toChain});
         const result = await transfer.calWithdrawalNVTFee(
           nvtUSD,
           toChainMainAssetUSD,
-          isToken
+          true
         );
-        const type = "normal" //this.speedUpFee ? "speed" : "normal"
-        const scale = withdrawFeeRate[toChain][type];
+        const scale = withdrawFeeRate[toChain] || 5;
         nvtAmountForWithdrawal = divisionDecimals(result * scale, 8)
         // console.log(nvtAmountForWithdrawal, 54444444444444)
         finalFee = fixNumber(Division(Times(nvtAmountForWithdrawal, nvtUSD), fromChainMainAssetUSD).toFixed(8), 8);
       }
       return finalFee;
     },
-    // 获取资产信息
-    async getAssetInfo(params) {
-      const res = await this.$request({
-        url: "/wallet/address/asset",
-        data: params,
-      });
-      if (res.code === 1000) {
-        return res.data
-      } else {
-        throw "Get transfer asset info error"
-      }
-    },
 
     // 组装其他链转入主资产到nerve交易
     async constructCrossInTx(nerveAddress, fee) {
       // console.log(fee, 44)
       const { fromChain, fromAddress } = this.txInfo;
-      const config = JSON.parse(sessionStorage.getItem("config"));
+      const config = getChainConfigs();
       const fromChainInfo = config[fromChain];
 
       if (fromChain !== "NULS") {
@@ -637,19 +607,22 @@ export default {
     // 获取网络主资产余额
     async getMainAssetBalance() {
       const { fromChain, fromAddress } = this.txInfo;
-      const config = JSON.parse(sessionStorage.getItem("config"));
+      const config = getChainConfigs();
       const fromChainInfo = config[fromChain];
-      // params = { chainId: fromChainInfo.chainId, assetId: fromChainInfo.assetId }
-      const params = {
-        chain: fromChain,
-        address: fromAddress,
+      return await this.getAssetBalance(fromChain, fromAddress, {
+        contractAddress: '',
         chainId: fromChainInfo.chainId,
         assetId: fromChainInfo.assetId,
-        contractAddress: "",
-        refresh: true
+        decimals: fromChainInfo.decimal
+      });
+    },
+    async getAssetBalance(chain, address, asset) {
+      const { chainId, assetId, decimals, contractAddress } = asset;
+      if (chain !== 'NULS' && chain !== 'NERVE') {
+        return await getEVMBalance(chain, address, contractAddress, decimals)
+      } else {
+        return await getNBalance(chain, address, chainId, assetId, contractAddress, decimals)
       }
-      const mainAsset = await this.getAssetInfo(params);
-      return divisionDecimals(mainAsset.balance, mainAsset.decimals)
     }
   }
 }

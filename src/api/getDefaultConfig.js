@@ -11,6 +11,7 @@ export function setChainConfig(config) {
   config.map(v => {
     const mainInfo = v.mainAsset;
     result[v.chain] = {
+      chain: v.chain,
       chainId: mainInfo ? mainInfo.chainId : '',
       assetId: mainInfo ? mainInfo.assetId : '',
       prefix: v.prefix,
@@ -18,7 +19,10 @@ export function setChainConfig(config) {
       decimal: mainInfo ? mainInfo.decimals : '',
       assets: v.assets,
       config: v.configs,
-      apiUrl: v.apiUrl
+      apiUrl: v.apiUrl,
+      icon: v.icon,
+      nativeId: '0x' + v.nativeId.toString(16),
+      scan: v.scanUrl
     }
   });
   sessionStorage.setItem("config", JSON.stringify(result))
