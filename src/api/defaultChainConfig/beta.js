@@ -12,7 +12,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Ethereum.png",
     "apiUrl": "https://ropsten.infura.io/v3/7e086d9f3bdc48e4996a3997b33b032f",
     "psUrl": "https://faucets.chain.link/rinkeby",
-    "scanUrl": "https://ropsten.etherscan.io/",
     "tokenUrl": "https://ropsten.etherscan.io/token/",
     "txUrl": "https://ropsten.etherscan.io/tx/",
     "sort": 1,
@@ -134,7 +133,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/BSC.png",
     "apiUrl": "https://data-seed-prebsc-1-s1.binance.org:8545/",
     "psUrl": "https://testnet.binance.org/faucet-smart",
-    "scanUrl": "https://testnet.bscscan.com/",
     "tokenUrl": "https://testnet.bscscan.com/token/",
     "txUrl": "https://testnet.bscscan.com/tx/",
     "sort": 2,
@@ -280,7 +278,7 @@ const beta = [
             "heterogeneousChainId": 112,
             "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Fantom",
+            "chainName": "FTM",
             "token": true
           },
           {
@@ -336,21 +334,21 @@ const beta = [
             "heterogeneousChainId": 109,
             "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Cronos",
+            "chainName": "CRO",
             "token": true
           },
           {
             "heterogeneousChainId": 110,
             "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Avalanche",
+            "chainName": "AVAX",
             "token": true
           },
           {
             "heterogeneousChainId": 111,
             "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Arbitrum",
+            "chainName": "AETH",
             "token": true
           }
         ],
@@ -611,7 +609,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png",
     "apiUrl": "https://matic-mumbai.chainstacklabs.com",
     "psUrl": "https://faucet.polygon.technology/",
-    "scanUrl": "https://mumbai.polygonscan.com/",
     "tokenUrl": "https://mumbai.polygonscan.com/token/",
     "txUrl": "https://mumbai.polygonscan.com/tx/",
     "sort": 3,
@@ -705,7 +702,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Heco.png",
     "apiUrl": "https://http-testnet.hecochain.com",
     "psUrl": "https://scan-testnet.hecochain.com/faucet",
-    "scanUrl": "https://testnet.hecoinfo.com/",
     "tokenUrl": "https://testnet.hecoinfo.com/token/",
     "txUrl": "https://testnet.hecoinfo.com/tx/",
     "sort": 4,
@@ -829,7 +825,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/OKExChain.png",
     "apiUrl": "https://exchaintestrpc.okex.org",
     "psUrl": "https://discord.com/invite/B5nMs6qK5F",
-    "scanUrl": "https://www.oklink.com/okexchain-test/",
     "tokenUrl": "https://www.oklink.com/okexchain-test/tokenAddr/",
     "txUrl": "https://www.oklink.com/okexchain-test/tx/",
     "sort": 5,
@@ -967,7 +962,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NULS.png",
     "apiUrl": "http://149.129.251.238:18004/jsonrpc",
     "psUrl": "http://149.129.251.238:18003",
-    "scanUrl": "http://beta.nulscan.io/",
     "tokenUrl": "http://beta.nulscan.io/token/info?contractAddress=",
     "txUrl": "http://beta.nulscan.io/transaction/info?hash=",
     "sort": 6,
@@ -1153,7 +1147,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NERVE.png",
     "apiUrl": "http://149.129.130.13:17004/jsonrpc",
     "psUrl": "http://149.129.130.13:17003",
-    "scanUrl": "http://beta.scan.nerve.network/",
     "tokenUrl": "",
     "txUrl": "http://beta.scan.nerve.network/transaction/info?hash=",
     "sort": 7,
@@ -1189,7 +1182,7 @@ const beta = [
           "heterogeneousChainId": 112,
           "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
           "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-          "chainName": "Fantom",
+          "chainName": "FTM",
           "token": true
         },
         {
@@ -1245,21 +1238,21 @@ const beta = [
           "heterogeneousChainId": 109,
           "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
           "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-          "chainName": "Cronos",
+          "chainName": "CRO",
           "token": true
         },
         {
           "heterogeneousChainId": 110,
           "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
           "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-          "chainName": "Avalanche",
+          "chainName": "AVAX",
           "token": true
         },
         {
           "heterogeneousChainId": 111,
           "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
           "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-          "chainName": "Arbitrum",
+          "chainName": "AETH",
           "token": true
         }
       ],
@@ -1297,7 +1290,7 @@ const beta = [
             "heterogeneousChainId": 112,
             "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Fantom",
+            "chainName": "FTM",
             "token": true
           },
           {
@@ -1353,21 +1346,21 @@ const beta = [
             "heterogeneousChainId": 109,
             "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Cronos",
+            "chainName": "CRO",
             "token": true
           },
           {
             "heterogeneousChainId": 110,
             "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Avalanche",
+            "chainName": "AVAX",
             "token": true
           },
           {
             "heterogeneousChainId": 111,
             "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
             "contractAddress": "0xcea7f9f0354da1db6b649f25767412ec78c2fbf8",
-            "chainName": "Arbitrum",
+            "chainName": "AETH",
             "token": true
           }
         ],
@@ -1401,7 +1394,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
     "apiUrl": "https://api.s0.pops.one/",
     "psUrl": "https://faucet.pops.one/",
-    "scanUrl": "https://beta.explorer.harmony.one/",
     "tokenUrl": "https://beta.explorer.harmony.one/address/",
     "txUrl": "https://beta.explorer.harmony.one/tx/",
     "sort": 8,
@@ -1495,7 +1487,6 @@ const beta = [
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
     "apiUrl": "https://rpc-testnet.kcc.network",
     "psUrl": "https://faucet-testnet.kcc.network/",
-    "scanUrl": "https://scan-testnet.kcc.network/",
     "tokenUrl": "https://scan-testnet.kcc.network/token/",
     "txUrl": "https://scan-testnet.kcc.network/tx/",
     "sort": 9,
@@ -1575,350 +1566,6 @@ const beta = [
         "apiUrl": "https://rpc-testnet.kcc.network"
       }
     ]
-  },
-  {
-    "id": 19,
-    "chain": "Cronos",
-    "chainName": "Cronos",
-    "prefix": "0x",
-    "nativeId": 338,
-    "chainId": 109,
-    "chainType": 2,
-    "crossAddress": "0xb339211438Dcbf3D00d7999ad009637472FC72b3",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/cronos.png",
-    "apiUrl": "https://cronos-testnet-3.crypto.org:8545",
-    "psUrl": "https://cronos.crypto.org/faucet",
-    "scanUrl": "https://cronos.crypto.org/explorer/testnet3/",
-    "tokenUrl": "https://cronos.crypto.org/explorer/testnet3/tokens/",
-    "txUrl": "https://cronos.crypto.org/explorer/testnet3/tx/",
-    "sort": 10,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0x452085c1eD74B38169DaEe194312FA8Db4818C19",
-      "crossAddress": "0xb339211438Dcbf3D00d7999ad009637472FC72b3"
-    },
-    "mainAsset": {
-      "id": 19034,
-      "chain": "Cronos",
-      "registerChain": "Cronos",
-      "chainId": 109,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "CRO",
-      "symbol": "CRO",
-      "symbolBase": "CRO",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/cronos.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 109,
-          "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
-          "contractAddress": "",
-          "chainName": "Cronos",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 93,
-      "nerveFlag": false,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19034,
-        "chain": "Cronos",
-        "registerChain": "Cronos",
-        "chainId": 109,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "CRO",
-        "symbol": "CRO",
-        "symbolBase": "CRO",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/cronos.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 109,
-            "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
-            "contractAddress": "",
-            "chainName": "Cronos",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 93,
-        "nerveFlag": false,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "urlList": []
-  },
-  {
-    "id": 20,
-    "chain": "Avalanche",
-    "chainName": "Avalanche",
-    "prefix": "0x",
-    "nativeId": 43113,
-    "chainId": 110,
-    "chainType": 2,
-    "crossAddress": "0x8999d8738CC9B2E1fb1D01E1af732421D53Cb2A9",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/AVAX.png",
-    "apiUrl": "https://api.avax-test.network/ext/bc/C/rpc",
-    "psUrl": "https://faucet.avax-test.network/",
-    "scanUrl": "https://testnet.snowtrace.io/",
-    "tokenUrl": "https://testnet.snowtrace.io/token/",
-    "txUrl": "https://testnet.snowtrace.io/tx/",
-    "sort": 11,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
-      "crossAddress": "0x8999d8738CC9B2E1fb1D01E1af732421D53Cb2A9"
-    },
-    "mainAsset": {
-      "id": 19035,
-      "chain": "Avalanche",
-      "registerChain": "Avalanche",
-      "chainId": 110,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "AVAX",
-      "symbol": "AVAX",
-      "symbolBase": "AVAX",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/AVAX.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 110,
-          "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-          "contractAddress": "",
-          "chainName": "Avalanche",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 94,
-      "nerveFlag": false,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19035,
-        "chain": "Avalanche",
-        "registerChain": "Avalanche",
-        "chainId": 110,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "AVAX",
-        "symbol": "AVAX",
-        "symbolBase": "AVAX",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/AVAX.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 110,
-            "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-            "contractAddress": "",
-            "chainName": "Avalanche",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 94,
-        "nerveFlag": false,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "urlList": []
-  },
-  {
-    "id": 21,
-    "chain": "Arbitrum",
-    "chainName": "Arbitrum",
-    "prefix": "0x",
-    "nativeId": 421611,
-    "chainId": 111,
-    "chainType": 2,
-    "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/Arbitrum.png",
-    "apiUrl": "https://rinkeby.arbitrum.io/rpc",
-    "psUrl": "https://faucets.chain.link/rinkeby",
-    "scanUrl": "https://testnet.arbiscan.io/",
-    "tokenUrl": "https://testnet.arbiscan.io/token/",
-    "txUrl": "https://testnet.arbiscan.io/tx/",
-    "sort": 12,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
-      "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318"
-    },
-    "mainAsset": {
-      "id": 19036,
-      "chain": "Arbitrum",
-      "registerChain": "Arbitrum",
-      "chainId": 111,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "AETH",
-      "symbol": "AETH",
-      "symbolBase": "AETH",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/Arbitrum.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 111,
-          "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
-          "contractAddress": "",
-          "chainName": "Arbitrum",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 95,
-      "nerveFlag": false,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19036,
-        "chain": "Arbitrum",
-        "registerChain": "Arbitrum",
-        "chainId": 111,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "AETH",
-        "symbol": "AETH",
-        "symbolBase": "AETH",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/Arbitrum.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 111,
-            "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
-            "contractAddress": "",
-            "chainName": "Arbitrum",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 95,
-        "nerveFlag": false,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "urlList": []
-  },
-  {
-    "id": 22,
-    "chain": "Fantom",
-    "chainName": "Fantom",
-    "prefix": "0x",
-    "nativeId": 4002,
-    "chainId": 112,
-    "chainType": 2,
-    "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/Fantom.png",
-    "apiUrl": "https://rpc.testnet.fantom.network",
-    "psUrl": "https://faucet.fantom.network/",
-    "scanUrl": "https://testnet.ftmscan.com/",
-    "tokenUrl": "https://testnet.ftmscan.com/token/",
-    "txUrl": "https://testnet.ftmscan.com/tx/",
-    "sort": 13,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
-      "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318"
-    },
-    "mainAsset": {
-      "id": 19037,
-      "chain": "Fantom",
-      "registerChain": "Fantom",
-      "chainId": 112,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "FTM",
-      "symbol": "FTM",
-      "symbolBase": "FTM",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/Fantom.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 112,
-          "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-          "contractAddress": "",
-          "chainName": "Fantom",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 96,
-      "nerveFlag": false,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19037,
-        "chain": "Fantom",
-        "registerChain": "Fantom",
-        "chainId": 112,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "FTM",
-        "symbol": "FTM",
-        "symbolBase": "FTM",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/Fantom.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 112,
-            "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-            "contractAddress": "",
-            "chainName": "Fantom",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 96,
-        "nerveFlag": false,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "urlList": []
   }
 ]
 

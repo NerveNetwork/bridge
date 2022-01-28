@@ -879,7 +879,8 @@ export async function getNAssetInfo(chain, address, assetChainId, assetId, contr
 export async function getNBalance(chain, address, assetChainId, assetId, contractAddress, tokenDecimals) {
   const assetInfo = await getNAssetInfo(chain, address, assetChainId, assetId, contractAddress);
   if (assetInfo) {
-    return divisionAndFix(assetInfo.balance, tokenDecimals)
+    const amount = assetInfo.balance || assetInfo.amount
+    return divisionAndFix(amount, tokenDecimals)
   }
   return 0;
 }
