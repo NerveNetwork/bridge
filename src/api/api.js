@@ -696,10 +696,12 @@ export class ETransfer {
       gasLimit = new ethers.utils.BigNumber("190000");
     }
     const configs = getChainConfigs();
-    // arbi网络特殊处理gasLimit
-    const isArbi = Number(this.provider.network.chainId) === Number(configs.Arbitrum.nativeId);
-    if (isArbi) {
-      gasLimit = new ethers.utils.BigNumber("4000000");
+    if (configs.Arbitrum) {
+      // arbi网络特殊处理gasLimit
+      const isArbi = Number(this.provider.network.chainId) === Number(configs.Arbitrum.nativeId);
+      if (isArbi) {
+        gasLimit = new ethers.utils.BigNumber("4000000");
+      }
     }
     const nvtUSDBig = ethers.utils.parseUnits(nvtUSD, 6);
     const ethUSDBig = ethers.utils.parseUnits(heterogeneousChainUSD, 6);
