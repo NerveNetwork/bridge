@@ -72,7 +72,7 @@ export default {
     ]
     return {
       loading: false,
-      showSign: true, //显示派生地址
+      // showSign: true,
       swapType: "nerve",
       provider: null,
     };
@@ -103,10 +103,21 @@ export default {
     },
     fromChainError() {
       return this.$store.state.isWrongChain;
+    },
+    //是否显示派生地址
+    showSign() {
+      if (this.address) {
+        const currentAccount = getCurrentAccount(this.address);
+        const config = this.$store.state.config;
+        const chainLength = Object.keys(config).length;
+        const addressListLength = currentAccount ? Object.keys(currentAccount.address).length : 0
+        return !chainLength || chainLength !== addressListLength
+      }
+      return true;
     }
   },
 
-  watch: {
+  /*watch: {
     address: {
       immediate: true,
       handler(val) {
@@ -115,11 +126,10 @@ export default {
         const config = JSON.parse(sessionStorage.getItem("config"));
         const chainLength = Object.keys(config).length;
         const addressListLength = currentAccount ? Object.keys(currentAccount.address).length : 0
-        // this.showSign = currentAccount ? false : true;
         this.showSign = !chainLength || chainLength !== addressListLength
       },
     }
-  },
+  },*/
 
   created() {
     if (typeof this.$route.query.loginOut === 'boolean' && this.$route.query.loginOut === true) {
@@ -219,7 +229,6 @@ export default {
         this.$message({ message: this.$t("tips.tips5"), type: "warning" });
       }
       this.loading = false;
-      // this.showSign = false;
     },
     getHeterogeneousAddress(address) {
       const chainAddress = {}

@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import i18n from './i18n'
 import {post, request} from './api/https'
-import { toThousands, isBeta } from "./api/util";
+import { toThousands, isBeta, getChainConfigs } from "./api/util";
 import { getChainConfig, setChainConfig, defaultConfig } from '@/api/getDefaultConfig'
 import { hackAddChain } from '@/api/hackAddChain'
 // import './api/rem'
@@ -35,9 +35,14 @@ if (development && window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
 async function setConfig() {
   // 设置默认config
   setChainConfig(defaultConfig);
+  const sessionConfig = getChainConfigs();
+  if (!sessionConfig) {
+    store.commit('changeConfig', defaultConfig);
+  }
   const apiConfig = await getChainConfig();
   // 接口返回的config
   const config = setChainConfig(apiConfig);
+  store.commit('changeConfig', config);
   // 新添加链后同步更新本地地址
   hackAddChain(config);
 }

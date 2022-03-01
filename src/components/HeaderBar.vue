@@ -237,7 +237,7 @@
               nativeCurrency: {
                 name: chain,
                 symbol: item.symbol,
-                decimals: item.decimals,
+                decimals: item.decimal,
               },
               blockExplorerUrls: [item.scan]
             }

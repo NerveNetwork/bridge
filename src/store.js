@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { getChainConfigs } from '@/api/util'
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ export default new Vuex.Store({
     network: sessionStorage.getItem("network") || "NERVE",
     walletType: localStorage.getItem('walletType'),
     chainId: '',
-    isWrongChain: false
+    isWrongChain: false,
+    config: getChainConfigs()
   },
   getters: {
 
@@ -33,6 +35,9 @@ export default new Vuex.Store({
     },
     changeIsWrongChain(state, isWrongChain) {
       state.isWrongChain = isWrongChain
+    },
+    changeConfig(state, config) {
+      state.config = config
     }
   },
 

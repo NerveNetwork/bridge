@@ -7,8 +7,11 @@ const network = isBeta ? 'beta' : 'main';
 export { defaultConfig };
 
 export function setChainConfig(config) {
-  const result = {}
-  config.map(v => {
+  const result = {};
+  const sortedConfig = [...config].sort((a, b) => {
+    return a.sort > b.sort ? 1 : -1
+  })
+  sortedConfig.map(v => {
     const mainInfo = v.mainAsset;
     result[v.chain] = {
       chain: v.chain,

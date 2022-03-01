@@ -242,11 +242,13 @@ export default {
     fixedAvaliable() {
       if (!this.available) return 0;
       return fixNumber(this.available, 6)
+    },
+    configs() {
+      return this.$store.state.config
     }
   },
 
   mounted() {
-    this.configs = getChainConfigs();
     this.getPendingTxList();
     const timer = setInterval(() =>{
       this.getPendingTxList();
@@ -581,6 +583,7 @@ export default {
         contractAddress,
         decimals: this.chooseAsset.decimals
       })
+      tx.from = addressInfo[this.fromNetwork] // cronos不传from预估gasLimit失败
       const gasLimit = (await transfer.estimateGas(tx)).add(10000);
       // console.log(tx, 1333, gasLimit, ethers.utils.bigNumberify('150000').toHexString(), gasLimit.toHexString())
       // const isToken = assetHeterogeneousInfo.token;

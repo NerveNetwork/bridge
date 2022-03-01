@@ -64,7 +64,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 2,
       "nerveFlag": false,
-      "usdPrice": 3697,
+      "usdPrice": 2935.3503,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -110,7 +110,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 2,
         "nerveFlag": false,
-        "usdPrice": 3697,
+        "usdPrice": 2935.3503,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -184,7 +184,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 8,
       "nerveFlag": false,
-      "usdPrice": 519.79,
+      "usdPrice": 397.1832,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -598,7 +598,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 8,
         "nerveFlag": false,
-        "usdPrice": 519.79,
+        "usdPrice": 397.1832,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -672,7 +672,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 9,
       "nerveFlag": false,
-      "usdPrice": 9.6,
+      "usdPrice": 8.661,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -735,7 +735,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 9,
         "nerveFlag": false,
-        "usdPrice": 9.6,
+        "usdPrice": 8.661,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -802,7 +802,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 12,
       "nerveFlag": false,
-      "usdPrice": 59.02,
+      "usdPrice": 34.3878,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -879,7 +879,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 12,
         "nerveFlag": false,
-        "usdPrice": 59.02,
+        "usdPrice": 34.3878,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -912,7 +912,7 @@ const beta = [
     "tokenUrl": "http://beta.nulscan.io/token/info?contractAddress=",
     "txUrl": "http://beta.nulscan.io/transaction/info?hash=",
     "nft": "",
-    "sort": 6,
+    "sort": 98,
     "status": 0,
     "configs": {
       "feeAddress": "tNULSeBaMomrBpDYJrfm49LcJ2nJKrNT5TEdam",
@@ -931,7 +931,7 @@ const beta = [
       "symbol": "NULS",
       "symbolBase": "NULS",
       "configType": 1,
-      "source": 0,
+      "source": 7,
       "icon": "https://files.nabox.io/icon/NULS.png",
       "nulsCross": true,
       "heterogeneousList": [
@@ -981,11 +981,34 @@ const beta = [
       "nerveChainId": 2,
       "nerveAssetId": 1,
       "nerveFlag": false,
-      "usdPrice": 0.8678,
+      "usdPrice": 0.4054,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
     "assets": [
+      {
+        "id": 19046,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 2,
+        "assetId": 0,
+        "contractAddress": "tNULSeBaMvs94Hgj2bVJBKsdHMVFrj8C3sJnkq",
+        "decimals": 8,
+        "assetName": "ppp",
+        "symbol": "p14",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
       {
         "id": 18674,
         "chain": "NULS",
@@ -1021,7 +1044,7 @@ const beta = [
         "symbol": "NULS",
         "symbolBase": "NULS",
         "configType": 1,
-        "source": 0,
+        "source": 7,
         "icon": "https://files.nabox.io/icon/NULS.png",
         "nulsCross": true,
         "heterogeneousList": [
@@ -1071,7 +1094,7 @@ const beta = [
         "nerveChainId": 2,
         "nerveAssetId": 1,
         "nerveFlag": false,
-        "usdPrice": 0.8678,
+        "usdPrice": 0.4054,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1138,7 +1161,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 34,
       "nerveFlag": false,
-      "usdPrice": 2.5,
+      "usdPrice": 1.6343,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1170,7 +1193,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 34,
         "nerveFlag": false,
-        "usdPrice": 2.5,
+        "usdPrice": 1.6343,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1187,6 +1210,568 @@ const beta = [
     ]
   },
   {
+    "id": 19,
+    "chain": "Avalanche",
+    "chainName": "Avalanche",
+    "prefix": "0x",
+    "nativeId": 43113,
+    "chainId": 110,
+    "chainType": 2,
+    "crossAddress": "0x8999d8738CC9B2E1fb1D01E1af732421D53Cb2A9",
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/AVAX.png",
+    "apiUrl": "https://api.avax-test.network/ext/bc/C/rpc",
+    "scanUrl": "https://testnet.snowtrace.io/",
+    "psUrl": "https://faucet.avax-test.network/",
+    "tokenUrl": "https://testnet.snowtrace.io/token/",
+    "txUrl": "https://testnet.snowtrace.io/tx/",
+    "nft": "",
+    "sort": 6,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
+      "crossAddress": "0x8999d8738CC9B2E1fb1D01E1af732421D53Cb2A9",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 19035,
+      "chain": "Avalanche",
+      "registerChain": "Avalanche",
+      "chainId": 110,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "AVAX",
+      "symbol": "AVAX",
+      "symbolBase": "AVAX",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://files.nabox.io/icon/AVAX.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 110,
+          "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
+          "contractAddress": "",
+          "chainName": "Avalanche",
+          "token": false
+        }
+      ],
+      "nerveChainId": 5,
+      "nerveAssetId": 94,
+      "nerveFlag": false,
+      "usdPrice": 86.5678,
+      "usdPlatform": null,
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 19035,
+        "chain": "Avalanche",
+        "registerChain": "Avalanche",
+        "chainId": 110,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "AVAX",
+        "symbol": "AVAX",
+        "symbolBase": "AVAX",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://files.nabox.io/icon/AVAX.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 110,
+            "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
+            "contractAddress": "",
+            "chainName": "Avalanche",
+            "token": false
+          }
+        ],
+        "nerveChainId": 5,
+        "nerveAssetId": 94,
+        "nerveFlag": false,
+        "usdPrice": 86.5678,
+        "usdPlatform": null,
+        "usdUrl": null
+      }
+    ],
+    "nftAssets": null,
+    "urlList": []
+  },
+  {
+    "id": 14,
+    "chain": "Harmony",
+    "chainName": "Harmony",
+    "prefix": "0x",
+    "nativeId": 1666700000,
+    "chainId": 105,
+    "chainType": 2,
+    "crossAddress": "0x0EA7cE4180E8Bc484db4be9b497d9D106a3D7781",
+    "intro": null,
+    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
+    "apiUrl": "https://api.s0.pops.one/",
+    "scanUrl": "https://beta.explorer.harmony.one/",
+    "psUrl": "https://faucet.pops.one/",
+    "tokenUrl": "https://beta.explorer.harmony.one/address/",
+    "txUrl": "https://beta.explorer.harmony.one/tx/",
+    "nft": "",
+    "sort": 7,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0x767188de0CE73c8771E72c4caF4a18De2303DF01",
+      "crossAddress": "0x0EA7cE4180E8Bc484db4be9b497d9D106a3D7781",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 18893,
+      "chain": "Harmony",
+      "registerChain": "Harmony",
+      "chainId": 105,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "ONE",
+      "symbol": "ONE",
+      "symbolBase": "ONE",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 105,
+          "heterogeneousChainMultySignAddress": "0x0ea7ce4180e8bc484db4be9b497d9d106a3d7781",
+          "contractAddress": "",
+          "chainName": "Harmony",
+          "token": false
+        }
+      ],
+      "nerveChainId": 5,
+      "nerveAssetId": 33,
+      "nerveFlag": false,
+      "usdPrice": 0.1575,
+      "usdPlatform": "feixiaohao",
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 18893,
+        "chain": "Harmony",
+        "registerChain": "Harmony",
+        "chainId": 105,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "ONE",
+        "symbol": "ONE",
+        "symbolBase": "ONE",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 105,
+            "heterogeneousChainMultySignAddress": "0x0ea7ce4180e8bc484db4be9b497d9d106a3d7781",
+            "contractAddress": "",
+            "chainName": "Harmony",
+            "token": false
+          }
+        ],
+        "nerveChainId": 5,
+        "nerveAssetId": 33,
+        "nerveFlag": false,
+        "usdPrice": 0.1575,
+        "usdPlatform": "feixiaohao",
+        "usdUrl": null
+      }
+    ],
+    "nftAssets": null,
+    "urlList": [
+      {
+        "id": 6,
+        "chain": "Harmony",
+        "nativeId": 1666700000,
+        "name": "one-1",
+        "apiUrl": "https://api.s0.pops.one/"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "chain": "KCC",
+    "chainName": "KCC",
+    "prefix": "0x",
+    "nativeId": 322,
+    "chainId": 107,
+    "chainType": 2,
+    "crossAddress": "0x1329d995EB0c8FD1e20fa1f9ee12e9fE4c67c60a",
+    "intro": null,
+    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
+    "apiUrl": "https://rpc-testnet.kcc.network",
+    "scanUrl": "https://scan-testnet.kcc.network/",
+    "psUrl": "https://faucet-testnet.kcc.network/",
+    "tokenUrl": "https://scan-testnet.kcc.network/token/",
+    "txUrl": "https://scan-testnet.kcc.network/tx/",
+    "nft": "",
+    "sort": 8,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0x0111E01E78af5608e33569Edd997Fe2f700A0721",
+      "crossAddress": "0x1329d995EB0c8FD1e20fa1f9ee12e9fE4c67c60a",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 18895,
+      "chain": "KCC",
+      "registerChain": "KCC",
+      "chainId": 107,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "KCS",
+      "symbol": "KCS",
+      "symbolBase": "KCS",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 107,
+          "heterogeneousChainMultySignAddress": "0x1329d995eb0c8fd1e20fa1f9ee12e9fe4c67c60a",
+          "contractAddress": "",
+          "chainName": "KCC",
+          "token": false
+        }
+      ],
+      "nerveChainId": 5,
+      "nerveAssetId": 35,
+      "nerveFlag": false,
+      "usdPrice": 20.7311,
+      "usdPlatform": "feixiaohao",
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 18895,
+        "chain": "KCC",
+        "registerChain": "KCC",
+        "chainId": 107,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "KCS",
+        "symbol": "KCS",
+        "symbolBase": "KCS",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 107,
+            "heterogeneousChainMultySignAddress": "0x1329d995eb0c8fd1e20fa1f9ee12e9fe4c67c60a",
+            "contractAddress": "",
+            "chainName": "KCC",
+            "token": false
+          }
+        ],
+        "nerveChainId": 5,
+        "nerveAssetId": 35,
+        "nerveFlag": false,
+        "usdPrice": 20.7311,
+        "usdPlatform": "feixiaohao",
+        "usdUrl": null
+      }
+    ],
+    "nftAssets": null,
+    "urlList": [
+      {
+        "id": 8,
+        "chain": "KCC",
+        "nativeId": 322,
+        "name": "kcc-1",
+        "apiUrl": "https://rpc-testnet.kcc.network"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "chain": "Cronos",
+    "chainName": "Cronos",
+    "prefix": "0x",
+    "nativeId": 338,
+    "chainId": 109,
+    "chainType": 2,
+    "crossAddress": "0xb339211438Dcbf3D00d7999ad009637472FC72b3",
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/cronos.png",
+    "apiUrl": "https://cronos-testnet-3.crypto.org:8545",
+    "scanUrl": "https://cronos.crypto.org/explorer/testnet3/",
+    "psUrl": "https://cronos.crypto.org/faucet",
+    "tokenUrl": "https://cronos.crypto.org/explorer/testnet3/tokens/",
+    "txUrl": "https://cronos.crypto.org/explorer/testnet3/tx/",
+    "nft": "",
+    "sort": 9,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0x452085c1eD74B38169DaEe194312FA8Db4818C19",
+      "crossAddress": "0xb339211438Dcbf3D00d7999ad009637472FC72b3",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 19034,
+      "chain": "Cronos",
+      "registerChain": "Cronos",
+      "chainId": 109,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "CRO",
+      "symbol": "CRO",
+      "symbolBase": "CRO",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://files.nabox.io/icon/cronos.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 109,
+          "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
+          "contractAddress": "",
+          "chainName": "Cronos",
+          "token": false
+        }
+      ],
+      "nerveChainId": 5,
+      "nerveAssetId": 93,
+      "nerveFlag": false,
+      "usdPrice": 0.4413,
+      "usdPlatform": null,
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 19034,
+        "chain": "Cronos",
+        "registerChain": "Cronos",
+        "chainId": 109,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "CRO",
+        "symbol": "CRO",
+        "symbolBase": "CRO",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://files.nabox.io/icon/cronos.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
+            "contractAddress": "",
+            "chainName": "Cronos",
+            "token": false
+          }
+        ],
+        "nerveChainId": 5,
+        "nerveAssetId": 93,
+        "nerveFlag": false,
+        "usdPrice": 0.4413,
+        "usdPlatform": null,
+        "usdUrl": null
+      }
+    ],
+    "nftAssets": null,
+    "urlList": []
+  },
+  {
+    "id": 20,
+    "chain": "Arbitrum",
+    "chainName": "Arbitrum",
+    "prefix": "0x",
+    "nativeId": 421611,
+    "chainId": 111,
+    "chainType": 2,
+    "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/Arbitrum.png",
+    "apiUrl": "https://rinkeby.arbitrum.io/rpc",
+    "scanUrl": "https://testnet.arbiscan.io/",
+    "psUrl": "https://faucets.chain.link/rinkeby",
+    "tokenUrl": "https://testnet.arbiscan.io/token/",
+    "txUrl": "https://testnet.arbiscan.io/tx/",
+    "nft": "",
+    "sort": 10,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
+      "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 19036,
+      "chain": "Arbitrum",
+      "registerChain": "Arbitrum",
+      "chainId": 111,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "AETH",
+      "symbol": "AETH",
+      "symbolBase": "AETH",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://files.nabox.io/icon/Arbitrum.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 111,
+          "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
+          "contractAddress": "",
+          "chainName": "Arbitrum",
+          "token": false
+        }
+      ],
+      "nerveChainId": 5,
+      "nerveAssetId": 95,
+      "nerveFlag": false,
+      "usdPrice": 2935.3503,
+      "usdPlatform": null,
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 19036,
+        "chain": "Arbitrum",
+        "registerChain": "Arbitrum",
+        "chainId": 111,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "AETH",
+        "symbol": "AETH",
+        "symbolBase": "AETH",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://files.nabox.io/icon/Arbitrum.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 111,
+            "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
+            "contractAddress": "",
+            "chainName": "Arbitrum",
+            "token": false
+          }
+        ],
+        "nerveChainId": 5,
+        "nerveAssetId": 95,
+        "nerveFlag": false,
+        "usdPrice": 2935.3503,
+        "usdPlatform": null,
+        "usdUrl": null
+      }
+    ],
+    "nftAssets": null,
+    "urlList": []
+  },
+  {
+    "id": 21,
+    "chain": "Fantom",
+    "chainName": "Fantom",
+    "prefix": "0x",
+    "nativeId": 4002,
+    "chainId": 112,
+    "chainType": 2,
+    "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/Fantom.png",
+    "apiUrl": "https://rpc.testnet.fantom.network",
+    "scanUrl": "https://testnet.ftmscan.com/",
+    "psUrl": "https://faucet.fantom.network/",
+    "tokenUrl": "https://testnet.ftmscan.com/token/",
+    "txUrl": "https://testnet.ftmscan.com/tx/",
+    "nft": "",
+    "sort": 11,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
+      "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 19037,
+      "chain": "Fantom",
+      "registerChain": "Fantom",
+      "chainId": 112,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "FTM",
+      "symbol": "FTM",
+      "symbolBase": "FTM",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://files.nabox.io/icon/Fantom.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 112,
+          "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
+          "contractAddress": "",
+          "chainName": "Fantom",
+          "token": false
+        }
+      ],
+      "nerveChainId": 5,
+      "nerveAssetId": 96,
+      "nerveFlag": false,
+      "usdPrice": 1.816,
+      "usdPlatform": null,
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 19037,
+        "chain": "Fantom",
+        "registerChain": "Fantom",
+        "chainId": 112,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "FTM",
+        "symbol": "FTM",
+        "symbolBase": "FTM",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://files.nabox.io/icon/Fantom.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 112,
+            "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
+            "contractAddress": "",
+            "chainName": "Fantom",
+            "token": false
+          }
+        ],
+        "nerveChainId": 5,
+        "nerveAssetId": 96,
+        "nerveFlag": false,
+        "usdPrice": 1.816,
+        "usdPlatform": null,
+        "usdUrl": null
+      }
+    ],
+    "nftAssets": null,
+    "urlList": []
+  },
+  {
     "id": 2,
     "chain": "NERVE",
     "chainName": "NERVE",
@@ -1197,13 +1782,13 @@ const beta = [
     "crossAddress": null,
     "intro": null,
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NERVE.png",
-    "apiUrl": "http://149.129.130.13:17004/jsonrpc",
+    "apiUrl": "http://beta.api.nerve.network/jsonrpc",
     "scanUrl": "http://beta.scan.nerve.network/",
-    "psUrl": "http://149.129.130.13:17003",
+    "psUrl": "http://beta.public.nerve.network/jsonrpc",
     "tokenUrl": "",
     "txUrl": "http://beta.scan.nerve.network/transaction/info?hash=",
     "nft": "",
-    "sort": 7,
+    "sort": 99,
     "status": 0,
     "configs": {
       "feeAddress": "TNVTdTSPP9oSLvdtVSVFiUYCvXJdj1ZA1nyQU",
@@ -1314,7 +1899,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 1,
       "nerveFlag": false,
-      "usdPrice": 0.0407,
+      "usdPrice": 0.0264,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1423,7 +2008,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 1,
         "nerveFlag": false,
-        "usdPrice": 0.0407,
+        "usdPrice": 0.0264,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1435,571 +2020,9 @@ const beta = [
         "chain": "NERVE",
         "nativeId": -2,
         "name": "nvt-1",
-        "apiUrl": "http://149.129.130.13:17004/jsonrpc"
+        "apiUrl": "http://beta.api.nerve.network/jsonrpc"
       }
     ]
-  },
-  {
-    "id": 14,
-    "chain": "Harmony",
-    "chainName": "Harmony",
-    "prefix": "0x",
-    "nativeId": 1666700000,
-    "chainId": 105,
-    "chainType": 2,
-    "crossAddress": "0x0EA7cE4180E8Bc484db4be9b497d9D106a3D7781",
-    "intro": null,
-    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
-    "apiUrl": "https://api.s0.pops.one/",
-    "scanUrl": "https://beta.explorer.harmony.one/",
-    "psUrl": "https://faucet.pops.one/",
-    "tokenUrl": "https://beta.explorer.harmony.one/address/",
-    "txUrl": "https://beta.explorer.harmony.one/tx/",
-    "nft": "",
-    "sort": 8,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0x767188de0CE73c8771E72c4caF4a18De2303DF01",
-      "crossAddress": "0x0EA7cE4180E8Bc484db4be9b497d9D106a3D7781",
-      "nft": ""
-    },
-    "mainAsset": {
-      "id": 18893,
-      "chain": "Harmony",
-      "registerChain": "Harmony",
-      "chainId": 105,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "ONE",
-      "symbol": "ONE",
-      "symbolBase": "ONE",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 105,
-          "heterogeneousChainMultySignAddress": "0x0ea7ce4180e8bc484db4be9b497d9d106a3d7781",
-          "contractAddress": "",
-          "chainName": "Harmony",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 33,
-      "nerveFlag": false,
-      "usdPrice": 0.002521,
-      "usdPlatform": "feixiaohao",
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 18893,
-        "chain": "Harmony",
-        "registerChain": "Harmony",
-        "chainId": 105,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "ONE",
-        "symbol": "ONE",
-        "symbolBase": "ONE",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 105,
-            "heterogeneousChainMultySignAddress": "0x0ea7ce4180e8bc484db4be9b497d9d106a3d7781",
-            "contractAddress": "",
-            "chainName": "Harmony",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 33,
-        "nerveFlag": false,
-        "usdPrice": 0.002521,
-        "usdPlatform": "feixiaohao",
-        "usdUrl": null
-      }
-    ],
-    "nftAssets": null,
-    "urlList": [
-      {
-        "id": 6,
-        "chain": "Harmony",
-        "nativeId": 1666700000,
-        "name": "one-1",
-        "apiUrl": "https://api.s0.pops.one/"
-      }
-    ]
-  },
-  {
-    "id": 16,
-    "chain": "KCC",
-    "chainName": "KCC",
-    "prefix": "0x",
-    "nativeId": 322,
-    "chainId": 107,
-    "chainType": 2,
-    "crossAddress": "0x1329d995EB0c8FD1e20fa1f9ee12e9fE4c67c60a",
-    "intro": null,
-    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
-    "apiUrl": "https://rpc-testnet.kcc.network",
-    "scanUrl": "https://scan-testnet.kcc.network/",
-    "psUrl": "https://faucet-testnet.kcc.network/",
-    "tokenUrl": "https://scan-testnet.kcc.network/token/",
-    "txUrl": "https://scan-testnet.kcc.network/tx/",
-    "nft": "",
-    "sort": 9,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0x0111E01E78af5608e33569Edd997Fe2f700A0721",
-      "crossAddress": "0x1329d995EB0c8FD1e20fa1f9ee12e9fE4c67c60a",
-      "nft": ""
-    },
-    "mainAsset": {
-      "id": 18895,
-      "chain": "KCC",
-      "registerChain": "KCC",
-      "chainId": 107,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "KCS",
-      "symbol": "KCS",
-      "symbolBase": "KCS",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 107,
-          "heterogeneousChainMultySignAddress": "0x1329d995eb0c8fd1e20fa1f9ee12e9fe4c67c60a",
-          "contractAddress": "",
-          "chainName": "KCC",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 35,
-      "nerveFlag": false,
-      "usdPrice": 20.67,
-      "usdPlatform": "feixiaohao",
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 18895,
-        "chain": "KCC",
-        "registerChain": "KCC",
-        "chainId": 107,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "KCS",
-        "symbol": "KCS",
-        "symbolBase": "KCS",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 107,
-            "heterogeneousChainMultySignAddress": "0x1329d995eb0c8fd1e20fa1f9ee12e9fe4c67c60a",
-            "contractAddress": "",
-            "chainName": "KCC",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 35,
-        "nerveFlag": false,
-        "usdPrice": 20.67,
-        "usdPlatform": "feixiaohao",
-        "usdUrl": null
-      }
-    ],
-    "nftAssets": null,
-    "urlList": [
-      {
-        "id": 8,
-        "chain": "KCC",
-        "nativeId": 322,
-        "name": "kcc-1",
-        "apiUrl": "https://rpc-testnet.kcc.network"
-      }
-    ]
-  },
-  {
-    "id": 18,
-    "chain": "Cronos",
-    "chainName": "Cronos",
-    "prefix": "0x",
-    "nativeId": 338,
-    "chainId": 109,
-    "chainType": 2,
-    "crossAddress": "0xb339211438Dcbf3D00d7999ad009637472FC72b3",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/cronos.png",
-    "apiUrl": "https://cronos-testnet-3.crypto.org:8545",
-    "scanUrl": "https://cronos.crypto.org/explorer/testnet3/",
-    "psUrl": "https://cronos.crypto.org/faucet",
-    "tokenUrl": "https://cronos.crypto.org/explorer/testnet3/tokens/",
-    "txUrl": "https://cronos.crypto.org/explorer/testnet3/tx/",
-    "nft": "",
-    "sort": 10,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0x452085c1eD74B38169DaEe194312FA8Db4818C19",
-      "crossAddress": "0xb339211438Dcbf3D00d7999ad009637472FC72b3",
-      "nft": ""
-    },
-    "mainAsset": {
-      "id": 19034,
-      "chain": "Cronos",
-      "registerChain": "Cronos",
-      "chainId": 109,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "CRO",
-      "symbol": "CRO",
-      "symbolBase": "CRO",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/cronos.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 109,
-          "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
-          "contractAddress": "",
-          "chainName": "Cronos",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 93,
-      "nerveFlag": false,
-      "usdPrice": 0.4321,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19034,
-        "chain": "Cronos",
-        "registerChain": "Cronos",
-        "chainId": 109,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "CRO",
-        "symbol": "CRO",
-        "symbolBase": "CRO",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/cronos.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 109,
-            "heterogeneousChainMultySignAddress": "0xb339211438dcbf3d00d7999ad009637472fc72b3",
-            "contractAddress": "",
-            "chainName": "Cronos",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 93,
-        "nerveFlag": false,
-        "usdPrice": 0.4321,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "nftAssets": null,
-    "urlList": []
-  },
-  {
-    "id": 19,
-    "chain": "Avalanche",
-    "chainName": "Avalanche",
-    "prefix": "0x",
-    "nativeId": 43113,
-    "chainId": 110,
-    "chainType": 2,
-    "crossAddress": "0x8999d8738CC9B2E1fb1D01E1af732421D53Cb2A9",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/AVAX.png",
-    "apiUrl": "https://api.avax-test.network/ext/bc/C/rpc",
-    "scanUrl": "https://testnet.snowtrace.io/",
-    "psUrl": "https://faucet.avax-test.network/",
-    "tokenUrl": "https://testnet.snowtrace.io/token/",
-    "txUrl": "https://testnet.snowtrace.io/tx/",
-    "nft": "",
-    "sort": 11,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
-      "crossAddress": "0x8999d8738CC9B2E1fb1D01E1af732421D53Cb2A9",
-      "nft": ""
-    },
-    "mainAsset": {
-      "id": 19035,
-      "chain": "Avalanche",
-      "registerChain": "Avalanche",
-      "chainId": 110,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "AVAX",
-      "symbol": "AVAX",
-      "symbolBase": "AVAX",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/AVAX.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 110,
-          "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-          "contractAddress": "",
-          "chainName": "Avalanche",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 94,
-      "nerveFlag": false,
-      "usdPrice": 83.6232,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19035,
-        "chain": "Avalanche",
-        "registerChain": "Avalanche",
-        "chainId": 110,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "AVAX",
-        "symbol": "AVAX",
-        "symbolBase": "AVAX",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/AVAX.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 110,
-            "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-            "contractAddress": "",
-            "chainName": "Avalanche",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 94,
-        "nerveFlag": false,
-        "usdPrice": 83.6232,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "nftAssets": null,
-    "urlList": []
-  },
-  {
-    "id": 20,
-    "chain": "Arbitrum",
-    "chainName": "Arbitrum",
-    "prefix": "0x",
-    "nativeId": 421611,
-    "chainId": 111,
-    "chainType": 2,
-    "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/Arbitrum.png",
-    "apiUrl": "https://rinkeby.arbitrum.io/rpc",
-    "scanUrl": "https://testnet.arbiscan.io/",
-    "psUrl": "https://faucets.chain.link/rinkeby",
-    "tokenUrl": "https://testnet.arbiscan.io/token/",
-    "txUrl": "https://testnet.arbiscan.io/tx/",
-    "nft": "",
-    "sort": 12,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
-      "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
-      "nft": ""
-    },
-    "mainAsset": {
-      "id": 19036,
-      "chain": "Arbitrum",
-      "registerChain": "Arbitrum",
-      "chainId": 111,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "AETH",
-      "symbol": "AETH",
-      "symbolBase": "AETH",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/Arbitrum.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 111,
-          "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
-          "contractAddress": "",
-          "chainName": "Arbitrum",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 95,
-      "nerveFlag": false,
-      "usdPrice": 3123.6565,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19036,
-        "chain": "Arbitrum",
-        "registerChain": "Arbitrum",
-        "chainId": 111,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "AETH",
-        "symbol": "AETH",
-        "symbolBase": "AETH",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/Arbitrum.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 111,
-            "heterogeneousChainMultySignAddress": "0x830befa62501f1073ebe2a519b882e358f2a0318",
-            "contractAddress": "",
-            "chainName": "Arbitrum",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 95,
-        "nerveFlag": false,
-        "usdPrice": 3123.6565,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "nftAssets": null,
-    "urlList": []
-  },
-  {
-    "id": 21,
-    "chain": "Fantom",
-    "chainName": "Fantom",
-    "prefix": "0x",
-    "nativeId": 4002,
-    "chainId": 112,
-    "chainType": 2,
-    "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
-    "intro": null,
-    "icon": "https://files.nabox.io/icon/Fantom.png",
-    "apiUrl": "https://rpc.testnet.fantom.network",
-    "scanUrl": "https://testnet.ftmscan.com/",
-    "psUrl": "https://faucet.fantom.network/",
-    "tokenUrl": "https://testnet.ftmscan.com/token/",
-    "txUrl": "https://testnet.ftmscan.com/tx/",
-    "nft": "",
-    "sort": 13,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
-      "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
-      "nft": ""
-    },
-    "mainAsset": {
-      "id": 19037,
-      "chain": "Fantom",
-      "registerChain": "Fantom",
-      "chainId": 112,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "FTM",
-      "symbol": "FTM",
-      "symbolBase": "FTM",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://files.nabox.io/icon/Fantom.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 112,
-          "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-          "contractAddress": "",
-          "chainName": "Fantom",
-          "token": false
-        }
-      ],
-      "nerveChainId": 5,
-      "nerveAssetId": 96,
-      "nerveFlag": false,
-      "usdPrice": 2.8277,
-      "usdPlatform": null,
-      "usdUrl": null
-    },
-    "assets": [
-      {
-        "id": 19037,
-        "chain": "Fantom",
-        "registerChain": "Fantom",
-        "chainId": 112,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "FTM",
-        "symbol": "FTM",
-        "symbolBase": "FTM",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://files.nabox.io/icon/Fantom.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 112,
-            "heterogeneousChainMultySignAddress": "0x8999d8738cc9b2e1fb1d01e1af732421d53cb2a9",
-            "contractAddress": "",
-            "chainName": "Fantom",
-            "token": false
-          }
-        ],
-        "nerveChainId": 5,
-        "nerveAssetId": 96,
-        "nerveFlag": false,
-        "usdPrice": 2.8277,
-        "usdPlatform": null,
-        "usdUrl": null
-      }
-    ],
-    "nftAssets": null,
-    "urlList": []
   }
 ]
 

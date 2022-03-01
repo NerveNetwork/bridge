@@ -32,7 +32,12 @@ export default {
   },
   data() {
     return {
-      chainConfig: {}
+      // chainConfig: {}
+    }
+  },
+  computed: {
+    chainConfig() {
+      return this.$store.state.config;
     }
   },
 
@@ -43,7 +48,7 @@ export default {
         this.$emit("input", false)
       }
     }, false)
-    this.setChainList()
+    // this.setChainList()
   },
 
   methods: {
@@ -54,10 +59,10 @@ export default {
         this.$emit('change', item);
       }
     },
-    setChainList() {
-      this.chainConfig = getChainConfigs();
-      console.log(this.chainConfig, 123465)
-    }
+    // setChainList() {
+    //   this.chainConfig = getChainConfigs();
+    //   console.log(this.chainConfig, 123465)
+    // }
   }
 }
 </script>
