@@ -10,15 +10,18 @@ const main = [
     "crossAddress": "0xc707e0854da2d72c90a7453f8dc224dd937d7e82",
     "intro": null,
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Ethereum.png",
-    "apiUrl": "http://geth.nerve.network/",
+    "apiUrl": "https://geth.nerve.network/",
+    "scanUrl": "https://etherscan.io/",
     "psUrl": null,
     "tokenUrl": "https://etherscan.io/token/",
     "txUrl": "https://etherscan.io/tx/",
+    "nft": "eth",
     "sort": 1,
     "status": 0,
     "configs": {
-      "multiCallAddress": "0xf5b4224Fae4f3900417e73Ea626f86476D2181f3",
-      "crossAddress": "0xc707e0854da2d72c90a7453f8dc224dd937d7e82"
+      "multiCallAddress": "0x6899aa135037a4c8a3cab11622d35cea4cd63747",
+      "crossAddress": "0xc707e0854da2d72c90a7453f8dc224dd937d7e82",
+      "nft": "eth"
     },
     "mainAsset": {
       "id": 18684,
@@ -61,7 +64,9 @@ const main = [
       "nerveChainId": 9,
       "nerveAssetId": 2,
       "nerveFlag": false,
-      "usdFlag": false
+      "usdPrice": 2828.347,
+      "usdPlatform": "cmc",
+      "usdUrl": null
     },
     "assets": [
       {
@@ -72,7 +77,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x7b6f71c8b123b38aa8099e0098bec7fbc35b8a13",
         "decimals": 8,
-        "assetName": "Nerve Network",
+        "assetName": "NVT",
         "symbol": "NVT",
         "symbolBase": "NVT",
         "configType": 2,
@@ -128,12 +133,28 @@ const main = [
             "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
             "chainName": "KCC",
             "token": true
+          },
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Cronos",
+            "token": true
+          },
+          {
+            "heterogeneousChainId": 110,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Avalanche",
+            "token": true
           }
         ],
         "nerveChainId": 9,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.027157,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18802,
@@ -143,7 +164,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xa2791bdf2d5055cda4d46ec17f9f429568275047",
         "decimals": 8,
-        "assetName": "Nuls",
+        "assetName": "NULS",
         "symbol": "NULS",
         "symbolBase": "NULS",
         "configType": 2,
@@ -204,7 +225,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.398638,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18684,
@@ -247,7 +270,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 2,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 2828.347,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       }
     ],
     "urlList": [
@@ -255,28 +280,28 @@ const main = [
         "id": 27,
         "chain": "Ethereum",
         "nativeId": 1,
-        "name": "eth-1",
-        "apiUrl": "http://geth.nerve.network"
+        "name": "ETH-1",
+        "apiUrl": "https://geth.nerve.network"
       },
       {
         "id": 28,
         "chain": "Ethereum",
         "nativeId": 1,
-        "name": "eth-2",
+        "name": "ETH-2",
         "apiUrl": "https://web3.mytokenpocket.vip"
       },
       {
         "id": 29,
         "chain": "Ethereum",
         "nativeId": 1,
-        "name": "eth-3",
+        "name": "ETH-3",
         "apiUrl": "https://geth.mytokenpocket.vip"
       },
       {
         "id": 30,
         "chain": "Ethereum",
         "nativeId": 1,
-        "name": "eth-4",
+        "name": "ETH-4",
         "apiUrl": "https://eth626892d.jccdex.cn"
       }
     ]
@@ -293,14 +318,17 @@ const main = [
     "intro": null,
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/BSC.png",
     "apiUrl": "https://bsc-dataseed.binance.org",
+    "scanUrl": "https://bscscan.com/",
     "psUrl": null,
     "tokenUrl": "https://bscscan.com/token/",
     "txUrl": "https://bscscan.com/tx/",
+    "nft": "bsc",
     "sort": 2,
     "status": 0,
     "configs": {
       "multiCallAddress": "0x07616A4fb60F854054137A7b9b5C3f8c8dd2dc01",
-      "crossAddress": "0x75ab1d50bedbd32b6113941fcf5359787a4bbef4"
+      "crossAddress": "0x75ab1d50bedbd32b6113941fcf5359787a4bbef4",
+      "nft": "bsc"
     },
     "mainAsset": {
       "id": 18989,
@@ -336,7 +364,9 @@ const main = [
       "nerveChainId": 9,
       "nerveAssetId": 25,
       "nerveFlag": false,
-      "usdFlag": false
+      "usdPrice": 401.9613,
+      "usdPlatform": "cmc",
+      "usdUrl": null
     },
     "assets": [
       {
@@ -347,7 +377,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x755f34709e369d37c6fa52808ae84a32007d1155",
         "decimals": 18,
-        "assetName": "Nabox Token",
+        "assetName": "Nabox_Token",
         "symbol": "NABOX",
         "symbolBase": "NABOX",
         "configType": 2,
@@ -408,7 +438,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 146,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.000031,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19104,
@@ -418,7 +450,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x8cd6e29d3686d24d3c2018cee54621ea0f89313b",
         "decimals": 8,
-        "assetName": "Nuls",
+        "assetName": "NULS",
         "symbol": "NULS",
         "symbolBase": "NULS",
         "configType": 2,
@@ -479,7 +511,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.398638,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18991,
@@ -489,7 +523,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
         "decimals": 18,
-        "assetName": "Wrapped BNB",
+        "assetName": "WBNB",
         "symbol": "WBNB",
         "symbolBase": "WBNB",
         "configType": 2,
@@ -508,7 +542,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 29,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 392.086053,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19008,
@@ -518,7 +554,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
         "decimals": 18,
-        "assetName": "Binance-Peg BUSD Token",
+        "assetName": "BUSD",
         "symbol": "BUSD",
         "symbolBase": "BUSD",
         "configType": 2,
@@ -551,7 +587,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 30,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.998746,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19105,
@@ -561,7 +599,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xf0e406c49c63abf358030a299c0e00118c4c6ba5",
         "decimals": 8,
-        "assetName": "NerveNetwork",
+        "assetName": "NVT",
         "symbol": "NVT",
         "symbolBase": "NVT",
         "configType": 2,
@@ -617,12 +655,28 @@ const main = [
             "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
             "chainName": "KCC",
             "token": true
+          },
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Cronos",
+            "token": true
+          },
+          {
+            "heterogeneousChainId": 110,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Avalanche",
+            "token": true
           }
         ],
         "nerveChainId": 9,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.027157,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18989,
@@ -658,7 +712,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 25,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 401.9613,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       }
     ],
     "urlList": [
@@ -666,155 +722,64 @@ const main = [
         "id": 31,
         "chain": "BSC",
         "nativeId": 56,
-        "name": "bsc-1",
+        "name": "BSC-1",
         "apiUrl": "https://bsc-dataseed4.ninicoin.io"
       },
       {
         "id": 32,
         "chain": "BSC",
         "nativeId": 56,
-        "name": "bsc-2",
+        "name": "BSC-2",
         "apiUrl": "https://bsc-dataseed1.binance.org"
       },
       {
         "id": 33,
         "chain": "BSC",
         "nativeId": 56,
-        "name": "bsc-3",
+        "name": "BSC-3",
         "apiUrl": "https://bsc-dataseed2.binance.org"
       },
       {
         "id": 34,
         "chain": "BSC",
         "nativeId": 56,
-        "name": "bsc-4",
+        "name": "BSC-4",
         "apiUrl": "https://bsc-dataseed3.binance.org"
       },
       {
         "id": 35,
         "chain": "BSC",
         "nativeId": 56,
-        "name": "bsc-5",
+        "name": "BSC-5",
         "apiUrl": "https://bsc-dataseed.binance.org"
-      }
-    ]
-  },
-  {
-    "id": 130,
-    "chain": "Polygon",
-    "chainName": "Polygon",
-    "prefix": "0x",
-    "nativeId": 137,
-    "chainId": 106,
-    "chainType": 2,
-    "crossAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e",
-    "intro": null,
-    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png",
-    "apiUrl": "https://rpc-mainnet.matic.quiknode.pro",
-    "psUrl": null,
-    "tokenUrl": "https://polygonscan.com/token/",
-    "txUrl": "https://polygonscan.com/tx/",
-    "sort": 3,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
-      "crossAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e"
-    },
-    "mainAsset": {
-      "id": 1360884,
-      "chain": "Polygon",
-      "registerChain": "Polygon",
-      "chainId": 106,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "MATIC",
-      "symbol": "MATIC",
-      "symbolBase": "MATIC",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 106,
-          "heterogeneousChainMultySignAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e",
-          "contractAddress": "",
-          "chainName": "Polygon",
-          "token": false
-        }
-      ],
-      "nerveChainId": 9,
-      "nerveAssetId": 160,
-      "nerveFlag": false,
-      "usdFlag": false
-    },
-    "assets": [
-      {
-        "id": 1360884,
-        "chain": "Polygon",
-        "registerChain": "Polygon",
-        "chainId": 106,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "MATIC",
-        "symbol": "MATIC",
-        "symbolBase": "MATIC",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 106,
-            "heterogeneousChainMultySignAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e",
-            "contractAddress": "",
-            "chainName": "Polygon",
-            "token": false
-          }
-        ],
-        "nerveChainId": 9,
-        "nerveAssetId": 160,
-        "nerveFlag": false,
-        "usdFlag": false
-      }
-    ],
-    "urlList": [
-      {
-        "id": 40,
-        "chain": "Polygon",
-        "nativeId": 137,
-        "name": "matic-1",
-        "apiUrl": "https://rpc-mainnet.matic.network"
       },
       {
-        "id": 41,
-        "chain": "Polygon",
-        "nativeId": 137,
-        "name": "matic-2",
-        "apiUrl": "https://matic-mainnet.chainstacklabs.com"
+        "id": 51,
+        "chain": "BSC",
+        "nativeId": 56,
+        "name": "bsc-6",
+        "apiUrl": "https://bsc-dataseed3.defibit.io"
       },
       {
-        "id": 42,
-        "chain": "Polygon",
-        "nativeId": 137,
-        "name": "matic-3",
-        "apiUrl": "https://rpc-mainnet.maticvigil.com"
+        "id": 52,
+        "chain": "BSC",
+        "nativeId": 56,
+        "name": "bsc-7",
+        "apiUrl": "https://bsc-dataseed4.defibit.io"
       },
       {
-        "id": 43,
-        "chain": "Polygon",
-        "nativeId": 137,
-        "name": "matic-4",
-        "apiUrl": "https://polygon-rpc.com"
+        "id": 53,
+        "chain": "BSC",
+        "nativeId": 56,
+        "name": "bsc-8",
+        "apiUrl": "https://bsc-dataseed2.ninicoin.io"
       },
       {
-        "id": 44,
-        "chain": "Polygon",
-        "nativeId": 137,
-        "name": "matic-5",
-        "apiUrl": "https://matic-mainnet-archive-rpc.bwarelabs.com"
+        "id": 54,
+        "chain": "BSC",
+        "nativeId": 56,
+        "name": "bsc-9",
+        "apiUrl": "https://bsc-dataseed3.ninicoin.io"
       }
     ]
   },
@@ -830,14 +795,17 @@ const main = [
     "intro": null,
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Heco.png",
     "apiUrl": "https://http-mainnet.hecochain.com",
+    "scanUrl": "https://hecoinfo.com/",
     "psUrl": null,
     "tokenUrl": "https://hecoinfo.com/token/",
     "txUrl": "https://hecoinfo.com/tx/",
+    "nft": "",
     "sort": 4,
     "status": 0,
     "configs": {
       "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
-      "crossAddress": "0x2ead2e7a3bd88c6a90b3d464bc6938ba56f1407f"
+      "crossAddress": "0x2ead2e7a3bd88c6a90b3d464bc6938ba56f1407f",
+      "nft": ""
     },
     "mainAsset": {
       "id": 19090,
@@ -873,7 +841,9 @@ const main = [
       "nerveChainId": 9,
       "nerveAssetId": 55,
       "nerveFlag": false,
-      "usdFlag": false
+      "usdPrice": 8.6877,
+      "usdPlatform": "cmc",
+      "usdUrl": null
     },
     "assets": [
       {
@@ -884,7 +854,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x0298c2b32eae4da002a15f36fdf7615bea3da047",
         "decimals": 8,
-        "assetName": "Heco-Peg HUSD Token",
+        "assetName": "HUSD",
         "symbol": "HUSD",
         "symbolBase": "HUSD",
         "configType": 2,
@@ -917,7 +887,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 70,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.999778,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19101,
@@ -927,7 +899,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x25d2e80cb6b86881fd7e07dd263fb79f4abe033c",
         "decimals": 18,
-        "assetName": "MDX Token",
+        "assetName": "MDX",
         "symbol": "MDX",
         "symbolBase": "MDX",
         "configType": 2,
@@ -946,7 +918,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 83,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.039423,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19099,
@@ -967,7 +941,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 19098,
@@ -988,7 +964,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 9.472388,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19092,
@@ -1009,7 +987,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 2728.224045,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19091,
@@ -1019,7 +999,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x66a79d23e58475d2738179ca52cd0b41d73f0bea",
         "decimals": 18,
-        "assetName": "Heco-Peg HBTC Token",
+        "assetName": "HBTC",
         "symbol": "HBTC",
         "symbolBase": "HBTC",
         "configType": 2,
@@ -1038,7 +1018,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 72,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 41457.007722,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 1235554,
@@ -1048,7 +1030,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x959ff4d35b1ad8425276383a2b128e398b10c5d7",
         "decimals": 18,
-        "assetName": "Nabox Token",
+        "assetName": "Nabox_Token",
         "symbol": "NABOX",
         "symbolBase": "NABOX",
         "configType": 2,
@@ -1109,7 +1091,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 146,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.000031,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19093,
@@ -1130,7 +1114,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 17.45,
+        "usdPlatform": "feixiaohao",
+        "usdUrl": null
       },
       {
         "id": 19094,
@@ -1140,7 +1126,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xa71edc38d189767582c38a3145b5873052c3e47a",
         "decimals": 18,
-        "assetName": "Heco-Peg USDTHECO Token",
+        "assetName": "USDT",
         "symbol": "USDT",
         "symbolBase": "USDT",
         "configType": 2,
@@ -1159,7 +1145,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 196,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 1.000215,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19100,
@@ -1169,7 +1157,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xae3a768f9ab104c69a7cd6041fe16ffa235d1810",
         "decimals": 18,
-        "assetName": "Heco-Peg HFIL Token",
+        "assetName": "HFIL",
         "symbol": "HFIL",
         "symbolBase": "HFIL",
         "configType": 2,
@@ -1188,7 +1176,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 227,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 18.9,
+        "usdPlatform": "feixiaohao",
+        "usdUrl": null
       },
       {
         "id": 19097,
@@ -1209,7 +1199,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 19107,
@@ -1280,7 +1272,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.398638,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19103,
@@ -1301,7 +1295,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.002008,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19095,
@@ -1322,7 +1318,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 108.22,
+        "usdPlatform": "feixiaohao",
+        "usdUrl": null
       },
       {
         "id": 19096,
@@ -1343,7 +1341,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 307.75,
+        "usdPlatform": "feixiaohao",
+        "usdUrl": null
       },
       {
         "id": 19106,
@@ -1353,7 +1353,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xf0e406c49c63abf358030a299c0e00118c4c6ba5",
         "decimals": 8,
-        "assetName": "NerveNetwork",
+        "assetName": "NVT",
         "symbol": "NVT",
         "symbolBase": "NVT",
         "configType": 2,
@@ -1409,12 +1409,28 @@ const main = [
             "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
             "chainName": "KCC",
             "token": true
+          },
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Cronos",
+            "token": true
+          },
+          {
+            "heterogeneousChainId": 110,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Avalanche",
+            "token": true
           }
         ],
         "nerveChainId": 9,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.027157,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 19090,
@@ -1450,7 +1466,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 55,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 8.6877,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       }
     ],
     "urlList": [
@@ -1458,14 +1476,14 @@ const main = [
         "id": 36,
         "chain": "Heco",
         "nativeId": 128,
-        "name": "heco-1",
+        "name": "HECO-1",
         "apiUrl": "https://http-mainnet.hecochain.com"
       },
       {
         "id": 37,
         "chain": "Heco",
         "nativeId": 128,
-        "name": "heco-2",
+        "name": "HECO-2",
         "apiUrl": "https://http-mainnet-node.defibox.com"
       }
     ]
@@ -1482,14 +1500,17 @@ const main = [
     "intro": null,
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/OKExChain.png",
     "apiUrl": "https://exchainrpc.okex.org",
+    "scanUrl": "https://www.oklink.com/",
     "psUrl": null,
     "tokenUrl": "https://www.oklink.com/okexchain/tokenAddr/",
     "txUrl": "https://www.oklink.com/okexchain/tx/",
+    "nft": "",
     "sort": 5,
     "status": 0,
     "configs": {
       "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
-      "crossAddress": "0xe096d12d6cb61e11bce3755f938b9259b386523a"
+      "crossAddress": "0xe096d12d6cb61e11bce3755f938b9259b386523a",
+      "nft": ""
     },
     "mainAsset": {
       "id": 862100,
@@ -1518,7 +1539,9 @@ const main = [
       "nerveChainId": 9,
       "nerveAssetId": 87,
       "nerveFlag": false,
-      "usdFlag": false
+      "usdPrice": 34.3452,
+      "usdPlatform": "cmc",
+      "usdUrl": null
     },
     "assets": [
       {
@@ -1529,7 +1552,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x68df883715a12f085ffe54e90733a12c7c9c8128",
         "decimals": 18,
-        "assetName": "Nabox Token",
+        "assetName": "Nabox_Token",
         "symbol": "NABOX",
         "symbolBase": "NABOX",
         "configType": 2,
@@ -1590,7 +1613,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 146,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.000031,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 947919,
@@ -1600,7 +1625,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0x8cd6e29d3686d24d3c2018cee54621ea0f89313b",
         "decimals": 8,
-        "assetName": "Nuls",
+        "assetName": "NULS",
         "symbol": "NULS",
         "symbolBase": "NULS",
         "configType": 2,
@@ -1661,7 +1686,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.398638,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 947918,
@@ -1671,7 +1698,7 @@ const main = [
         "assetId": 0,
         "contractAddress": "0xd1351ec15e8511658c2ba1e1e81e1e60aa39c9cd",
         "decimals": 8,
-        "assetName": "NerveNetwork",
+        "assetName": "NVT",
         "symbol": "NVT",
         "symbolBase": "NVT",
         "configType": 2,
@@ -1727,12 +1754,28 @@ const main = [
             "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
             "chainName": "KCC",
             "token": true
+          },
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Cronos",
+            "token": true
+          },
+          {
+            "heterogeneousChainId": 110,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Avalanche",
+            "token": true
           }
         ],
         "nerveChainId": 9,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.027157,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 862100,
@@ -1761,7 +1804,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 87,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 34.3452,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       }
     ],
     "urlList": [
@@ -1769,14 +1814,14 @@ const main = [
         "id": 38,
         "chain": "OKExChain",
         "nativeId": 66,
-        "name": "oec-1",
+        "name": "OEC-1",
         "apiUrl": "https://exchainrpc.okex.org"
       },
       {
         "id": 39,
         "chain": "OKExChain",
         "nativeId": 66,
-        "name": "oec-2",
+        "name": "OEC-2",
         "apiUrl": "https://okchain.mytokenpocket.vip"
       }
     ]
@@ -1793,14 +1838,17 @@ const main = [
     "intro": null,
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NULS.png",
     "apiUrl": "https://api.nuls.io/jsonrpc",
+    "scanUrl": "https://nulscan.io/",
     "psUrl": "https://public1.nuls.io/",
     "tokenUrl": "https://nulscan.io/token/info?contractAddress=",
     "txUrl": "https://nulscan.io/transaction/info?hash=",
-    "sort": 6,
+    "nft": "",
+    "sort": 98,
     "status": 0,
     "configs": {
       "feeAddress": "NULSd6HgceXmdyqnK5WzHdJKjXxtZVR3w3rJp",
-      "destroyAddress": "NULSd6HgWSU1iR6BfNoQi85mAMT52JMFzpnok"
+      "destroyAddress": "NULSd6HgWSU1iR6BfNoQi85mAMT52JMFzpnok",
+      "nft": ""
     },
     "mainAsset": {
       "id": 18505,
@@ -1871,7 +1919,9 @@ const main = [
       "nerveChainId": 1,
       "nerveAssetId": 1,
       "nerveFlag": true,
-      "usdFlag": false
+      "usdPrice": 0.4026,
+      "usdPlatform": "cmc",
+      "usdUrl": null
     },
     "assets": [
       {
@@ -1893,7 +1943,32 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1363650,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6Hgk44pRaP9EuBXsEyQy15yv6pfGGVUz",
+        "decimals": 8,
+        "assetName": "NerveNetwork",
+        "symbol": "NVT",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360742,
@@ -1914,7 +1989,32 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1363806,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgkxoER9xnmSBDVbXC6Cu4Vf1VjRwzN",
+        "decimals": 6,
+        "assetName": "SilkCoin",
+        "symbol": "SLKC",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360792,
@@ -1935,7 +2035,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1361033,
@@ -1956,7 +2058,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360553,
@@ -1977,7 +2081,32 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1364017,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgngWZE3u8WRe4QxCVcUiyGtDP7cGEU",
+        "decimals": 8,
+        "assetName": "tungsten",
+        "symbol": "tungsten",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360874,
@@ -1998,7 +2127,32 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1362544,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgnvjmWJBtK4PkfxUrXzujTAJF6gZC5",
+        "decimals": 8,
+        "assetName": "NICE",
+        "symbol": "NC",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1361035,
@@ -2019,7 +2173,32 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1364019,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6Hgocjz53UsmRkGJuQiXz993S3vosu81",
+        "decimals": 8,
+        "assetName": "platinum",
+        "symbol": "platinum",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360958,
@@ -2040,7 +2219,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360338,
@@ -2061,7 +2242,55 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1363804,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgpD75v81QjDv8B8QCuoWvpoQMh71Ye",
+        "decimals": 8,
+        "assetName": "TPUChain",
+        "symbol": "TPU",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1362542,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgpfTCX4BdFuoGtZWNKBrkfZVQWrQBd",
+        "decimals": 5,
+        "assetName": "CNMB",
+        "symbol": "CNMB",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360003,
@@ -2082,7 +2311,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360522,
@@ -2103,7 +2334,32 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1362541,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgptqhjUALk8jzS7amHTuuRequwGCiF",
+        "decimals": 8,
+        "assetName": "BBAI",
+        "symbol": "BBAI",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1361071,
@@ -2124,7 +2380,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360515,
@@ -2145,7 +2403,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360000,
@@ -2166,7 +2426,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360518,
@@ -2187,7 +2449,55 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1363807,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgvMWGXzNTyQnbYhVgxE1UPzYWWvvsL",
+        "decimals": 6,
+        "assetName": "USDI_TOKEN",
+        "symbol": "USDI",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1363805,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgwDqWDAbxzXnARD95SZS6RjMPFTRk8",
+        "decimals": 5,
+        "assetName": "bug",
+        "symbol": "BUG",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360350,
@@ -2208,7 +2518,55 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1362543,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6HgxwgDsvDbV3QMQsjTMEh6eM8E4PjbW",
+        "decimals": 18,
+        "assetName": "OurWorld",
+        "symbol": "OWD",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      },
+      {
+        "id": 1364018,
+        "chain": "NULS",
+        "registerChain": "NULS",
+        "chainId": 1,
+        "assetId": 0,
+        "contractAddress": "NULSd6Hgyb8Tfy9vQcf1Z4QGqdRFkzfYR1M5o",
+        "decimals": 8,
+        "assetName": "obsidan",
+        "symbol": "obsidan",
+        "symbolBase": null,
+        "configType": 0,
+        "source": 0,
+        "icon": "",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360561,
@@ -2229,7 +2587,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360519,
@@ -2250,7 +2610,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360001,
@@ -2271,7 +2633,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.005922,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 1360002,
@@ -2292,7 +2656,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1361366,
@@ -2313,7 +2679,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 1360022,
@@ -2334,7 +2702,9 @@ const main = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
       },
       {
         "id": 18505,
@@ -2405,7 +2775,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.4026,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 1359532,
@@ -2476,7 +2848,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 146,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.000031,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18506,
@@ -2542,12 +2916,28 @@ const main = [
             "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
             "chainName": "KCC",
             "token": true
+          },
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Cronos",
+            "token": true
+          },
+          {
+            "heterogeneousChainId": 110,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Avalanche",
+            "token": true
           }
         ],
         "nerveChainId": 9,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.027157,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18544,
@@ -2590,7 +2980,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 2,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 2728.224045,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18539,
@@ -2626,7 +3018,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 8,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 9.45994,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18547,
@@ -2637,8 +3031,8 @@ const main = [
         "contractAddress": "",
         "decimals": 18,
         "assetName": "ALEPH",
-        "symbol": "ALEPH2",
-        "symbolBase": "ALEPH2",
+        "symbol": "ALEPH",
+        "symbolBase": "ALEPH",
         "configType": 2,
         "source": 9,
         "icon": "https://files.nabox.io/icon/aleph.im0001.png",
@@ -2669,7 +3063,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 21,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.348659,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18533,
@@ -2705,7 +3101,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 25,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 393.130019,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18529,
@@ -2748,7 +3146,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 30,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.998746,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18564,
@@ -2791,7 +3191,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 70,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.999778,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       }
     ],
     "urlList": [
@@ -2799,50 +3201,470 @@ const main = [
         "id": 10,
         "chain": "NULS",
         "nativeId": -1,
-        "name": "nuls-1",
+        "name": "NULS-1",
         "apiUrl": "https://api.nuls.io/jsonrpc"
       },
       {
         "id": 11,
         "chain": "NULS",
         "nativeId": -1,
-        "name": "nuls-2",
+        "name": "NULS-2",
         "apiUrl": "https://sg.api.nuls.io/jsonrpc"
       },
       {
         "id": 12,
         "chain": "NULS",
         "nativeId": -1,
-        "name": "nuls-3",
+        "name": "NULS-3",
         "apiUrl": "https://hk.api.nuls.io/jsonrpc"
       },
       {
         "id": 13,
         "chain": "NULS",
         "nativeId": -1,
-        "name": "nuls-4",
+        "name": "NULS-4",
         "apiUrl": "https://au.api.nuls.io/jsonrpc"
       },
       {
         "id": 14,
         "chain": "NULS",
         "nativeId": -1,
-        "name": "nuls-5",
+        "name": "NULS-5",
         "apiUrl": "https://us.api.nuls.io/jsonrpc "
       },
       {
         "id": 15,
         "chain": "NULS",
         "nativeId": -1,
-        "name": "nuls-6",
+        "name": "NULS-6",
         "apiUrl": "https://id.api.nuls.io/jsonrpc"
       },
       {
         "id": 16,
         "chain": "NULS",
         "nativeId": -1,
-        "name": "nuls-7",
+        "name": "NULS-7",
         "apiUrl": "http://in.api.nuls.io/jsonrpc"
+      }
+    ]
+  },
+  {
+    "id": 130,
+    "chain": "Polygon",
+    "chainName": "Polygon",
+    "prefix": "0x",
+    "nativeId": 137,
+    "chainId": 106,
+    "chainType": 2,
+    "crossAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e",
+    "intro": null,
+    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png",
+    "apiUrl": "https://matic-mainnet.chainstacklabs.com",
+    "scanUrl": "https://polygonscan.com/",
+    "psUrl": null,
+    "tokenUrl": "https://polygonscan.com/token/",
+    "txUrl": "https://polygonscan.com/tx/",
+    "nft": "matic",
+    "sort": 3,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
+      "crossAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e",
+      "nft": "matic"
+    },
+    "mainAsset": {
+      "id": 1360884,
+      "chain": "Polygon",
+      "registerChain": "Polygon",
+      "chainId": 106,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "MATIC",
+      "symbol": "MATIC",
+      "symbolBase": "MATIC",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 106,
+          "heterogeneousChainMultySignAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e",
+          "contractAddress": "",
+          "chainName": "Polygon",
+          "token": false
+        }
+      ],
+      "nerveChainId": 9,
+      "nerveAssetId": 160,
+      "nerveFlag": false,
+      "usdPrice": 1.5796,
+      "usdPlatform": "cmc",
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 1360884,
+        "chain": "Polygon",
+        "registerChain": "Polygon",
+        "chainId": 106,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "MATIC",
+        "symbol": "MATIC",
+        "symbolBase": "MATIC",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Polygon.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 106,
+            "heterogeneousChainMultySignAddress": "0x9ddc2fb726cf243305349587ae2a33dd7c91460e",
+            "contractAddress": "",
+            "chainName": "Polygon",
+            "token": false
+          }
+        ],
+        "nerveChainId": 9,
+        "nerveAssetId": 160,
+        "nerveFlag": false,
+        "usdPrice": 1.5796,
+        "usdPlatform": "cmc",
+        "usdUrl": null
+      }
+    ],
+    "urlList": [
+      {
+        "id": 40,
+        "chain": "Polygon",
+        "nativeId": 137,
+        "name": "MATIC-1",
+        "apiUrl": "https://rpc-mainnet.matic.network"
+      },
+      {
+        "id": 41,
+        "chain": "Polygon",
+        "nativeId": 137,
+        "name": "MATIC-2",
+        "apiUrl": "https://matic-mainnet.chainstacklabs.com"
+      },
+      {
+        "id": 42,
+        "chain": "Polygon",
+        "nativeId": 137,
+        "name": "MATIC-3",
+        "apiUrl": "https://rpc-mainnet.maticvigil.com"
+      },
+      {
+        "id": 43,
+        "chain": "Polygon",
+        "nativeId": 137,
+        "name": "MATIC-4",
+        "apiUrl": "https://polygon-rpc.com"
+      },
+      {
+        "id": 44,
+        "chain": "Polygon",
+        "nativeId": 137,
+        "name": "MATIC-5",
+        "apiUrl": "https://matic-mainnet-archive-rpc.bwarelabs.com"
+      }
+    ]
+  },
+  {
+    "id": 129,
+    "chain": "Harmony",
+    "chainName": "Harmony",
+    "prefix": "0x",
+    "nativeId": 1666600000,
+    "chainId": 105,
+    "chainType": 2,
+    "crossAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c",
+    "intro": null,
+    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
+    "apiUrl": "https://api.harmony.one/",
+    "scanUrl": "https://explorer.harmony.one/",
+    "psUrl": null,
+    "tokenUrl": "https://explorer.harmony.one/address/",
+    "txUrl": "https://explorer.harmony.one/tx/",
+    "nft": "",
+    "sort": 7,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
+      "crossAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 1360883,
+      "chain": "Harmony",
+      "registerChain": "Harmony",
+      "chainId": 105,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "ONE",
+      "symbol": "ONE",
+      "symbolBase": "ONE",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 105,
+          "heterogeneousChainMultySignAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c",
+          "contractAddress": "",
+          "chainName": "Harmony",
+          "token": false
+        }
+      ],
+      "nerveChainId": 9,
+      "nerveAssetId": 159,
+      "nerveFlag": false,
+      "usdPrice": 0.1538,
+      "usdPlatform": "cmc",
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 1360883,
+        "chain": "Harmony",
+        "registerChain": "Harmony",
+        "chainId": 105,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "ONE",
+        "symbol": "ONE",
+        "symbolBase": "ONE",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 105,
+            "heterogeneousChainMultySignAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c",
+            "contractAddress": "",
+            "chainName": "Harmony",
+            "token": false
+          }
+        ],
+        "nerveChainId": 9,
+        "nerveAssetId": 159,
+        "nerveFlag": false,
+        "usdPrice": 0.1538,
+        "usdPlatform": "cmc",
+        "usdUrl": null
+      }
+    ],
+    "urlList": [
+      {
+        "id": 45,
+        "chain": "Harmony",
+        "nativeId": 1666600000,
+        "name": "ONE-1",
+        "apiUrl": "https://api.harmony.one/"
+      }
+    ]
+  },
+  {
+    "id": 131,
+    "chain": "KCC",
+    "chainName": "KCC",
+    "prefix": "0x",
+    "nativeId": 321,
+    "chainId": 107,
+    "chainType": 2,
+    "crossAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92",
+    "intro": null,
+    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
+    "apiUrl": "https://rpc-mainnet.kcc.network",
+    "scanUrl": "https://explorer.kcc.io/cn/",
+    "psUrl": null,
+    "tokenUrl": "https://explorer.kcc.io/cn/token/",
+    "txUrl": "https://explorer.kcc.io/cn/tx/",
+    "nft": "",
+    "sort": 8,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
+      "crossAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 1360885,
+      "chain": "KCC",
+      "registerChain": "KCC",
+      "chainId": 107,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "KCS",
+      "symbol": "KCS",
+      "symbolBase": "KCS",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 107,
+          "heterogeneousChainMultySignAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92",
+          "contractAddress": "",
+          "chainName": "KCC",
+          "token": false
+        }
+      ],
+      "nerveChainId": 9,
+      "nerveAssetId": 161,
+      "nerveFlag": false,
+      "usdPrice": 19.4933,
+      "usdPlatform": "cmc",
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 1360885,
+        "chain": "KCC",
+        "registerChain": "KCC",
+        "chainId": 107,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "KCS",
+        "symbol": "KCS",
+        "symbolBase": "KCS",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 107,
+            "heterogeneousChainMultySignAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92",
+            "contractAddress": "",
+            "chainName": "KCC",
+            "token": false
+          }
+        ],
+        "nerveChainId": 9,
+        "nerveAssetId": 161,
+        "nerveFlag": false,
+        "usdPrice": 19.4933,
+        "usdPlatform": "cmc",
+        "usdUrl": null
+      }
+    ],
+    "urlList": [
+      {
+        "id": 46,
+        "chain": "KCC",
+        "nativeId": 321,
+        "name": "KCC-1",
+        "apiUrl": "https://rpc-mainnet.kcc.network"
+      }
+    ]
+  },
+  {
+    "id": 133,
+    "chain": "Cronos",
+    "chainName": "Cronos",
+    "prefix": "0x",
+    "nativeId": 25,
+    "chainId": 109,
+    "chainType": 2,
+    "crossAddress": "0x3758AA66caD9F2606F1F501c9CB31b94b713A6d5",
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/cronos.png",
+    "apiUrl": "https://evm-cronos.crypto.org",
+    "scanUrl": "https://cronos.crypto.org/explorer/",
+    "psUrl": "",
+    "tokenUrl": "https://cronos.crypto.org/explorer/token/",
+    "txUrl": "https://cronos.crypto.org/explorer/tx/",
+    "nft": "",
+    "sort": 9,
+    "status": 0,
+    "configs": {
+      "multiCallAddress": "0x51E54e092B93FE31FC277435B1380512D7d27eEe",
+      "crossAddress": "0x3758AA66caD9F2606F1F501c9CB31b94b713A6d5",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 1364209,
+      "chain": "Cronos",
+      "registerChain": "Cronos",
+      "chainId": 109,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "CRO",
+      "symbol": "CRO",
+      "symbolBase": "CRO",
+      "configType": 1,
+      "source": 4,
+      "icon": "https://files.nabox.io/icon/cronos.png",
+      "nulsCross": false,
+      "heterogeneousList": [
+        {
+          "heterogeneousChainId": 109,
+          "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+          "contractAddress": "",
+          "chainName": "Cronos",
+          "token": false
+        }
+      ],
+      "nerveChainId": 9,
+      "nerveAssetId": 266,
+      "nerveFlag": false,
+      "usdPrice": 0.4299,
+      "usdPlatform": "cmc",
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 1364209,
+        "chain": "Cronos",
+        "registerChain": "Cronos",
+        "chainId": 109,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "CRO",
+        "symbol": "CRO",
+        "symbolBase": "CRO",
+        "configType": 1,
+        "source": 4,
+        "icon": "https://files.nabox.io/icon/cronos.png",
+        "nulsCross": false,
+        "heterogeneousList": [
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "",
+            "chainName": "Cronos",
+            "token": false
+          }
+        ],
+        "nerveChainId": 9,
+        "nerveAssetId": 266,
+        "nerveFlag": false,
+        "usdPrice": 0.4299,
+        "usdPlatform": "cmc",
+        "usdUrl": null
+      }
+    ],
+    "urlList": [
+      {
+        "id": 56,
+        "chain": "Cronos",
+        "nativeId": 25,
+        "name": "cronos-1",
+        "apiUrl": "https://evm-cronos.crypto.org"
       }
     ]
   },
@@ -2858,14 +3680,17 @@ const main = [
     "intro": null,
     "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/NERVE.png",
     "apiUrl": "https://api.nerve.network/jsonrpc",
+    "scanUrl": "https://scan.nerve.network/",
     "psUrl": "https://public.nerve.network/jsonrpc",
     "tokenUrl": "",
     "txUrl": "https://scan.nerve.network/transaction/info?hash=",
-    "sort": 7,
+    "nft": "",
+    "sort": 99,
     "status": 0,
     "configs": {
       "feeAddress": "NERVEepb69f573sRzfoTX9Kn67WeNtXhG6Y6W8",
-      "destroyAddress": "NERVEepb63T1M8JgQ26jwZpZXYL8ZMLdUAK31L"
+      "destroyAddress": "NERVEepb63T1M8JgQ26jwZpZXYL8ZMLdUAK31L",
+      "nft": ""
     },
     "mainAsset": {
       "id": 18683,
@@ -2931,12 +3756,28 @@ const main = [
           "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
           "chainName": "KCC",
           "token": true
+        },
+        {
+          "heterogeneousChainId": 109,
+          "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+          "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+          "chainName": "Cronos",
+          "token": true
+        },
+        {
+          "heterogeneousChainId": 110,
+          "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+          "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+          "chainName": "Avalanche",
+          "token": true
         }
       ],
       "nerveChainId": 9,
       "nerveAssetId": 1,
       "nerveFlag": false,
-      "usdFlag": false
+      "usdPrice": 0.0264,
+      "usdPlatform": "cmc",
+      "usdUrl": null
     },
     "assets": [
       {
@@ -3008,7 +3849,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 1,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.398638,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 1160799,
@@ -3079,7 +3922,9 @@ const main = [
         "nerveChainId": 1,
         "nerveAssetId": 146,
         "nerveFlag": true,
-        "usdFlag": false
+        "usdPrice": 0.000031,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18683,
@@ -3145,12 +3990,28 @@ const main = [
             "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
             "chainName": "KCC",
             "token": true
+          },
+          {
+            "heterogeneousChainId": 109,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Cronos",
+            "token": true
+          },
+          {
+            "heterogeneousChainId": 110,
+            "heterogeneousChainMultySignAddress": "0x3758aa66cad9f2606f1f501c9cb31b94b713a6d5",
+            "contractAddress": "0x0fdb676775cc91042501c0c14ae5b2b5166b24d9",
+            "chainName": "Avalanche",
+            "token": true
           }
         ],
         "nerveChainId": 9,
         "nerveAssetId": 1,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.0264,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18601,
@@ -3193,7 +4054,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 2,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 2728.224045,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18624,
@@ -3229,7 +4092,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 25,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 393.130019,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18629,
@@ -3272,7 +4137,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 30,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.998746,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18654,
@@ -3308,7 +4175,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 55,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 9.45994,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       },
       {
         "id": 18668,
@@ -3351,7 +4220,9 @@ const main = [
         "nerveChainId": 9,
         "nerveAssetId": 70,
         "nerveFlag": false,
-        "usdFlag": false
+        "usdPrice": 0.999778,
+        "usdPlatform": "cmc",
+        "usdUrl": null
       }
     ],
     "urlList": [
@@ -3359,232 +4230,50 @@ const main = [
         "id": 17,
         "chain": "NERVE",
         "nativeId": -2,
-        "name": "nvt-1",
+        "name": "NVT-1",
         "apiUrl": "https://api.nerve.network/jsonrpc"
       },
       {
         "id": 18,
         "chain": "NERVE",
         "nativeId": -2,
-        "name": "nvt-2",
+        "name": "NVT-2",
         "apiUrl": "https://sg.api.nerve.network/jsonrpc"
       },
       {
         "id": 19,
         "chain": "NERVE",
         "nativeId": -2,
-        "name": "nvt-3",
+        "name": "NVT-3",
         "apiUrl": "https://hk.api.nerve.network/jsonrpc"
       },
       {
         "id": 20,
         "chain": "NERVE",
         "nativeId": -2,
-        "name": "nvt-4",
+        "name": "NVT-4",
         "apiUrl": "https://us.api.nerve.network/jsonrpc"
       },
       {
         "id": 21,
         "chain": "NERVE",
         "nativeId": -2,
-        "name": "nvt-5",
+        "name": "NVT-5",
         "apiUrl": "https://au.api.nerve.network/jsonrpc"
       },
       {
         "id": 22,
         "chain": "NERVE",
         "nativeId": -2,
-        "name": "nvt-6",
+        "name": "NVT-6",
         "apiUrl": "https://id.api.nerve.network/jsonrpc"
       },
       {
         "id": 23,
         "chain": "NERVE",
         "nativeId": -2,
-        "name": "nvt-7",
+        "name": "NVT-7",
         "apiUrl": "http://in.api.nerve.network/jsonrpc"
-      }
-    ]
-  },
-  {
-    "id": 129,
-    "chain": "Harmony",
-    "chainName": "Harmony",
-    "prefix": "0x",
-    "nativeId": 1666600000,
-    "chainId": 105,
-    "chainType": 2,
-    "crossAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c",
-    "intro": null,
-    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
-    "apiUrl": "https://api.harmony.one/",
-    "psUrl": null,
-    "tokenUrl": "https://explorer.harmony.one/address/",
-    "txUrl": "https://explorer.harmony.one/tx/",
-    "sort": 8,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
-      "crossAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c"
-    },
-    "mainAsset": {
-      "id": 1360883,
-      "chain": "Harmony",
-      "registerChain": "Harmony",
-      "chainId": 105,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "ONE",
-      "symbol": "ONE",
-      "symbolBase": "ONE",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 105,
-          "heterogeneousChainMultySignAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c",
-          "contractAddress": "",
-          "chainName": "Harmony",
-          "token": false
-        }
-      ],
-      "nerveChainId": 9,
-      "nerveAssetId": 159,
-      "nerveFlag": false,
-      "usdFlag": false
-    },
-    "assets": [
-      {
-        "id": 1360883,
-        "chain": "Harmony",
-        "registerChain": "Harmony",
-        "chainId": 105,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "ONE",
-        "symbol": "ONE",
-        "symbolBase": "ONE",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/Harmony.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 105,
-            "heterogeneousChainMultySignAddress": "0x32fae32961474e6d19b7a6346524b8a6a6fd1d9c",
-            "contractAddress": "",
-            "chainName": "Harmony",
-            "token": false
-          }
-        ],
-        "nerveChainId": 9,
-        "nerveAssetId": 159,
-        "nerveFlag": false,
-        "usdFlag": false
-      }
-    ],
-    "urlList": [
-      {
-        "id": 45,
-        "chain": "Harmony",
-        "nativeId": 1666600000,
-        "name": "one-1",
-        "apiUrl": "https://api.harmony.one/"
-      }
-    ]
-  },
-  {
-    "id": 131,
-    "chain": "KCC",
-    "chainName": "KCC",
-    "prefix": "0x",
-    "nativeId": 321,
-    "chainId": 107,
-    "chainType": 2,
-    "crossAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92",
-    "intro": null,
-    "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
-    "apiUrl": "https://rpc-mainnet.kcc.network",
-    "psUrl": null,
-    "tokenUrl": "https://explorer.kcc.io/cn/token/",
-    "txUrl": "https://explorer.kcc.io/cn/tx/",
-    "sort": 9,
-    "status": 0,
-    "configs": {
-      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
-      "crossAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92"
-    },
-    "mainAsset": {
-      "id": 1360885,
-      "chain": "KCC",
-      "registerChain": "KCC",
-      "chainId": 107,
-      "assetId": 1,
-      "contractAddress": "",
-      "decimals": 18,
-      "assetName": "KCS",
-      "symbol": "KCS",
-      "symbolBase": "KCS",
-      "configType": 1,
-      "source": 4,
-      "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
-      "nulsCross": false,
-      "heterogeneousList": [
-        {
-          "heterogeneousChainId": 107,
-          "heterogeneousChainMultySignAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92",
-          "contractAddress": "",
-          "chainName": "KCC",
-          "token": false
-        }
-      ],
-      "nerveChainId": 9,
-      "nerveAssetId": 161,
-      "nerveFlag": false,
-      "usdFlag": false
-    },
-    "assets": [
-      {
-        "id": 1360885,
-        "chain": "KCC",
-        "registerChain": "KCC",
-        "chainId": 107,
-        "assetId": 1,
-        "contractAddress": "",
-        "decimals": 18,
-        "assetName": "KCS",
-        "symbol": "KCS",
-        "symbolBase": "KCS",
-        "configType": 1,
-        "source": 4,
-        "icon": "https://nuls-cf.oss-us-west-1.aliyuncs.com/icon/KCC.png",
-        "nulsCross": false,
-        "heterogeneousList": [
-          {
-            "heterogeneousChainId": 107,
-            "heterogeneousChainMultySignAddress": "0xdb442dff8ff9fd10245406da9a32528c30c10c92",
-            "contractAddress": "",
-            "chainName": "KCC",
-            "token": false
-          }
-        ],
-        "nerveChainId": 9,
-        "nerveAssetId": 161,
-        "nerveFlag": false,
-        "usdFlag": false
-      }
-    ],
-    "urlList": [
-      {
-        "id": 46,
-        "chain": "KCC",
-        "nativeId": 321,
-        "name": "kcc-1",
-        "apiUrl": "https://rpc-mainnet.kcc.network"
       }
     ]
   }

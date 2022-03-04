@@ -1,6 +1,6 @@
 const beta = [
   {
-    "id": 17,
+    "id": 24,
     "chain": "Ethereum",
     "chainName": "Ethereum",
     "prefix": "0x",
@@ -64,7 +64,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 2,
       "nerveFlag": false,
-      "usdPrice": 2935.3503,
+      "usdPrice": 2826.9787,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -110,12 +110,11 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 2,
         "nerveFlag": false,
-        "usdPrice": 2935.3503,
+        "usdPrice": 2826.9787,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 9,
@@ -127,7 +126,7 @@ const beta = [
     ]
   },
   {
-    "id": 11,
+    "id": 25,
     "chain": "BSC",
     "chainName": "BSC",
     "prefix": "0x",
@@ -184,7 +183,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 8,
       "nerveFlag": false,
-      "usdPrice": 397.1832,
+      "usdPrice": 401.6497,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -598,31 +597,30 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 8,
         "nerveFlag": false,
-        "usdPrice": 397.1832,
+        "usdPrice": 401.6497,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 3,
         "chain": "BSC",
         "nativeId": 97,
         "name": "bsc-1",
-        "apiUrl": "https://data-seed-prebsc-1-s2.binance.org:8545/"
+        "apiUrl": "https://data-seed-prebsc-1-s1.binance.org:8545/"
       },
       {
         "id": 13,
         "chain": "BSC",
         "nativeId": 97,
         "name": "bsc-2",
-        "apiUrl": "https://data-seed-prebsc-1-s1.binance.org:8545/"
+        "apiUrl": "https://data-seed-prebsc-1-s2.binance.org:8545/"
       }
     ]
   },
   {
-    "id": 12,
+    "id": 26,
     "chain": "Heco",
     "chainName": "Heco",
     "prefix": "0x",
@@ -672,7 +670,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 9,
       "nerveFlag": false,
-      "usdPrice": 8.661,
+      "usdPrice": 8.6922,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -735,12 +733,11 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 9,
         "nerveFlag": false,
-        "usdPrice": 8.661,
+        "usdPrice": 8.6922,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 4,
@@ -752,7 +749,7 @@ const beta = [
     ]
   },
   {
-    "id": 13,
+    "id": 27,
     "chain": "OKExChain",
     "chainName": "OKExChain",
     "prefix": "0x",
@@ -802,7 +799,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 12,
       "nerveFlag": false,
-      "usdPrice": 34.3878,
+      "usdPrice": 34.3569,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -879,12 +876,11 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 12,
         "nerveFlag": false,
-        "usdPrice": 34.3878,
+        "usdPrice": 34.3569,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 5,
@@ -896,7 +892,7 @@ const beta = [
     ]
   },
   {
-    "id": 1,
+    "id": 22,
     "chain": "NULS",
     "chainName": "NULS",
     "prefix": "tNULS",
@@ -981,7 +977,7 @@ const beta = [
       "nerveChainId": 2,
       "nerveAssetId": 1,
       "nerveFlag": false,
-      "usdPrice": 0.4054,
+      "usdPrice": 0.4027,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1094,12 +1090,11 @@ const beta = [
         "nerveChainId": 2,
         "nerveAssetId": 1,
         "nerveFlag": false,
-        "usdPrice": 0.4054,
+        "usdPrice": 0.4027,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 2,
@@ -1111,7 +1106,7 @@ const beta = [
     ]
   },
   {
-    "id": 15,
+    "id": 29,
     "chain": "Polygon",
     "chainName": "Polygon",
     "prefix": "0x",
@@ -1161,7 +1156,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 34,
       "nerveFlag": false,
-      "usdPrice": 1.6343,
+      "usdPrice": 1.5777,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1193,12 +1188,11 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 34,
         "nerveFlag": false,
-        "usdPrice": 1.6343,
+        "usdPrice": 1.5777,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 7,
@@ -1210,7 +1204,7 @@ const beta = [
     ]
   },
   {
-    "id": 19,
+    "id": 32,
     "chain": "Avalanche",
     "chainName": "Avalanche",
     "prefix": "0x",
@@ -1260,7 +1254,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 94,
       "nerveFlag": false,
-      "usdPrice": 86.5678,
+      "usdPrice": 78.2088,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1292,16 +1286,23 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 94,
         "nerveFlag": false,
-        "usdPrice": 86.5678,
+        "usdPrice": 78.2088,
         "usdPlatform": null,
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
-    "urlList": []
+    "urlList": [
+      {
+        "id": 15,
+        "chain": "Avalanche",
+        "nativeId": 43113,
+        "name": "avalanche-1",
+        "apiUrl": "https://api.avax-test.network/ext/bc/C/rpc"
+      }
+    ]
   },
   {
-    "id": 14,
+    "id": 28,
     "chain": "Harmony",
     "chainName": "Harmony",
     "prefix": "0x",
@@ -1351,7 +1352,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 33,
       "nerveFlag": false,
-      "usdPrice": 0.1575,
+      "usdPrice": 0.1537,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1383,12 +1384,11 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 33,
         "nerveFlag": false,
-        "usdPrice": 0.1575,
+        "usdPrice": 0.1537,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 6,
@@ -1400,7 +1400,7 @@ const beta = [
     ]
   },
   {
-    "id": 16,
+    "id": 30,
     "chain": "KCC",
     "chainName": "KCC",
     "prefix": "0x",
@@ -1450,7 +1450,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 35,
       "nerveFlag": false,
-      "usdPrice": 20.7311,
+      "usdPrice": 19.4827,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1482,12 +1482,11 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 35,
         "nerveFlag": false,
-        "usdPrice": 20.7311,
+        "usdPrice": 19.4827,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 8,
@@ -1499,7 +1498,7 @@ const beta = [
     ]
   },
   {
-    "id": 18,
+    "id": 31,
     "chain": "Cronos",
     "chainName": "Cronos",
     "prefix": "0x",
@@ -1549,7 +1548,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 93,
       "nerveFlag": false,
-      "usdPrice": 0.4413,
+      "usdPrice": 0.4298,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1581,16 +1580,23 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 93,
         "nerveFlag": false,
-        "usdPrice": 0.4413,
+        "usdPrice": 0.4298,
         "usdPlatform": null,
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
-    "urlList": []
+    "urlList": [
+      {
+        "id": 14,
+        "chain": "Cronos",
+        "nativeId": 338,
+        "name": "cronos-1",
+        "apiUrl": "https://cronos-testnet-3.crypto.org:8545"
+      }
+    ]
   },
   {
-    "id": 20,
+    "id": 33,
     "chain": "Arbitrum",
     "chainName": "Arbitrum",
     "prefix": "0x",
@@ -1640,7 +1646,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 95,
       "nerveFlag": false,
-      "usdPrice": 2935.3503,
+      "usdPrice": 2826.9787,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1672,16 +1678,23 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 95,
         "nerveFlag": false,
-        "usdPrice": 2935.3503,
+        "usdPrice": 2826.9787,
         "usdPlatform": null,
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
-    "urlList": []
+    "urlList": [
+      {
+        "id": 16,
+        "chain": "Arbitrum",
+        "nativeId": 421611,
+        "name": "arbitrum-1",
+        "apiUrl": "https://rinkeby.arbitrum.io/rpc"
+      }
+    ]
   },
   {
-    "id": 21,
+    "id": 34,
     "chain": "Fantom",
     "chainName": "Fantom",
     "prefix": "0x",
@@ -1731,7 +1744,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 96,
       "nerveFlag": false,
-      "usdPrice": 1.816,
+      "usdPrice": 1.8703,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1763,16 +1776,23 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 96,
         "nerveFlag": false,
-        "usdPrice": 1.816,
+        "usdPrice": 1.8703,
         "usdPlatform": null,
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
-    "urlList": []
+    "urlList": [
+      {
+        "id": 17,
+        "chain": "Fantom",
+        "nativeId": 4002,
+        "name": "fantom-1",
+        "apiUrl": "https://rpc.testnet.fantom.network"
+      }
+    ]
   },
   {
-    "id": 2,
+    "id": 23,
     "chain": "NERVE",
     "chainName": "NERVE",
     "prefix": "TNVT",
@@ -2013,7 +2033,6 @@ const beta = [
         "usdUrl": null
       }
     ],
-    "nftAssets": null,
     "urlList": [
       {
         "id": 1,
