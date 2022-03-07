@@ -34,10 +34,12 @@ if (development && window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
 
 async function setConfig() {
   // 设置默认config
-  setChainConfig(defaultConfig);
   const sessionConfig = getChainConfigs();
   if (!sessionConfig) {
+    setChainConfig(defaultConfig);
     store.commit('changeConfig', defaultConfig);
+  } else {
+    store.commit('changeConfig', sessionConfig);
   }
   const apiConfig = await getChainConfig();
   // 接口返回的config
