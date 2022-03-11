@@ -29,7 +29,7 @@ export default {
         const data = {
           from: nabox.selectedAddress,
           value: this.nulsVal,
-          contractAddress: "tNULSeBaN58rJgMb1oGbjpDhH7yDRatY2ZVbU5",
+          contractAddress: "tNULSeBaMxNwVArpYfoUXab5pnNWtAfMrHjcVG",
           methodName: "receiveAllAssets",
           methodDesc: "",
           args: [],
