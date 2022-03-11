@@ -326,7 +326,7 @@ export default {
         this.assetsList = data.sort((a, b) => {
           return a.symbol.toLowerCase() > b.symbol.toLowerCase() ? 1 : -1
         });
-        const config = JSON.parse(sessionStorage.getItem("config"));
+        const config = getChainConfigs();
         const psUrl = config[this.fromNetwork].apiUrl;
         data.map(v => {
           // 去除ETH资产contractAddress为ETH

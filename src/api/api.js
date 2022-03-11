@@ -256,7 +256,7 @@ export class NTransfer {
   // nerve 提现
   async WithdrawalTransaction(transferInfo) {
     //console.log(transferInfo, 8888);
-    const config = JSON.parse(sessionStorage.getItem("config"));
+    const config = getChainConfigs();
     const mainAsset = config.NERVE;
     let nonce;
     const { from, assetsChainId, assetsId, amount, proposalPrice, fee } = transferInfo;
@@ -336,7 +336,7 @@ export class NTransfer {
     let result = null;
     let params = {};
     if (data.contractAddress) {
-      const config = JSON.parse(sessionStorage.getItem("config"));
+      const config = getChainConfigs();
       const mainAsset = config[data.fromChain]; //来源链(eth,bnb,heco)主资产信息
       params = {chainId: mainAsset.chainId, contractAddress: data.contractAddress};
     } else {

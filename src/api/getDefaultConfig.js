@@ -12,23 +12,26 @@ export function setChainConfig(config) {
     return a.sort > b.sort ? 1 : -1
   })
   sortedConfig.map(v => {
-    const mainInfo = v.mainAsset;
-    result[v.chain] = {
-      chain: v.chain,
-      chainId: mainInfo ? mainInfo.chainId : '',
-      assetId: mainInfo ? mainInfo.assetId : '',
-      prefix: v.prefix,
-      symbol: mainInfo ? mainInfo.symbol : '',
-      decimal: mainInfo ? mainInfo.decimals : '',
-      assets: v.assets,
-      config: v.configs,
-      apiUrl: v.apiUrl,
-      icon: v.icon,
-      nativeId: '0x' + v.nativeId.toString(16),
-      scan: v.scanUrl
+    if (v.bridge !== 0) {
+      const mainInfo = v.mainAsset;
+      result[v.chain] = {
+        chain: v.chain,
+        chainId: mainInfo ? mainInfo.chainId : '',
+        assetId: mainInfo ? mainInfo.assetId : '',
+        prefix: v.prefix,
+        symbol: mainInfo ? mainInfo.symbol : '',
+        decimal: mainInfo ? mainInfo.decimals : '',
+        assets: v.assets || [],
+        config: v.configs,
+        apiUrl: v.apiUrl,
+        icon: v.icon,
+        nativeId: '0x' + v.nativeId.toString(16),
+        scan: v.scanUrl
+      }
     }
   });
-  sessionStorage.setItem("config", JSON.stringify(result))
+  // sessionStorage.setItem("config", JSON.stringify(result))
+  localStorage.setItem("config", JSON.stringify(result))
   return result;
 }
 

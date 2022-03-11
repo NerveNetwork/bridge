@@ -1,5 +1,5 @@
 import { request } from "./https";
-import { Times, timesDecimals, Plus, Division } from "./util";
+import { Times, timesDecimals, Plus, Division, getChainConfigs } from "./util";
 import sdk from "nerve-sdk-js/lib/api/sdk";
 import utils from "nuls-sdk-js/lib/utils/utils";
 
@@ -85,7 +85,7 @@ async function imputedContractCallGas(sender, value, contractAddress, methodName
       }
       const newArgs = utils.twoDimensionalArray(args, contractConstructorArgsTypes.data);
 
-      const config = JSON.parse(sessionStorage.getItem("config"));
+      const config = getChainConfigs();
       //console.log(config);
       const MAIN_INFO = config.NULS;
       const data = {

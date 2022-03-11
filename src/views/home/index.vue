@@ -35,7 +35,7 @@
 import NerveSwap from "./NerveSwap";
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import nerve from "nerve-sdk-js";
-import { getCurrentAccount } from "../../api/util";
+import { getCurrentAccount, getChainConfigs } from "@/api/util";
 import MetaMask from "../../assets/img/metamask.svg";
 import Nabox from "../../assets/img/nabox.svg";
 import TrustWallet from "../../assets/img/trustwallet.svg"
@@ -232,7 +232,7 @@ export default {
     },
     getHeterogeneousAddress(address) {
       const chainAddress = {}
-      const chainConfig = JSON.parse(sessionStorage.getItem('config'));
+      const chainConfig = getChainConfigs();
       for(let chain in chainConfig) {
         if (chain !== 'NULS' && chain !== 'NERVE') {
           chainAddress[chain] = address

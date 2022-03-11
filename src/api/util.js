@@ -771,5 +771,6 @@ export const withdrawFeeRate = {
 export const withdrawalToNulsFee = 3
 
 export function getChainConfigs() {
-  return JSON.parse(sessionStorage.getItem('config'));
+  // return JSON.parse(sessionStorage.getItem('config'));
+  return JSON.parse(localStorage.getItem('config'));
 }
