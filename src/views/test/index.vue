@@ -5,7 +5,7 @@
         <span>nuls数量：</span><el-input v-model="nulsVal"></el-input>
       </div>
       <div class="flex">
-        <span>usdt数量：</span><el-input v-model="usdtVal"></el-input>
+        <span>nvt数量：</span><el-input v-model="usdtVal"></el-input>
       </div>
     </div>
     <el-button @click="handleClisk">确认</el-button>
@@ -29,11 +29,11 @@ export default {
         const data = {
           from: nabox.selectedAddress,
           value: this.nulsVal,
-          contractAddress: "tNULSeBaMxNwVArpYfoUXab5pnNWtAfMrHjcVG",
+          contractAddress: "NULSd6Hgux4hthMtpfq2N16RGhD4EgLGy98bx",
           methodName: "receiveAllAssets",
           methodDesc: "",
           args: [],
-          multyAssetValues: [[this.usdtVal, 5, 74]]
+          multyAssetValues: [[this.usdtVal, 9, 1]]
         }
         const res = await nabox.contractCall(data) // 返回交易hash
         this.$message.success(res);
