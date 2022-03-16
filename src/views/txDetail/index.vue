@@ -361,9 +361,9 @@ export default {
       const baseUrl = config[chain].scan;
       let url;
       if (chain !== "NERVE" && chain !== "NULS") {
-        url = baseUrl + "/tx/" + hash;
+        url = baseUrl + "tx/" + hash;
       } else {
-        url = baseUrl + "/transaction/info?hash=" + hash
+        url = baseUrl + "transaction/info?hash=" + hash
       }
       window.open(url)
     },

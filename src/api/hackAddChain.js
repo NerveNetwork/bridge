@@ -37,9 +37,14 @@ function getHeterogeneousAddress(pub, config) {
 }
 
 function isDiffAccount(config, account) {
-  const addressLength = Object.keys(config).length;
-  const currentAddressLength = Object.keys(account.address).length;
-  return addressLength !== currentAddressLength
+  const configChains = Object.keys(config);
+  const currentChains = Object.keys(account.address);
+  return !configChains.every(chain => {
+    return currentChains.includes(chain)
+  })
+  // const addressLength = Object.keys(config).length;
+  // const currentAddressLength = Object.keys(account.address).length;
+  // return addressLength !== currentAddressLength
 }
 
 export async function syncAccount(pubKey, addressInfo) {
