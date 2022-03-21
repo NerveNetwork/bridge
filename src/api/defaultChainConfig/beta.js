@@ -62,7 +62,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 2,
       "nerveFlag": false,
-      "usdPrice": 2628.6207,
+      "usdPrice": 2881.1517,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -108,7 +108,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 2,
         "nerveFlag": false,
-        "usdPrice": 2628.6207,
+        "usdPrice": 2881.1517,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -179,7 +179,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 8,
       "nerveFlag": false,
-      "usdPrice": 371.1486,
+      "usdPrice": 391.7838,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -225,7 +225,7 @@ const beta = [
             "heterogeneousChainId": 104,
             "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
             "contractAddress": "0x04f8e3b9a7de4d3f90a0bd34325c35433d94482d",
-            "chainName": "OEC",
+            "chainName": "OKExChain",
             "token": true
           },
           {
@@ -305,7 +305,7 @@ const beta = [
             "heterogeneousChainId": 104,
             "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
             "contractAddress": "0xf7915d4de86b856f3e51b894134816680bf09eee",
-            "chainName": "OEC",
+            "chainName": "OKExChain",
             "token": true
           },
           {
@@ -399,7 +399,7 @@ const beta = [
             "heterogeneousChainId": 104,
             "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
             "contractAddress": "0xd8eb69948e214da7fd8da6815c9945f175a4fce7",
-            "chainName": "OEC",
+            "chainName": "OKExChain",
             "token": true
           },
           {
@@ -593,7 +593,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 8,
         "nerveFlag": false,
-        "usdPrice": 371.1486,
+        "usdPrice": 391.7838,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -664,7 +664,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 34,
       "nerveFlag": false,
-      "usdPrice": 1.3771,
+      "usdPrice": 1.472,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -696,7 +696,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 34,
         "nerveFlag": false,
-        "usdPrice": 1.3771,
+        "usdPrice": 1.472,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -760,7 +760,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 9,
       "nerveFlag": false,
-      "usdPrice": 8.257,
+      "usdPrice": 8.5361,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -823,7 +823,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 9,
         "nerveFlag": false,
-        "usdPrice": 8.257,
+        "usdPrice": 8.5361,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -840,8 +840,8 @@ const beta = [
   },
   {
     "id": 27,
-    "chain": "OEC",
-    "chainName": "OEC",
+    "chain": "OKExChain",
+    "chainName": "OKExChain",
     "prefix": "0x",
     "nativeId": 65,
     "chainId": 104,
@@ -861,9 +861,9 @@ const beta = [
       "nft": ""
     },
     "mainAsset": {
-      "id": 19050,
-      "chain": "OEC",
-      "registerChain": "OEC",
+      "id": 19073,
+      "chain": "OKExChain",
+      "registerChain": "OKExChain",
       "chainId": 104,
       "assetId": 1,
       "contractAddress": "",
@@ -880,22 +880,22 @@ const beta = [
           "heterogeneousChainId": 104,
           "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
           "contractAddress": "",
-          "chainName": "OEC",
+          "chainName": "OKExChain",
           "token": false
         }
       ],
       "nerveChainId": 5,
       "nerveAssetId": 12,
       "nerveFlag": false,
-      "usdPrice": 34.3638,
+      "usdPrice": 34.4119,
       "usdPlatform": null,
       "usdUrl": null
     },
     "assets": [
       {
-        "id": 19050,
-        "chain": "OEC",
-        "registerChain": "OEC",
+        "id": 19073,
+        "chain": "OKExChain",
+        "registerChain": "OKExChain",
         "chainId": 104,
         "assetId": 1,
         "contractAddress": "",
@@ -912,14 +912,14 @@ const beta = [
             "heterogeneousChainId": 104,
             "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
             "contractAddress": "",
-            "chainName": "OEC",
+            "chainName": "OKExChain",
             "token": false
           }
         ],
         "nerveChainId": 5,
         "nerveAssetId": 12,
         "nerveFlag": false,
-        "usdPrice": 34.3638,
+        "usdPrice": 34.4119,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -927,7 +927,7 @@ const beta = [
     "urlList": [
       {
         "id": 5,
-        "chain": "OEC",
+        "chain": "OKExChain",
         "nativeId": 65,
         "name": "oec-1",
         "apiUrl": "https://exchaintestrpc.okex.org"
@@ -983,7 +983,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 94,
       "nerveFlag": false,
-      "usdPrice": 69.7897,
+      "usdPrice": 86.9428,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1015,7 +1015,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 94,
         "nerveFlag": false,
-        "usdPrice": 69.7897,
+        "usdPrice": 86.9428,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1079,7 +1079,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 33,
       "nerveFlag": false,
-      "usdPrice": 0.1241,
+      "usdPrice": 0.1348,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1111,7 +1111,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 33,
         "nerveFlag": false,
-        "usdPrice": 0.1241,
+        "usdPrice": 0.1348,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1175,7 +1175,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 35,
       "nerveFlag": false,
-      "usdPrice": 18.067,
+      "usdPrice": 18.1826,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1207,7 +1207,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 35,
         "nerveFlag": false,
-        "usdPrice": 18.067,
+        "usdPrice": 18.1826,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1271,7 +1271,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 93,
       "nerveFlag": false,
-      "usdPrice": 0.3862,
+      "usdPrice": 0.4072,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1303,7 +1303,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 93,
         "nerveFlag": false,
-        "usdPrice": 0.3862,
+        "usdPrice": 0.4072,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1367,7 +1367,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 95,
       "nerveFlag": false,
-      "usdPrice": 2628.5774,
+      "usdPrice": 2880.5682,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1399,7 +1399,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 95,
         "nerveFlag": false,
-        "usdPrice": 2628.5774,
+        "usdPrice": 2880.5682,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1463,7 +1463,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 96,
       "nerveFlag": false,
-      "usdPrice": 1.195,
+      "usdPrice": 1.2538,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1495,7 +1495,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 96,
         "nerveFlag": false,
-        "usdPrice": 1.195,
+        "usdPrice": 1.2538,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1583,6 +1583,150 @@ const beta = [
     "urlList": []
   },
   {
+    "id": 41,
+    "chain": "optimistic",
+    "chainName": "optimistic",
+    "prefix": "0x",
+    "nativeId": 10,
+    "chainId": 0,
+    "chainType": 2,
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/op.png",
+    "apiUrl": "https://mainnet.optimism.io/",
+    "scanUrl": "https://optimistic.etherscan.io/",
+    "psUrl": null,
+    "sort": 12,
+    "status": 1,
+    "bridge": 0,
+    "swap": 0,
+    "configs": {
+      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
+      "crossAddress": "",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 19075,
+      "chain": "optimistic",
+      "registerChain": "optimistic",
+      "chainId": 0,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "OETH",
+      "symbol": "OETH",
+      "symbolBase": "OETH",
+      "configType": 1,
+      "source": 0,
+      "icon": "https://files.nabox.io/icon/op.png",
+      "nulsCross": false,
+      "heterogeneousList": null,
+      "nerveChainId": 0,
+      "nerveAssetId": 0,
+      "nerveFlag": false,
+      "usdPrice": 1,
+      "usdPlatform": null,
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 19075,
+        "chain": "optimistic",
+        "registerChain": "optimistic",
+        "chainId": 0,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "OETH",
+        "symbol": "OETH",
+        "symbolBase": "OETH",
+        "configType": 1,
+        "source": 0,
+        "icon": "https://files.nabox.io/icon/op.png",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 1,
+        "usdPlatform": null,
+        "usdUrl": null
+      }
+    ],
+    "urlList": []
+  },
+  {
+    "id": 40,
+    "chain": "IoTeX",
+    "chainName": "IoTeX",
+    "prefix": "0x",
+    "nativeId": 4689,
+    "chainId": 0,
+    "chainType": 2,
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/IOTEX.png",
+    "apiUrl": "https://babel-api.mainnet.iotex.io/",
+    "scanUrl": "https://iotexscan.io/",
+    "psUrl": null,
+    "sort": 13,
+    "status": 1,
+    "bridge": 0,
+    "swap": 0,
+    "configs": {
+      "multiCallAddress": "0xf5b4224Fae4f3900417e73Ea626f86476D2181f3",
+      "crossAddress": "",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 19074,
+      "chain": "IoTeX",
+      "registerChain": "IoTeX",
+      "chainId": 0,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "IOTX",
+      "symbol": "IOTX",
+      "symbolBase": "IOTX",
+      "configType": 1,
+      "source": 0,
+      "icon": "https://files.nabox.io/icon/IOTEX.png",
+      "nulsCross": false,
+      "heterogeneousList": null,
+      "nerveChainId": 0,
+      "nerveAssetId": 0,
+      "nerveFlag": false,
+      "usdPrice": 1,
+      "usdPlatform": null,
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 19074,
+        "chain": "IoTeX",
+        "registerChain": "IoTeX",
+        "chainId": 0,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "IOTX",
+        "symbol": "IOTX",
+        "symbolBase": "IOTX",
+        "configType": 1,
+        "source": 0,
+        "icon": "https://files.nabox.io/icon/IOTEX.png",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 1,
+        "usdPlatform": null,
+        "usdUrl": null
+      }
+    ],
+    "urlList": []
+  },
+  {
     "id": 22,
     "chain": "NULS",
     "chainName": "NULS",
@@ -1638,7 +1782,7 @@ const beta = [
           "heterogeneousChainId": 104,
           "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
           "contractAddress": "0xd8eb69948e214da7fd8da6815c9945f175a4fce7",
-          "chainName": "OEC",
+          "chainName": "OKExChain",
           "token": true
         },
         {
@@ -1666,7 +1810,7 @@ const beta = [
       "nerveChainId": 2,
       "nerveAssetId": 1,
       "nerveFlag": false,
-      "usdPrice": 0.3777,
+      "usdPrice": 0.4226,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1751,7 +1895,7 @@ const beta = [
             "heterogeneousChainId": 104,
             "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
             "contractAddress": "0xd8eb69948e214da7fd8da6815c9945f175a4fce7",
-            "chainName": "OEC",
+            "chainName": "OKExChain",
             "token": true
           },
           {
@@ -1779,7 +1923,7 @@ const beta = [
         "nerveChainId": 2,
         "nerveAssetId": 1,
         "nerveFlag": false,
-        "usdPrice": 0.3777,
+        "usdPrice": 0.4226,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1864,7 +2008,7 @@ const beta = [
           "heterogeneousChainId": 104,
           "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
           "contractAddress": "0xf7915d4de86b856f3e51b894134816680bf09eee",
-          "chainName": "OEC",
+          "chainName": "OKExChain",
           "token": true
         },
         {
@@ -1973,7 +2117,7 @@ const beta = [
             "heterogeneousChainId": 104,
             "heterogeneousChainMultySignAddress": "0xb490f2a3ec0b90e5faa1636be046d82ab7cdac74",
             "contractAddress": "0xf7915d4de86b856f3e51b894134816680bf09eee",
-            "chainName": "OEC",
+            "chainName": "OKExChain",
             "token": true
           },
           {

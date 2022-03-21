@@ -30,11 +30,6 @@ export default new Router({
       path: '/tx-detail',
       name: 'txDetail',
       component: () => import("@/views/txDetail/index.vue")
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: () => import("@/views/test/index.vue")
     }
   ]
 })
