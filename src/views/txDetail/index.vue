@@ -14,7 +14,7 @@
           <span>{{ statusText }}</span>
         </div>
         <div class="amount">
-          {{txInfo.amount}} {{txInfo.symbol}}
+          {{ txInfo.amount | toThousands }} {{ txInfo.symbol }}
         </div>
         <div class="other-info">
           <p class="info-item">

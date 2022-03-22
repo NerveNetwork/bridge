@@ -15,12 +15,12 @@
         <div class="from">
           <img class="chain-logo" :src="getChainLogo(fromNetwork)" alt="">
           <span class="chain-name">{{ fromNetwork }}</span>
-          <span class="address">{{ superLong(fromAddress) }}</span>
+          <span class="address">{{ superLong(fromAddress, 5) }}</span>
         </div>
         <div class="to clicks" @click="showNetworkList=!showNetworkList">
           <img class="chain-logo" :src="getChainLogo(toNetwork)" alt="">
           <span class="chain-name">{{ toNetwork }}</span>
-          <span class="address">{{ superLong(toAddress) }}</span>
+          <span class="address">{{ superLong(toAddress, 5) }}</span>
           <i class="el-icon-caret-bottom"></i>
           <ChainList v-model="showNetworkList" :currentChain="toNetwork" @change="changeToChain" :disabledChain="fromNetwork"></ChainList>
         </div>

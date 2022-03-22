@@ -31,7 +31,7 @@
             <img src="../../assets/img/balance-loading.svg" alt="">
           </div>
           <div class="balance" v-else>
-            <span>{{ scope.item.fixedBalance }}</span>
+            <span>{{ scope.item.fixedBalance | toThousands }}</span>
           </div>
         </div>
       </template>

@@ -16,7 +16,7 @@
               <span class="clicks hover-bg" @click="copy(item.address)">{{ superLong(item.address) }}</span>
               <i class="iconfont icon-lianjie clicks" @click="openUrl(item.address, item.chain, item.scan)"></i>
             </span>
-            <span>{{item.balance + item.symbol}}</span>
+            <span>{{item.balance | toThousands }}{{ item.symbol }}</span>
           </div>
          </li>
        </ul>
