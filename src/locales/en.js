@@ -42,7 +42,8 @@ const en = {
     home26: "Please select an assets",
     home27: "Pending Txs",
     home28: "Wrong Network",
-    home29: "Select"
+    home29: "Select",
+    home30: "Create order failed"
   },
   public: {
     amount: "Amount",
@@ -54,7 +55,8 @@ const en = {
     confirmed: "Confirmed",
     pending: "Unconfirmed",
     copySuccess: "Copied to clipboard",
-    time: "Date"
+    time: "Date",
+    noData: 'No Data'
   },
   accounts: {
     accounts1: "Network Address",
@@ -110,50 +112,19 @@ const en = {
     tips16: "Assembly transferring fee transaction failed",
     tips17: "Broadcast transaction failed",
     tips18: "Failed to get cross-chain configuration",
-    tips19: "Cross-chain channels need to be upgraded and maintained"
+    tips19: "Cross-chain channels need to be upgraded and maintained",
+    tips20: "Failed to update order",
+    tips21: 'Failed to calculate fee'
   },
 
   crossStatusType: {
-    // 0: "Initiation chain unconfirmed",
-    // 1: "Initiation chain confirmed",
-    // 2: "Waiting for the broadcast swap transaction",
-    // 3: "Swap transaction unconfirmed",
-    // 4: "Swap transaction broadcast failed",
-    // 5: "Waiting to broadcast NERVE transaction",
-    // 6: "NERVE broadcast to be confirmed",
-    // 7: "NERVE broadcast failed",
-    // 8: "Destination chain confirmed",
-    // 9: "Failed",
+    undefined: '',
     0: "Confirming",
     1: "Confirming",
     2: "Confirming",
-    3: "Confirming",
+    3: "Confirmed",
     4: "Failed",
-    5: "Confirming",
-    6: "Confirming",
-    7: "Failed",
-    8: "Confirmed",
-    9: "Failed",
-    noFee: "Waiting for network fee", // 未转入闪兑所需手续费
-    // 1: "跨链交易发起链已确认",
-    // 2: "跨链交易NERVE链已广播交易待确认",
-    // 3: "跨链交易NERVE链广播失败",
-    // 4: "目标链已确认",
-    // 5: "跨链交易失败",
-  },
-  swftStatusType: {
-    wait_deposit_send: "Waiting for the deposit",
-    timeout: "Time out",
-    wait_exchange_push: "Waiting for the swap of information",
-    wait_exchange_return: "Waiting for the swap of information to return",
-    wait_receive_send: "Waiting for receiving asset to send", 
-    wait_receive_confirm: "Waiting for confirmation of receiving asset", 
-    receive_complete: "Confirmation of receiving asset is complete",
-    wait_refund_send: "Waiting for the return of the original asset to be sent",
-    wait_refund_confirm: "Waiting for confirmation of the original asset",
-    refund_complete: "Confirmation of the refund of the original asset",
-    "ERROR/error": "Order in process" ,
-    WAIT_KYC: "Wait for KYC or contact customer service to provide the link"
+    5: "Time out"
   },
   ...enLocale
 

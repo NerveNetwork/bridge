@@ -13,7 +13,9 @@ export const NULS_INFO = { chainId: 2, assetId: 1, prefix: 'tNULS',symbol:"NULS"
 export const ETHNET = 'ropsten';
 
 // export const BRIDGE_API_URL = IS_DEV ? "/bridge-api" : "http://beta.bridge.nerve.network/bridge-api";
-export const BRIDGE_API_URL = "http://beta.api.bridge.nerve.network";
+// export const BRIDGE_API_URL = "http://beta.api.bridge.nerve.network";
+// export const BRIDGE_API_URL = "http://jl5i9jz7.xiaomy.net";
+export const BRIDGE_API_URL = "http://nabox_api.zhoulijun.top";
 
 
 

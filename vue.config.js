@@ -52,8 +52,9 @@ module.exports = {
       },
       "/nabox-api": {
         // target: "http://192.168.1.204:8083",
-        target: "http://beta.bridge.nerve.network",
+        // target: "http://beta.bridge.nerve.network",
         // target: "https://bridge.nerve.network",
+        target: "http://jl5i9jz7.xiaomy.net",
         changeOrigin: true,  // 是否跨域
       },
     }

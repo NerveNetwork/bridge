@@ -12,16 +12,16 @@ import utils from "nuls-sdk-js/lib/utils/utils";
  * amount  转账数量
  * decimals 转账资产精度
  */
-export async function getContractCallData(from, to, price, contractAddress, methodName, amount, decimals) {
+export async function getContractCallData(from, to, price, contractAddress, methodName, amount, decimals, methodDesc = "", args = [], multyAssetArray, nulsValueToOthers) {
   //console.log(from, to, price, contractAddress, methodName, amount, decimals);
   const gasLimit = sdk.CONTRACT_MAX_GASLIMIT;
-  const methodDesc = "";
-  let newValue = 0;
-  let args = [];
+  price = price || sdk.CONTRACT_MINIMUM_PRICE;
+  let newValue = timesDecimals(amount, decimals);
   let newContractAddress = contractAddress;
   if (methodName === "transfer") {
     /// nuls 合约资产  普通token转账、向合约地址转token
     args = [to, timesDecimals(amount, decimals)]
+    newValue = 0;
   } else if (methodName === "_payable") {
     //合约 payable 向合约地址转nuls
     newValue = Number(Times(amount, 100000000));
@@ -30,8 +30,11 @@ export async function getContractCallData(from, to, price, contractAddress, meth
     // token跨链转账
     args = [to, timesDecimals(amount, decimals)];
     newValue = Number(timesDecimals(0.1, 8));
+  } else if (methodName === "_payableMultyAsset") {
+    newValue = 0;
+    newContractAddress = to;
   }
-  return await validateContractCall(from, newValue, gasLimit, price, newContractAddress, methodName, methodDesc, args)
+  return await validateContractCall(from, newValue, gasLimit, price, newContractAddress, methodName, methodDesc, args, multyAssetArray)
 }
 
 /**
@@ -89,8 +92,8 @@ async function imputedContractCallGas(sender, value, contractAddress, methodName
       //console.log(config);
       const MAIN_INFO = config.NULS;
       const data = {
-        fee: Number(Plus(Division(Times(res.data.gasLimit, price), 10000000), 0.001)),
-        gas: res.data.gasLimit,
+        // fee: Number(Plus(Division(Times(res.data.gasLimit, price), 10000000), 0.001)), // 10000000 跨链 0-普通
+        // gas: res.data.gasLimit,
         contractCallData: {
           chainId: MAIN_INFO.chainId,
           sender: sender,
@@ -103,7 +106,7 @@ async function imputedContractCallGas(sender, value, contractAddress, methodName
           args: newArgs
         }
       };
-      //console.log(data);
+      console.log(data, 77666);
       return {success: true, data}
     } else {
       return {success: false, msg: res.msg};

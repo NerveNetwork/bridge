@@ -153,7 +153,6 @@ export class NTransfer {
         nonce: nonce
       });
     } else {
-      const mainAssetNonce = await this.getNonce(from, mainAsset.chainId, mainAsset.assetId);
       inputs.push({
         address: from,
         assetsChainId,
@@ -162,14 +161,18 @@ export class NTransfer {
         locked: 0,
         nonce:  transferInfo.nonce || nonce // 闪兑资产和跨链资产一样，闪兑后nonce值使用hash后16位
       });
-      inputs.push({
-        address: from,
-        assetsChainId: mainAsset.chainId,
-        assetsId: mainAsset.assetId,
-        amount: fee,
-        locked: 0,
-        nonce: mainAssetNonce
-      });
+      if (this.chain === 'NULS') {
+        // nerve普通转账没有手续费
+        const mainAssetNonce = await this.getNonce(from, mainAsset.chainId, mainAsset.assetId);
+        inputs.push({
+          address: from,
+          assetsChainId: mainAsset.chainId,
+          assetsId: mainAsset.assetId,
+          amount: fee,
+          locked: 0,
+          nonce: mainAssetNonce
+        });
+      }
     }
     outputs.push({
       address: to,
@@ -226,20 +229,10 @@ export class NTransfer {
   async callContractTransaction(transferInfo) {
     const config = getChainConfigs();
     const mainAsset = config.NULS;
-    const { from, assetsChainId, assetsId, amount, toContractValue, to } = transferInfo;
+    const { from, assetsChainId, assetsId, amount, toContractValue, to, nulsValueToOthers } = transferInfo;
     const nonce = await this.getNonce(from, mainAsset.chainId, mainAsset.assetId);
-    // const defaultFee = timesDecimals(0.001, 8);
-    const defaultFee = 0;
-    const inputs = [
-      {
-        address: from,
-        assetsChainId,
-        assetsId,
-        amount: Plus(amount, defaultFee).toFixed(),
-        locked: 0,
-        nonce: nonce
-      }
-    ];
+    const defaultFee = timesDecimals(0.001, 8);
+    // const defaultFee = 0;
     const outputs = [];
     if (toContractValue) {
       outputs.push({
@@ -250,6 +243,31 @@ export class NTransfer {
         lockTime: 0
       });
     }
+    let newAmount = Plus(amount, defaultFee).toFixed();
+    if (nulsValueToOthers) {
+      const length = nulsValueToOthers.length;
+      for (let i = 0; i < length; i++) {
+        const nulsValueToOther = nulsValueToOthers[i];
+        newAmount = Plus(newAmount, nulsValueToOther.value).toFixed();
+        outputs.push({
+          address: nulsValueToOther.address,
+          assetsChainId,
+          assetsId,
+          amount: nulsValueToOther.value,
+          lockTime: 0
+        });
+      }
+    }
+    const inputs = [
+      {
+        address: from,
+        assetsChainId,
+        assetsId,
+        amount: newAmount,
+        locked: 0,
+        nonce: nonce
+      }
+    ];
     return {inputs, outputs};
   }
 
@@ -383,7 +401,8 @@ const RPC_URL = {
 };
 
 const CROSS_OUT_ABI = [
-  "function crossOut(string to, uint256 amount, address ERC20) public payable returns (bool)"
+  "function crossOut(string to, uint256 amount, address ERC20) public payable returns (bool)",
+  'function crossOutII(string to, uint256 amount, address ERC20, bytes data) public payable returns (bool)'
 ];
 // token授权
 const ERC20_ABI = [
@@ -459,7 +478,9 @@ export class ETransfer {
    * @param fromAddress metamask地址
    * @param contractAddress ERC20合约地址
    * @param decimals token精度
-   * 
+   * @param gasPrice
+   * @param gasLimit
+   *
    */
   async crossIn(params) {
     const { multySignAddress, nerveAddress, numbers, fromAddress, contractAddress, decimals, gasPrice, gasLimit } = params;
@@ -500,6 +521,57 @@ export class ETransfer {
     transactionParameters.from = fromAddress;
     return await this.sendTransactionDirect(transactionParameters)
     // return await this.sendTransaction(transactionParameters)
+  }
+
+  /**
+   * metamask 跨链转入nerve 支持多token和主资产一起转入
+   * @param params.multySignAddress 多签地址
+   * @param params.nerveAddress nerve地址
+   * @param params.numbers 交易数量
+   * @param params.fromAddress metamask地址
+   * @param params.contractAddress ERC20合约地址
+   * @param params.decimals token精度
+   * @param params.gasLimit
+   * @param params.crossChainFee
+   * @param params.orderId
+   * @param onlyTxData 是否只返回txData
+   */
+  async crossInII(params, onlyTxData = false) {
+    const { multySignAddress, nerveAddress, numbers, fromAddress,
+      contractAddress, decimals, gasLimit, crossChainFee, orderId } = params;
+    if (!multySignAddress || !nerveAddress || !fromAddress) throw 'Invalid params'
+    let mainAssetValue, data;
+    const byteOrderId = ethers.utils.toUtf8Bytes(orderId);
+    if (contractAddress) {
+      // token 转入
+      const numberOfTokens = ethers.utils.parseUnits(numbers, decimals);
+      mainAssetValue = ethers.utils.parseEther(crossChainFee.toString());
+      const iface = new ethers.utils.Interface(CROSS_OUT_ABI);
+      data = iface.functions.crossOutII.encode([nerveAddress, numberOfTokens, contractAddress, byteOrderId]);
+    } else {
+      const allNumber = Plus(crossChainFee, numbers).toFixed();
+      mainAssetValue = ethers.utils.parseEther(allNumber);
+      const iface = new ethers.utils.Interface(CROSS_OUT_ABI);
+      data = iface.functions.crossOutII.encode([nerveAddress, '0', '0x0000000000000000000000000000000000000000', byteOrderId]);
+    }
+    const transactionParameters = {
+      from: fromAddress, //验证合约调用需要from,必传
+      to: multySignAddress,
+      value: mainAssetValue,
+      data: data,
+      gasLimit
+    }
+    console.log(transactionParameters, 999);
+    if (onlyTxData) {
+      delete transactionParameters.gasLimit;
+      return transactionParameters;
+    }
+    const failed = await this.validate(transactionParameters);
+    if (failed) {
+      return { success: false, msg: 'failed crossInII' + failed };
+    }
+    delete transactionParameters.from;
+    return await this.sendTransaction(transactionParameters);
   }
 
   // 组装跨链转入交易需要的txData
@@ -676,8 +748,11 @@ export class ETransfer {
   }
 
   // 预估交易需要的gas
-  async estimateGas(tx) {
-    return await this.provider.estimateGas(tx)
+  estimateGas(tx) {
+    return this.provider.estimateGas(tx).then(gasLimit => {
+      // 预估基础上 * 1.5
+      return gasLimit.mul(15).div(10);
+    });
   }
 
   /**

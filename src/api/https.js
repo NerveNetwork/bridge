@@ -6,6 +6,8 @@ import {chainID} from './util'
 // axios.defaults.baseURL = config.API_URL;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+const prefix = '/nabox-api'
+
 /**
  * 封装post请求
  * Encapsulation post method
@@ -32,7 +34,7 @@ export function post(url, methodName, data = []) {
 
 export async function request(params) {
   const { url, method = "post", data } = params;
-  let baseUrl = config.BRIDGE_API_URL
+  let baseUrl = config.BRIDGE_API_URL + prefix
   // if (url === "/tx/cross/bridge/transfer") {
   //   baseUrl = "/nabox-api"
   // }

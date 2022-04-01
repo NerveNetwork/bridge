@@ -4,7 +4,7 @@
     <div class="content">
       <div class="content-inner">
         <div class="tab-wrap" v-loading="loading">
-          <div class="search">
+<!--          <div class="search">
             <el-select v-model="fromChain" clearable :placeholder="$t('txList.txList2')">
               <el-option
                 v-for="item in chainList"
@@ -24,7 +24,7 @@
               </el-option>
             </el-select>
             <el-button @click="searchList">{{ $t("public.filter") }}</el-button>
-          </div>
+          </div>-->
           <tx-list :list="txList" @toDetail="toTxDetail" :total="txTotal" :loading="txLoading"
                     @loadMoreTx="getTxList">
           </tx-list>
@@ -39,7 +39,7 @@
 // import BackBar from '@/components/BackBar';
 import TxList from "@/components/TxList";
 // import TabSwitch from "@/components/TabSwitch";
-import {getCurrentAccount, superLong, getChainConfigs} from '@/api/util'
+import { getCurrentAccount, superLong, getChainConfigs } from '@/api/util'
 
 export default {
   data () {
@@ -63,19 +63,30 @@ export default {
   },
 
   watch: {
-    '$store.state.address': {
-      immediate: true,
+    currentAddress: {
+      // immediate: true,
       handler(val) {
         if (val) {
-          this.currentAccount = getCurrentAccount(val);
-          if (!this.currentAccount) {
-            this.$router.push("/")
-            return;
-          }
-          this.address = this.currentAccount.address.BSC
-          this.init();
+          // console.log(22222);
+          // this.init();
         }
       }
+    },
+    currentChain: {
+      immediate: true,
+      handler(val) {
+        console.log(val, this.currentAddress);
+        this.fromChain = val;
+        this.init();
+      }
+    }
+  },
+  computed: {
+    currentChain() {
+      return this.$store.state.network;
+    },
+    currentAddress() {
+      return this.$store.state.address
     }
   },
 
@@ -98,29 +109,21 @@ export default {
         return;
       }
       // this.txList = [];
-      const addressObj = this.currentAccount.address;
+      const accountObj = getCurrentAccount(this.currentAddress);
       const data = {
-        fromChain: this.fromChain,
-        toChain: this.toChain,
-        addressList: [addressObj.BSC, addressObj.NERVE, addressObj.NULS],
-        pageSize: this.pageSize,
-        pageNumber: this.pageNumber++
+        chain: this.fromChain,
+        address: accountObj.address[this.fromChain]
       }
       const res = await this.$request({
-        url: "/tx/bridgeTx/list",
+        url: "/bridge/tx/query",
         data
       });
       if (res.code === 1000) {
-        res.data.records.map(v=> {
+        res.data.map(v=> {
           v.createTime = v.createTime.substring(5)
-          const { feeTxHash, convertSymbol, status } = v;
-          if (status <= 2 && convertSymbol && !feeTxHash) {
-            // 未转入手续费
-            v.needFee = true;
-          }
         })
-        this.txList = res.data.records;
-        this.txTotal = res.data.total;
+        this.txList = res.data;
+        this.txTotal = res.data.length;
         this.txLoading = false;
       }
       this.loading = false;
@@ -131,11 +134,11 @@ export default {
       this.txList = [];
       this.getTxList();
     },
-    toTxDetail(txData) {
+    toTxDetail(orderId) {
       this.$router.push({
         path: "/tx-detail",
         query: {
-          txHash: txData.txHash
+          orderId
         }
       })
       // console.log(456)

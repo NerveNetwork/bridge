@@ -28,10 +28,6 @@ Vue.prototype.$post = post;
 Vue.prototype.$request = request;
 
 
-if (development && window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
-  window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = App.constructor
-}
-
 async function setConfig() {
   // 设置默认config
   const localConfig = getChainConfigs();

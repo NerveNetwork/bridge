@@ -62,7 +62,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 2,
       "nerveFlag": false,
-      "usdPrice": 2881.1517,
+      "usdPrice": 3284.7313,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -108,7 +108,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 2,
         "nerveFlag": false,
-        "usdPrice": 2881.1517,
+        "usdPrice": 3284.7313,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -179,7 +179,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 8,
       "nerveFlag": false,
-      "usdPrice": 391.7838,
+      "usdPrice": 428.3317,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -593,7 +593,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 8,
         "nerveFlag": false,
-        "usdPrice": 391.7838,
+        "usdPrice": 428.3317,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -664,7 +664,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 34,
       "nerveFlag": false,
-      "usdPrice": 1.472,
+      "usdPrice": 1.6356,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -696,7 +696,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 34,
         "nerveFlag": false,
-        "usdPrice": 1.472,
+        "usdPrice": 1.6356,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -760,7 +760,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 9,
       "nerveFlag": false,
-      "usdPrice": 8.5361,
+      "usdPrice": 8.6393,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -823,7 +823,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 9,
         "nerveFlag": false,
-        "usdPrice": 8.5361,
+        "usdPrice": 8.6393,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -887,7 +887,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 12,
       "nerveFlag": false,
-      "usdPrice": 34.4119,
+      "usdPrice": 34.3603,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -919,7 +919,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 12,
         "nerveFlag": false,
-        "usdPrice": 34.4119,
+        "usdPrice": 34.3603,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -983,7 +983,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 94,
       "nerveFlag": false,
-      "usdPrice": 86.9428,
+      "usdPrice": 97.3267,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1015,7 +1015,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 94,
         "nerveFlag": false,
-        "usdPrice": 86.9428,
+        "usdPrice": 97.3267,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1079,7 +1079,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 33,
       "nerveFlag": false,
-      "usdPrice": 0.1348,
+      "usdPrice": 0.1637,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1111,7 +1111,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 33,
         "nerveFlag": false,
-        "usdPrice": 0.1348,
+        "usdPrice": 0.1637,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1175,7 +1175,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 35,
       "nerveFlag": false,
-      "usdPrice": 18.1826,
+      "usdPrice": 20.4334,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1207,7 +1207,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 35,
         "nerveFlag": false,
-        "usdPrice": 18.1826,
+        "usdPrice": 20.4334,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -1271,7 +1271,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 93,
       "nerveFlag": false,
-      "usdPrice": 0.4072,
+      "usdPrice": 0.4604,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1303,7 +1303,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 93,
         "nerveFlag": false,
-        "usdPrice": 0.4072,
+        "usdPrice": 0.4604,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1338,7 +1338,7 @@ const beta = [
     "configs": {
       "multiCallAddress": "0xC1f4F265EC8A46ad19740E7d3c6960db4c595dE5",
       "crossAddress": "0x830befa62501F1073ebE2A519B882e358f2a0318",
-      "nft": ""
+      "nft": "arb"
     },
     "mainAsset": {
       "id": 19036,
@@ -1367,7 +1367,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 95,
       "nerveFlag": false,
-      "usdPrice": 2880.5682,
+      "usdPrice": 3284.5681,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1399,7 +1399,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 95,
         "nerveFlag": false,
-        "usdPrice": 2880.5682,
+        "usdPrice": 3284.5681,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1463,7 +1463,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 96,
       "nerveFlag": false,
-      "usdPrice": 1.2538,
+      "usdPrice": 1.5211,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1495,7 +1495,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 96,
         "nerveFlag": false,
-        "usdPrice": 1.2538,
+        "usdPrice": 1.5211,
         "usdPlatform": null,
         "usdUrl": null
       }
@@ -1551,7 +1551,7 @@ const beta = [
       "nerveChainId": 0,
       "nerveAssetId": 0,
       "nerveFlag": false,
-      "usdPrice": 1,
+      "usdPrice": 0,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1575,17 +1575,25 @@ const beta = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdPrice": 1,
+        "usdPrice": 0,
         "usdPlatform": null,
         "usdUrl": null
       }
     ],
-    "urlList": []
+    "urlList": [
+      {
+        "id": 19,
+        "chain": "CSC",
+        "nativeId": 52,
+        "name": "csc-1",
+        "apiUrl": "https://rpc.coinex.net/"
+      }
+    ]
   },
   {
     "id": 41,
-    "chain": "optimistic",
-    "chainName": "optimistic",
+    "chain": "Optimistic",
+    "chainName": "Optimistic",
     "prefix": "0x",
     "nativeId": 10,
     "chainId": 0,
@@ -1623,7 +1631,7 @@ const beta = [
       "nerveChainId": 0,
       "nerveAssetId": 0,
       "nerveFlag": false,
-      "usdPrice": 1,
+      "usdPrice": 0,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1647,12 +1655,20 @@ const beta = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdPrice": 1,
+        "usdPrice": 0,
         "usdPlatform": null,
         "usdUrl": null
       }
     ],
-    "urlList": []
+    "urlList": [
+      {
+        "id": 21,
+        "chain": "Optimistic",
+        "nativeId": 10,
+        "name": "optimistic-1",
+        "apiUrl": "https://mainnet.optimism.io/"
+      }
+    ]
   },
   {
     "id": 40,
@@ -1695,7 +1711,7 @@ const beta = [
       "nerveChainId": 0,
       "nerveAssetId": 0,
       "nerveFlag": false,
-      "usdPrice": 1,
+      "usdPrice": 0,
       "usdPlatform": null,
       "usdUrl": null
     },
@@ -1719,12 +1735,100 @@ const beta = [
         "nerveChainId": 0,
         "nerveAssetId": 0,
         "nerveFlag": false,
-        "usdPrice": 1,
+        "usdPrice": 0,
         "usdPlatform": null,
         "usdUrl": null
       }
     ],
-    "urlList": []
+    "urlList": [
+      {
+        "id": 20,
+        "chain": "IoTeX",
+        "nativeId": 4689,
+        "name": "iotex-1",
+        "apiUrl": "https://babel-api.mainnet.iotex.io/"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "chain": "Aurora",
+    "chainName": "Aurora",
+    "prefix": "0x",
+    "nativeId": 1313161554,
+    "chainId": 0,
+    "chainType": 2,
+    "intro": null,
+    "icon": "https://files.nabox.io/icon/aurora_1.png",
+    "apiUrl": "https://mainnet.aurora.dev",
+    "scanUrl": "https://aurorascan.dev",
+    "psUrl": null,
+    "sort": 18,
+    "status": 1,
+    "bridge": 0,
+    "swap": 0,
+    "configs": {
+      "multiCallAddress": "0xd1F3BE686D64e1EA33fcF64980b65847aA43D79C",
+      "crossAddress": "",
+      "nft": ""
+    },
+    "mainAsset": {
+      "id": 19105,
+      "chain": "Aurora",
+      "registerChain": "Aurora",
+      "chainId": 0,
+      "assetId": 1,
+      "contractAddress": "",
+      "decimals": 18,
+      "assetName": "AETH",
+      "symbol": "AETH",
+      "symbolBase": "AETH",
+      "configType": 1,
+      "source": 0,
+      "icon": "https://files.nabox.io/icon/aurora_1.png",
+      "nulsCross": false,
+      "heterogeneousList": null,
+      "nerveChainId": 0,
+      "nerveAssetId": 0,
+      "nerveFlag": false,
+      "usdPrice": 0,
+      "usdPlatform": null,
+      "usdUrl": null
+    },
+    "assets": [
+      {
+        "id": 19105,
+        "chain": "Aurora",
+        "registerChain": "Aurora",
+        "chainId": 0,
+        "assetId": 1,
+        "contractAddress": "",
+        "decimals": 18,
+        "assetName": "AETH",
+        "symbol": "AETH",
+        "symbolBase": "AETH",
+        "configType": 1,
+        "source": 0,
+        "icon": "https://files.nabox.io/icon/aurora_1.png",
+        "nulsCross": false,
+        "heterogeneousList": null,
+        "nerveChainId": 0,
+        "nerveAssetId": 0,
+        "nerveFlag": false,
+        "usdPrice": 0,
+        "usdPlatform": null,
+        "usdUrl": null
+      }
+    ],
+    "urlList": [
+      {
+        "id": 22,
+        "chain": "Aurora",
+        "nativeId": 1313161554,
+        "name": "aurora-1",
+        "apiUrl": "https://mainnet.aurora.dev"
+      }
+    ]
   },
   {
     "id": 22,
@@ -1810,7 +1914,7 @@ const beta = [
       "nerveChainId": 2,
       "nerveAssetId": 1,
       "nerveFlag": false,
-      "usdPrice": 0.4226,
+      "usdPrice": 0.4467,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -1923,7 +2027,7 @@ const beta = [
         "nerveChainId": 2,
         "nerveAssetId": 1,
         "nerveFlag": false,
-        "usdPrice": 0.4226,
+        "usdPrice": 0.4467,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }
@@ -2064,7 +2168,7 @@ const beta = [
       "nerveChainId": 5,
       "nerveAssetId": 1,
       "nerveFlag": false,
-      "usdPrice": 0.0213,
+      "usdPrice": 0.0232,
       "usdPlatform": "feixiaohao",
       "usdUrl": null
     },
@@ -2173,7 +2277,7 @@ const beta = [
         "nerveChainId": 5,
         "nerveAssetId": 1,
         "nerveFlag": false,
-        "usdPrice": 0.0213,
+        "usdPrice": 0.0232,
         "usdPlatform": "feixiaohao",
         "usdUrl": null
       }

@@ -13,7 +13,8 @@ export const NULS_INFO = { chainId: 1, assetId: 1, prefix: 'NULS',symbol:"NULS",
 export const ETHNET = 'homestead';
 
 // export const BRIDGE_API_URL = IS_DEV ? "/bridge-api" : "https://api.bridge.nerve.network";
-export const BRIDGE_API_URL = "https://api.bridge.nerve.network";
+// export const BRIDGE_API_URL = "https://api.bridge.nerve.network";
+export const BRIDGE_API_URL = "https://api.v2.nabox.io";
 
 
 

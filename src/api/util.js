@@ -106,6 +106,7 @@ export function divisionAndFix(nu, decimals = 8, fix) {
 }
 
 export function fixNumber(str, fix = 8) {
+  if (!str) return '0';
   str = "" + str;
   const int = str.split(".")[0];
   let float = str.split(".")[1];
@@ -773,4 +774,10 @@ export const withdrawalToNulsFee = 3
 export function getChainConfigs() {
   // return JSON.parse(sessionStorage.getItem('config'));
   return JSON.parse(localStorage.getItem('config'));
+}
+
+// 获取异构链跨链转入nerve的多签地址
+export function getMultySignAddress(chain) {
+  const config = JSON.parse(localStorage.getItem('config'));
+  return config[chain].config.crossAddress
 }

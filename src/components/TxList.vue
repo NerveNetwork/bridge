@@ -2,48 +2,34 @@
   <div class="tx-list">
     <ul class="list" v-infinite-scroll="load" infinite-scroll-disabled="disabled">
       <li v-for="(item,index) in oldList" :key="index" @click="handleClick(item)">
-        <template v-if="!isSwft">
-          <div class="top">
-            <div class="chain">
-              <span>{{item.fromChain }}</span>
-              <i class="iconfont icon-to"></i>
-              <span>{{ item.toChain }}</span>
-            </div>
-            <div class="amount">
-              {{ parseFloat(item.amount) }} {{ item.symbol }}
-            </div>
+        <div class="top">
+          <div class="chain">
+            <span>{{item.fromChain }}</span>
+            <i class="iconfont icon-to"></i>
+            <span>{{ item.toChain }}</span>
           </div>
-          <div class="bottom">
-            <div class="time">{{ item.createTime }}</div>
-            <div class="status">
-              <!-- {{ getTxStatus(item.status) }} -->
-              <template v-if="item.needFee">
-                <span>{{ $t("txList.txList9") }}</span>
-                <span class="pay-now click">{{ $t("txList.txList10") }}</span>
-              </template>
-              <template v-else>
-                <img src="../assets/img/tx-pending.svg" alt="" v-if="checkStatus(item.status)">
-              </template>
-            </div>
+          <div class="amount">
+            {{ parseFloat(item.amount) }} {{ item.symbol }}
           </div>
-        </template>
-        <template v-else>
-          <div class="top">
-            <div class="chain">
-              <span>{{item.depositCoinAmt}} {{item.depositCoinCode }}</span>
-              <i class="iconfont icon-to" style="margin: 0 10px"></i>
-              <span>{{item.receiveCoinAmt}} {{ item.receiveCoinCode }}</span>
-            </div>
+        </div>
+        <div class="bottom">
+          <div class="time">{{ item.createTime }}</div>
+          <div class="status">
+            <template v-if="item.status < 3">
+              <img src="../assets/img/tx-pending.svg" alt="" >
+            </template>
           </div>
-          <div class="bottom" style="marginTop: 8px">
-            <div class="time">{{ item.createTime }}</div>
-          </div>
-        </template>
-        
+        </div>
       </li>
     </ul>
-    <p class="load-tip" v-if="loading">{{$t('public.loading')}}</p>
-    <p class="load-tip" v-if="oldList.length && noMore">{{$t('public.noMore')}}</p>
+    <p class="load-tip">
+      <template v-if="loading">{{$t('public.loading')}}</template>
+      <template v-else-if="!oldList.length">{{$t('public.noData')}}</template>
+      <template v-else>{{$t('public.noMore')}}</template>
+    </p>
+<!--    <p class="load-tip" v-if="loading"></p>
+    <p class="load-tip" v-if="!oldList.length">{{ $t('public.noData') }}</p>
+    <p class="load-tip" v-if="oldList.length && noMore">{{$t('public.noMore')}}</p>-->
   </div>
 </template>
 
@@ -61,17 +47,12 @@
         default: true
       },
       total: [String, Number],
-      isSwft: {
-        type: Boolean,
-        default: false
-      },
       autoScrollLoad: {
         type: Boolean,
         default: true
       }
     },
     data() {
-      // this.failStatus = [4, 7, 9]
       return {
         oldList: [],
       }
@@ -93,11 +74,12 @@
             for (let item of val) {
               item.amount = tofix(item.amount, 6, 1)
             }
-            if (this.oldList.length !== 0 && this.autoScrollLoad) {
+            /*if (this.oldList.length !== 0 && this.autoScrollLoad) {
               this.oldList = [...this.oldList, ...val];
             } else {
               this.oldList = val;
-            }
+            }*/
+            this.oldList = val
           }else{
             this.oldList = [];
           }
@@ -112,7 +94,7 @@
       },
 
       handleClick(item) {
-        this.$emit("toDetail", item);
+        this.$emit("toDetail", item.orderId);
       },
 
       load() {
@@ -123,17 +105,7 @@
         const pendingStatus = [0, 1, 2, 3, 5, 6]
         // console.log(status, hideStatus.indexOf(status), 52)
         return pendingStatus.indexOf(status) > -1;
-      },
-      // getTxStatus(status) {
-      //   const failStatus = [4, 7, 9]
-      //   if (status === 8) {
-      //     return this.$t("txList.txList6")
-      //   } else if (failStatus.indexOf(status) > -1) {
-      //     return this.$t("txList.txList5")
-      //   } else {
-      //     return this.$t("txList.txList4")
-      //   }
-      // }
+      }
     }
   }
 

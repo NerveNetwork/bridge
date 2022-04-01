@@ -42,7 +42,8 @@ const cn = {
     home26: "请选择跨链资产",
     home27: "待处理交易",
     home28: "网络错误",
-    home29: "选择"
+    home29: "选择",
+    home30: "创建订单失败"
   },
   public: {
     amount: "数量",
@@ -54,7 +55,8 @@ const cn = {
     confirmed: "已确认",
     pending: "未确认",
     copySuccess: "已复制到剪切板",
-    time: "时间"
+    time: "时间",
+    noData: '暂无数据'
   },
   accounts: {
     accounts1: "网络账户",
@@ -110,52 +112,20 @@ const cn = {
     tips16: "组装转入网络费用交易失败",
     tips17: "广播交易失败",
     tips18: "获取跨链配置失败",
-    tips19: "跨链通道需要升级维护"
+    tips19: "跨链通道需要升级维护",
+    tips20: "更新订单失败",
+    tips21: '计算手续费失败'
   },
 
   crossStatusType: {
-    // 0: "跨链交易发起链未确认",
-    // 1: "跨链交易发起链已确认",
-    // 2: "等待广播闪对交易",
-    // 3: "闪兑交易已广播待确认",
-    // 4: "闪兑交易广播失败",
-    // 5: "等待广播NERVE跨链交易",
-    // 6: "跨链交易NERVE链已广播待确认",
-    // 7: "跨链交易NERVE链广播失败",
-    // 8: "目标链已确认",
-    // 9: "跨链交易失败",
+    undefined: '',
     0: "确认中",
     1: "确认中",
     2: "确认中",
-    3: "确认中",
+    3: "已确认",
     4: "失败",
-    5: "确认中",
-    6: "确认中",
-    7: "失败",
-    8: "已确认",
-    9: "失败",
-    noFee: "未转入网络费用"
-    // 1: "跨链交易发起链已确认",
-    // 2: "跨链交易NERVE链已广播交易待确认",
-    // 3: "跨链交易NERVE链广播失败",
-    // 4: "目标链已确认",
-    // 5: "跨链交易失败",
+    5: "订单超时"
   },
-  swftStatusType: {
-    wait_deposit_send: "等待存币发送",
-    timeout: "超时",
-    wait_exchange_push: "等待交换信息推送",
-    wait_exchange_return: "等待交换信息返回",
-    wait_receive_send: "等待接收币种发送", 
-    wait_receive_confirm: "等待接收币种确认", 
-    receive_complete: "接收币种确认完成",
-    wait_refund_send: "等待退原币币种发送",
-    wait_refund_confirm: "等待退原币币种确认",
-    refund_complete: "退原币币种确认完成",
-    "ERROR/error": "正在处理的订单" ,
-    WAIT_KYC: "等待进行KYC或联系客服提供链接"
-  },
-
   ...zhLocale
 };
 export default cn
