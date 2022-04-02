@@ -9,9 +9,7 @@ Vue.config.devtools = process.env.NODE_ENV === 'development';
 export default new Vuex.Store({
   state: {
     address: '',
-    network: sessionStorage.getItem("network") || "NERVE",
-    walletType: localStorage.getItem('walletType'),
-    chainId: '',
+    network: sessionStorage.getItem("network"),
     isWrongChain: false,
     config: getChainConfigs()
   },
@@ -25,13 +23,6 @@ export default new Vuex.Store({
     changeNetwork(state, data) {
       state.network = data;
       sessionStorage.setItem("network", data);
-    },
-    changeWalletType(state, type) {
-      state.walletType = type;
-      localStorage.setItem('walletType', type);
-    },
-    changeChainId(state, chainId) {
-      state.chainId = chainId;
     },
     changeIsWrongChain(state, isWrongChain) {
       state.isWrongChain = isWrongChain

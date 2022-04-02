@@ -45,15 +45,12 @@
   export default {
     data() {
       this.isMobile = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
+      this.configs = getChainConfigs();
       return {
         showNetworkList: false,
         showAccountDialog: false,
         walletAddress: isBeta ? "http://beta.wallet.nerve.network" : "https://wallet.nerve.network",
-        provider: null
       };
-    },
-    props: {
-      // address: String
     },
     components: {
       ChainList
@@ -65,20 +62,8 @@
       currentChain() {
         return this.$store.state.network
       },
-      chainId() {
-        return this.$store.state.chainId
-      },
       isWrongChain() {
         return this.$store.state.isWrongChain
-      },
-      walletType() {
-        return this.$store.state.walletType
-      },
-      wallet() {
-        if (!this.walletType || !window[this.walletType]) {
-          return null;
-        }
-        return window[this.walletType]
       },
       showAccountArea() {
         const currentAccount = getCurrentAccount(this.address)
@@ -90,15 +75,7 @@
         return chain ? chain.icon : ''
       }
     },
-    watch: {
-      walletType: {
-        immediate: true,
-        handler(val) {
-          // setTimeout(() => {
-            this.initConnect()
-          // }, 500)
-        }
-      },
+    /*watch: {
       '$store.state.network': {
         handler(val) {
           if (val === "NULS" || val === "NERVE") {
@@ -106,80 +83,81 @@
           }
         }
       }
-    },
+    },*/
     mounted() {
-      this.configs = getChainConfigs();
+      this.initConnect();
     },
     methods: {
       async initConnect() {
         this.configs = getChainConfigs();
-        const walletType = localStorage.getItem('walletType');
-        const provider = window[walletType];
-        if (!walletType || !provider) return;
-        this.parseChainId(provider.chainId);
+        const provider = this.getProvider();
+        if (!provider) return;
         const address = provider.selectedAddress;
         if (!address) {
           await this.requestAccounts();
         } else {
-          this.$store.commit('changeAddress', address);
-          this.switchNetwork(address);
+          this.initChainInfo(address);
         }
         this.listenAccountChange();
         this.listenNetworkChange();
       },
+      getProvider() {
+        const providerType = localStorage.getItem("walletType");
+        return window[providerType] || null;
+      },
       async requestAccounts() {
-        const res = await this.wallet.request({ method: "eth_requestAccounts" });
+        const provider = this.getProvider();
+        const res = await provider.request({ method: "eth_requestAccounts" });
         if (res.length) {
-          this.$store.commit("changeAddress", res[0]);
-          this.switchNetwork(res[0])
+          this.initChainInfo(res[0]);
         }
       },
       //监听账户改变
       listenAccountChange() {
-        this.wallet.on("accountsChanged", (accounts) => {
+        const provider = this.getProvider();
+        provider.on("accountsChanged", (accounts) => {
           console.log(accounts, "===accounts-changed===")
-          if (accounts.length && this.walletType) {
-            window.location.reload();
+          if (accounts.length) {
+            this.reload();
           }
         });
       },
 
       //监听网络改变
       listenNetworkChange() {
-        this.wallet.on("chainChanged", (chainId) => {
+        const provider = this.getProvider();
+        provider.on("chainChanged", (chainId) => {
           console.log(chainId, "===chainId-changed===")
-          if (chainId && this.walletType) {
-            window.location.reload();
+          if (chainId) {
+            const chainInfo = Object.values(this.configs).find(v => +v.nativeId === +chainId);
+            const network = chainInfo && chainInfo.chain;
+            this.$store.commit("changeNetwork", network);
+            this.reload();
           }
         });
       },
 
-      switchNetwork(address) {
-        // 连接插件时如果是nuls、nerve设置network为nuls/nerve
-        if (!address.startsWith("0x")) {
-          let network
-          if (address.startsWith("tNULS") || address.startsWith("NULS")) {
-            network = "NULS"
-          } else {
-            network = "NERVE"
+      // 初始化当前网络、chainId， address信息
+      initChainInfo(address) {
+        const currentAccount = getCurrentAccount(address);
+        const provider = this.getProvider();
+        let chainId = provider.chainId;
+        chainId = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
+        const chainInfo = Object.values(this.configs).find(v => +v.nativeId === +chainId);
+        let isWrongChain = !chainInfo;
+        let currentAddress = address;
+        let network = sessionStorage.getItem("network");
+        if (network) {
+          if (network === 'NULS' || network === 'NERVE') {
+            isWrongChain = false
+            currentAddress = currentAccount.address[network]
           }
-          this.$store.commit("changeIsWrongChain", false);
-          this.$store.commit("changeNetwork", network)
+        } else {
+          network = chainInfo && chainInfo.chain;
         }
-      },
-
-      parseChainId(chainId) {
-        chainId = chainId + ""
-        const result = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
-        this.$store.commit("changeChainId", result);
-        const chainInfo = Object.values(this.configs).find(v => +v.nativeId === +result);
-        const isWrongChain = !Object.values(this.configs).find(v => +v.nativeId === +result);
         this.$store.commit("changeIsWrongChain", isWrongChain);
-        if (chainInfo) {
-          this.$store.commit("changeNetwork", chainInfo.chain);
-        } /*else {
-          this.$message("Chain Error")
-        }*/
+        this.$store.commit("changeAddress", currentAddress);
+        this.$store.commit("changeNetwork", network);
       },
 
       superLong(str, len = 8) {
@@ -205,9 +183,8 @@
         this.showAccountDialog = false
       },
       quit() {
-        // this.$emit("quit")
         this.showAccountDialog = false;
-        this.$store.commit("changeWalletType", null);
+        localStorage.setItem('walletType', null)
         this.$router.push("/");
         this.reload();
       },
@@ -217,18 +194,16 @@
       async switchChain(item) {
         const chain = item.chain;
         if (this.currentChain === chain) return;
-        const provider =window[this.walletType]
+        const provider = this.getProvider();
         if (chain === "NULS" || chain === "NERVE" || item.nativeId === provider.chainId) {
           this.$store.commit('changeNetwork', chain)
           const currentAccount = getCurrentAccount(this.address);
-          const newAddress = currentAccount.address[chain]
-          this.$store.commit('changeAddress', newAddress)
+          const newAddress = currentAccount.address[chain];
+          this.$store.commit('changeAddress', newAddress);
+          this.$store.commit('changeIsWrongChain', false);
           return;
         }
-
         try {
-          const providerType = localStorage.getItem("walletType");
-          const provider = window[providerType];
           if (chain !== "Ethereum") {
             const addItem = {
               chainId: item.nativeId,
@@ -251,9 +226,10 @@
               params: [{ chainId: item.nativeId }]
             });
           }
-          if (this.isMobile) {
-            this.reload()
-          }
+          // this.reload();
+          // if (this.isMobile) {
+          //   this.reload()
+          // }
         } catch (e) {
           console.log(e, 89898)
         }
@@ -323,6 +299,7 @@
           img {
             width: 25px;
             margin-right: 8px;
+            border-radius: 50%;
           }
         }
         .support-network-list {

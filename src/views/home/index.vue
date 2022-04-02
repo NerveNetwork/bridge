@@ -22,9 +22,7 @@
           v-show="swapType==='nerve'"
           :address="address"
           :fromNetwork="fromNetwork"
-          :fromChainId="fromChainId"
           :fromAddress="fromAddress"
-          :fromChainError="fromChainError"
         ></nerve-swap>
       </div>
     </div>
@@ -88,21 +86,12 @@ export default {
       // console.log(this.$store.state.address, 10120012)
       return this.$store.state.address
     },
-    fromChainId() {
-      return this.$store.state.chainId
-    },
     fromNetwork() {
       return this.$store.state.network;
     },
     fromAddress() {
       const currentAccount = getCurrentAccount(this.address);
       return currentAccount && !this.showSign ? currentAccount.address[this.fromNetwork] : "";
-    },
-    walletType() {
-      return this.$store.state.walletType
-    },
-    fromChainError() {
-      return this.$store.state.isWrongChain;
     },
     //是否显示派生地址
     showSign() {
@@ -117,34 +106,15 @@ export default {
     }
   },
 
-  /*watch: {
-    address: {
-      immediate: true,
-      handler(val) {
-        if (!val) return;
-        const currentAccount = getCurrentAccount(val);
-        const config = JSON.parse(sessionStorage.getItem("config"));
-        const chainLength = Object.keys(config).length;
-        const addressListLength = currentAccount ? Object.keys(currentAccount.address).length : 0
-        this.showSign = !chainLength || chainLength !== addressListLength
-      },
-    }
-  },*/
-
-  created() {
-    if (typeof this.$route.query.loginOut === 'boolean' && this.$route.query.loginOut === true) {
-      // this.setConfig(null);
-    }
-  },
-
   methods: {
     // 连接provider
-    async connectProvider(provider) {
-      if (!window[provider]) {
+    async connectProvider(walletType) {
+      if (!window[walletType]) {
         this.$message({ message: "No provider was found", type: "warning"});
         return
       }
-      this.$store.commit('changeWalletType', provider);
+      localStorage.setItem('walletType', walletType);
+      window.location.reload();
     },
     //通过调用metamask签名，派生多链地址
     async derivedAddress() {

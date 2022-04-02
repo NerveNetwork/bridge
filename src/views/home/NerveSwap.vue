@@ -186,9 +186,7 @@ export default {
   props: {
     address: String,
     fromNetwork: String,
-    fromChainId: String,
-    fromAddress: String,
-    fromChainError: Boolean
+    fromAddress: String
   },
   components: {
     FeeWrap,
@@ -215,6 +213,9 @@ export default {
   },
 
   computed: {
+    fromChainError() {
+      return this.$store.state.isWrongChain;
+    },
     toAddress() {
       return this.currentAccount ? this.currentAccount.address[this.toNetwork] : '';
     },
@@ -306,7 +307,7 @@ export default {
     // 查询可跨链资产
     async getCanCrossAssets() {
       const res = await this.$request({
-        url: '/asset/chain/cross',
+        url: '/bridge/cross/asset',
         data: {
           fromChain: this.fromNetwork,
           toChain: this.toNetwork
@@ -951,8 +952,7 @@ export default {
           duration: 2000
         })
         setTimeout(() => {
-          this.toTxDetail()
-          this.$router.replace("/tx-detail?orderId=" + this.orderId)
+          this.toTxDetail(this.orderId)
         }, 2000)
       }
     },
