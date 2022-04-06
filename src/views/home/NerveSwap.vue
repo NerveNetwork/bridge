@@ -453,23 +453,28 @@ export default {
     },
     // 异构链token资产转入nerve授权
     async approveERC20() {
-      const transfer = new ETransfer();
-      const contractAddress = this.chooseAsset.contractAddress;
-      const res = await transfer.approveERC20(
-        contractAddress,
-        this.fromChainMultySignAddress,
-        this.fromAddress
-      );
-      if (res.hash) {
-        this.$message({
-          message: this.$t('tips.tips1'),
-          type: 'success',
-          duration: 2000
-        });
-        this.setGetAllowanceTimer();
-      } else {
-        this.$message({message: JSON.stringify(res), type: 'warning', duration: 2000});
+      try {
+        const transfer = new ETransfer();
+        const contractAddress = this.chooseAsset.contractAddress;
+        const res = await transfer.approveERC20(
+          contractAddress,
+          this.fromChainMultySignAddress,
+          this.fromAddress
+        );
+        if (res.hash) {
+          this.$message({
+            message: this.$t('tips.tips1'),
+            type: 'success',
+            duration: 2000
+          });
+          this.setGetAllowanceTimer();
+        } else {
+          this.$message({message: JSON.stringify(res), type: 'warning', duration: 2000});
+        }
+      } catch (e) {
+        this.$message({message: e.message || e, type: 'warning', duration: 2000});
       }
+
     },
     // 定时获取授权状态
     setGetAllowanceTimer() {
