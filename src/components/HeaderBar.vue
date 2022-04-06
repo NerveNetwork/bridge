@@ -149,8 +149,9 @@
         let network = sessionStorage.getItem("network");
         if (network) {
           if (network === 'NULS' || network === 'NERVE') {
-            isWrongChain = false
-            currentAddress = currentAccount.address[network]
+            isWrongChain = false;
+            // 新账户、且bridge之前在NULS链，会导致currentAccount为null
+            currentAddress = currentAccount ? currentAccount.address[network] : address;
           }
         } else {
           network = chainInfo && chainInfo.chain;
