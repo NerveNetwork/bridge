@@ -1022,7 +1022,7 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-right: 15px;
+      margin-right: 10px;
 
       .dot {
         width: 3px;
@@ -1052,7 +1052,11 @@ export default {
         }
 
         .chain-name {
-          width: 85px;
+          width: 70px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin-right: 10px;
         }
       }
 
