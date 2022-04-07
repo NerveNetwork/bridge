@@ -147,7 +147,7 @@
         let isWrongChain = !chainInfo;
         let currentAddress = address;
         let network = sessionStorage.getItem("network");
-        if (network) {
+        if (network && network !== 'undefined') {
           if (network === 'NULS' || network === 'NERVE') {
             isWrongChain = false;
             // 新账户、且bridge之前在NULS链，会导致currentAccount为null
