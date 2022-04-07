@@ -43,7 +43,8 @@ const cn = {
     home27: "待处理交易",
     home28: "网络错误",
     home29: "选择",
-    home30: "创建订单失败"
+    home30: "创建订单失败",
+    home31: "获取地址失败",
   },
   public: {
     amount: "数量",

@@ -5,6 +5,7 @@ shell.cp(process.cwd() + "/config/" + process.env.NULS_ENV + ".js",process.cwd()
 const isProduction = process.env.NODE_ENV === 'production';
 console.log("use config file : " + process.cwd() + "/config/" + process.env.NULS_ENV + ".js");
 // const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const port = process.env.NULS_ENV === 'prod' ? 8077 : 8075
 module.exports = {
 
   publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
@@ -39,7 +40,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 8075,
+    port,
     host: '0.0.0.0',
     https: false,
     open: true,

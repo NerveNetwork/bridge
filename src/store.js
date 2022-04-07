@@ -22,7 +22,12 @@ export default new Vuex.Store({
     },
     changeNetwork(state, data) {
       state.network = data;
-      sessionStorage.setItem("network", data);
+      if (data) {
+        sessionStorage.setItem("network", data);
+      } else {
+        sessionStorage.removeItem('network')
+      }
+
     },
     changeIsWrongChain(state, isWrongChain) {
       state.isWrongChain = isWrongChain

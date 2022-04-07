@@ -43,7 +43,8 @@ const en = {
     home27: "Pending Txs",
     home28: "Wrong Network",
     home29: "Select",
-    home30: "Create order failed"
+    home30: "Create order failed",
+    home31: "Failed to get address",
   },
   public: {
     amount: "Amount",

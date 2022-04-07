@@ -129,8 +129,8 @@
         provider.on("chainChanged", (chainId) => {
           console.log(chainId, "===chainId-changed===")
           if (chainId) {
-            const chainInfo = Object.values(this.configs).find(v => +v.nativeId === +chainId);
-            const network = chainInfo && chainInfo.chain;
+            const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
+            const network = chainInfo && chainInfo.chain || null;
             this.$store.commit("changeNetwork", network);
             this.reload();
           }
@@ -143,7 +143,7 @@
         const provider = this.getProvider();
         let chainId = provider.chainId;
         chainId = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
-        const chainInfo = Object.values(this.configs).find(v => +v.nativeId === +chainId);
+        const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
         let isWrongChain = !chainInfo;
         let currentAddress = address;
         let network = sessionStorage.getItem("network");

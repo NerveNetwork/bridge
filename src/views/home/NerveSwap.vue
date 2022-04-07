@@ -673,9 +673,11 @@ export default {
             fee: 0
           }, type = 2, txData = {};
           if (this.fromNetwork === 'NERVE') {
+            if (!this.crossNerveAddress) throw this.$t('home.home31')
             // 只做普通转账交易、将手续费和转账资产转到nerve中转地址
             type = 2;
           } else {
+            if (!this.crossNulsAddress) throw this.$t('home.home31')
             if (contractAddress) {
               type = 16;
               const price = 25;
@@ -727,6 +729,7 @@ export default {
             await this.updateOrder(broadcastRes.hash);
           }
         } else {
+          if (!this.crossNerveAddress) throw this.$t('home.home31')
           // 异构链跨链转入nerve/异构链到异构链
           const heterogeneousChain_In = transferAsset.heterogeneousList.filter(
             (v) => v.chainName === this.fromNetwork
@@ -754,7 +757,7 @@ export default {
         this.amount = '';
         this.fee = '';
         await this.getCrossOutFeeAndOrderId();
-        this.$message.error(e);
+        this.$message.error(e.message || e);
       }
       this.loading = false;
     },
