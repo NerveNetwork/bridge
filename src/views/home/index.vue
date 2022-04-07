@@ -34,15 +34,16 @@ import NerveSwap from "./NerveSwap";
 import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
 import nerve from "nerve-sdk-js";
 import { getCurrentAccount, getChainConfigs } from "@/api/util";
-import MetaMask from "../../assets/img/metamask.svg";
-import Nabox from "../../assets/img/nabox.svg";
-import TrustWallet from "../../assets/img/trustwallet.svg"
-import Tokenpocket from "../../assets/img/Tokenpocket.svg"
-import Mathwallet from "../../assets/img/mathwallet.svg"
-import binancechain from "../../assets/img/binancechain.svg"
-import OKEx from "../../assets/img/okexchain.png";
-import safepal from "../../assets/img/safepal.svg";
-import coin98 from "../../assets/img/coin98.svg";
+import MetaMask from "@/assets/img/provider/metamask.svg";
+import Nabox from "@/assets/img/provider/nabox.svg";
+import TrustWallet from "@/assets/img/provider/trustwallet.svg"
+import Tokenpocket from "@/assets/img/provider/Tokenpocket.svg"
+import Mathwallet from "@/assets/img/provider/mathwallet.svg"
+import binancechain from "@/assets/img/provider/binancechain.svg"
+import OKEx from "@/assets/img/provider/okexchain.png";
+import safepal from "@/assets/img/provider/safepal.svg";
+import coin98 from "@/assets/img/provider/coin98.svg";
+import bitkeep from '@/assets/img/provider/bitkeep.svg'
 
 
 const ethers = require("ethers");
@@ -67,6 +68,7 @@ export default {
       { name: "OKEx Wallet", src: OKEx, provider: OKExProvider },
       { name: "SafePal", src: safepal, provider: MetaMaskProvider },
       { name: "Coin98", src: coin98, provider: MetaMaskProvider },
+      { name: "BitKeep", src: bitkeep, provider: MetaMaskProvider },
     ]
     return {
       loading: false,
