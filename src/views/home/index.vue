@@ -3,7 +3,7 @@
     <div class="home-content" v-loading="loading">
       <div class="support-list" v-if="!address">
         <span class="title">
-          Connect wallet
+          Connect Wallet
         </span>
         <div class="providers-wrap">
           <p v-for="item in providerList" :key="item.name" @click="connectProvider(item.provider)">
@@ -40,10 +40,10 @@ import TrustWallet from "@/assets/img/provider/trustwallet.svg"
 import Tokenpocket from "@/assets/img/provider/Tokenpocket.svg"
 import Mathwallet from "@/assets/img/provider/mathwallet.svg"
 import binancechain from "@/assets/img/provider/binancechain.svg"
-import OKEx from "@/assets/img/provider/okexchain.png";
+import OKEx from "@/assets/img/provider/metax.jpg";
 import safepal from "@/assets/img/provider/safepal.svg";
 import coin98 from "@/assets/img/provider/coin98.svg";
-import bitkeep from '@/assets/img/provider/bitkeep.svg'
+import bitkeep from '@/assets/img/provider/bitkeep.jpg'
 
 
 const ethers = require("ethers");
@@ -64,8 +64,8 @@ export default {
       { name: "Trust Wallet", src: TrustWallet, provider: MetaMaskProvider },
       { name: "TokenPocket", src: Tokenpocket, provider: MetaMaskProvider },
       { name: "MathWallet", src: Mathwallet, provider: MetaMaskProvider },
-      { name: "Binance Chain", src: binancechain, provider: BSCProvider },
-      { name: "OKEx Wallet", src: OKEx, provider: OKExProvider },
+      { name: "Binance Wallet", src: binancechain, provider: BSCProvider },
+      { name: "MetaX", src: OKEx, provider: OKExProvider },
       { name: "SafePal", src: safepal, provider: MetaMaskProvider },
       { name: "Coin98", src: coin98, provider: MetaMaskProvider },
       { name: "BitKeep", src: bitkeep, provider: MetaMaskProvider },
