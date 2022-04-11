@@ -1,35 +1,21 @@
 <template>
   <div id="app" class="app shadow">
-    <HeaderBar v-show="$route.path !== '/transfer'" @toggleMenu="toggleMenu" />
+    <HeaderBar v-show="$route.path !== '/transfer'" />
     <router-view>
     </router-view>
-    <NavMenu v-model="showMenu"></NavMenu>
   </div>
 </template>
 
 <script>
   import HeaderBar from './components/HeaderBar'
-  import NavMenu from '@/components/NavMenu'
 
   export default {
     data() {
-      return {
-        showMenu: false,
-      };
+      return {};
     },
     components: {
       HeaderBar,
-      NavMenu
     },
-    async created() {
-    },
-    mounted() {
-    },
-    methods: {
-      toggleMenu() {
-        this.showMenu = !this.showMenu;
-      }
-    }
   }
 </script>
 

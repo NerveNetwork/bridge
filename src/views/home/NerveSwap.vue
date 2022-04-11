@@ -227,7 +227,7 @@ export default {
         !this.fee ||
         this.amountMsg ||
         this.fromChainError ||
-        !this.disableCross
+        this.disableCross
       )
         return false;
       return true;

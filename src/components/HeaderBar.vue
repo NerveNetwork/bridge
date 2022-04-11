@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="left clicks" @click="$router.replace('/')">
+    <div class="left clicks" @click="$router.replace('/');showMenu=false">
       <img src="../assets/img/nervelogo.svg" alt="">
       <!-- NerveBridge -->
     </div>
@@ -9,11 +9,11 @@
         <template v-if="isWrongChain">
           <div @click.stop="showNetworkList=!showNetworkList" class="wrong-chain">{{ $t("home.home28") }}</div></template>
         <template v-else>
-          <div class="network" @click.stop="showNetworkList=!showNetworkList">
+          <div class="network" @click.stop="showSwitchChain">
             <img :src="chainLogo" alt="">
             <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
           </div>
-          <span @click="showAccountDialog=true">{{ superLong(address, 5) }}</span>
+          <span @click="showAccountManage">{{ superLong(address, 5) }}</span>
         </template>
         <ChainList v-model="showNetworkList" :currentChain="currentChain" @change="switchChain"></ChainList>
       </div>
@@ -34,11 +34,13 @@
         <el-button @click="quit">{{ $t("header.header8") }}</el-button>
       </div>
     </el-dialog>
+    <NavMenu v-model="showMenu"></NavMenu>
   </div>
 </template>
 
 <script>
   import ChainList from '@/components/ChainList';
+  import NavMenu from '@/components/NavMenu';
   import { superLong, copys, getChainConfigs } from '@/api/util'
   import { isBeta, getCurrentAccount } from '@/api/util';
 
@@ -49,11 +51,13 @@
       return {
         showNetworkList: false,
         showAccountDialog: false,
+        showMenu: false,
         walletAddress: isBeta ? "http://beta.wallet.nerve.network" : "https://wallet.nerve.network",
       };
     },
     components: {
-      ChainList
+      ChainList,
+      NavMenu
     },
     computed: {
       address() {
@@ -164,8 +168,16 @@
       superLong(str, len = 8) {
         return superLong(str, len)
       },
+      showSwitchChain() {
+        this.showNetworkList = !this.showNetworkList;
+        this.showMenu = false;
+      },
+      showAccountManage() {
+        this.showAccountDialog = true;
+        this.showMenu = false;
+      },
       toggleMenu() {
-        this.$emit("toggleMenu");
+        this.showMenu = !this.showMenu;
       },
       openUrl() {
         const baseUrl = this.configs[this.currentChain].scan;
