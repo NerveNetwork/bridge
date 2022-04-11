@@ -45,6 +45,7 @@ const en = {
     home29: "Select",
     home30: "Create order failed",
     home31: "Failed to get address",
+    home32: "NULS contract asset transfer upgrading, pls be patient",
   },
   public: {
     amount: "Amount",

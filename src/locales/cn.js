@@ -45,6 +45,7 @@ const cn = {
     home29: "选择",
     home30: "创建订单失败",
     home31: "获取地址失败",
+    home32: "NULS合约资产转账升级中，请耐心等待",
   },
   public: {
     amount: "数量",

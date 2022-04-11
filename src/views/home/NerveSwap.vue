@@ -226,7 +226,8 @@ export default {
         !Number(this.amount) ||
         !this.fee ||
         this.amountMsg ||
-        this.fromChainError
+        this.fromChainError ||
+        !this.disableCross
       )
         return false;
       return true;
@@ -396,6 +397,13 @@ export default {
       this.chooseAsset = asset;
       this.crossOutFee = '';
       this.orderId = '';
+      if (asset.contractAddress && this.fromNetwork === 'NULS') {
+        this.disableCross = true;
+        this.$message.warning(this.$t('home.home32'));
+        return;
+      } else {
+        this.disableCross = false;
+      }
       this.clearGetAllowanceTimer();
       this.getCrossOutFeeAndOrderId();
       //assset.assetId为0 则为异构链上token资产
@@ -521,6 +529,10 @@ export default {
             this.fee = this.crossOutFee;
           }
         } else if (this.fromNetwork === 'NULS') {
+          if (this.disableCross) {
+            this.feeLoading = false;
+            return;
+          }
           let crossInFee = crossFee + 0.001;
           if (this.chooseAsset.contractAddress) {
             crossInFee = await this.getContractCallData();
