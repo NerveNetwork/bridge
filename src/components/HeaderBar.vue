@@ -96,7 +96,10 @@
         this.configs = getChainConfigs();
         const provider = this.getProvider();
         if (!provider) return;
-        const address = provider.selectedAddress;
+        // console.log(provider, 777);
+        const address = provider.selectedAddress || provider.address;
+        // const p = new ETransfer()
+        // console.log(address, 9999, p.provider.getSigner().getAddress().then(console.log));
         if (!address) {
           await this.requestAccounts();
         } else {
@@ -145,7 +148,7 @@
       initChainInfo(address) {
         const currentAccount = getCurrentAccount(address);
         const provider = this.getProvider();
-        let chainId = provider.chainId;
+        let chainId = provider.chainId + '';
         chainId = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
         const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
         let isWrongChain = !chainInfo;
