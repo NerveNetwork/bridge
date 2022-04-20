@@ -145,7 +145,8 @@ import {
   Plus,
   superLong,
   Times,
-  timesDecimals
+  timesDecimals,
+  isBeta
 } from '@/api/util';
 import { crossFee, ETransfer, getEVMBalance, getNAssetInfo, getNBalance, NTransfer } from '@/api/api';
 import { getContractCallData } from '@/api/nulsContractValidate';
@@ -397,7 +398,7 @@ export default {
       this.chooseAsset = asset;
       this.crossOutFee = '';
       this.orderId = '';
-      if (asset.contractAddress && this.fromNetwork === 'NULS') {
+      if (asset.contractAddress && this.fromNetwork === 'NULS' && !isBeta) {
         this.disableCross = true;
         this.$message.warning(this.$t('home.home32'));
         return;
