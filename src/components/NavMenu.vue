@@ -16,6 +16,12 @@
               <span>{{ $t('header.header2') }}</span>
             </li>
             <li>
+              <a href="https://nerve.network/" :target="isMobile && '_self' || '_blank'">
+                <i class="iconfont icon-a-ziyuan191"></i>
+                <span>NerveSwap</span>
+              </a>
+            </li>
+            <li>
               <a href="https://swapbox.nabox.io/" :target="isMobile && '_self' || '_blank'">
                 <i class="iconfont icon-swapbox"></i>
                 <span>SwapBox</span>
@@ -147,6 +153,10 @@ export default {
         .iconfont {
           margin-right: 10px;
           font-size: 18px;
+        }
+        .icon-a-ziyuan191 {
+          margin-right: 6px;
+          font-size: 14px;
         }
 
         &:hover {

@@ -7,9 +7,9 @@
     <div class="right" v-if="showAccountArea">
       <div class="address">
         <template v-if="isWrongChain">
-          <div @click.stop="showNetworkList=!showNetworkList" class="wrong-chain">{{ $t("home.home28") }}</div></template>
+          <div @click="showNetworkList=!showNetworkList" class="wrong-chain">{{ $t("home.home28") }}</div></template>
         <template v-else>
-          <div class="network" @click.stop="showSwitchChain">
+          <div class="network" @click="showSwitchChain">
             <img :src="chainLogo" alt="">
             <i class="el-icon-caret-bottom" style="margin-left: -5px"></i>
           </div>
