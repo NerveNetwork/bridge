@@ -35,13 +35,29 @@
       </div>
     </el-dialog>
     <NavMenu v-model="showMenu"></NavMenu>
+
+    <el-dialog
+      :title="$t('header.header13')"
+      :visible.sync="showSwitchChainTip"
+      :modal-append-to-body="false"
+      class="switch-tip-dialog"
+      width="80%"
+    >
+      <div>
+        <p class="tips">{{ $t('header.header10') }}</p>
+        <div class="btns tc">
+          <el-button @click="showSwitchChainTip=false">{{ $t('header.header11') }}</el-button>
+          <el-button type="primary" @click="reSelectProvider">{{ $t('header.header12') }}</el-button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import ChainList from '@/components/ChainList';
   import NavMenu from '@/components/NavMenu';
-  import { superLong, copys, getChainConfigs } from '@/api/util'
+  import { superLong, copys, getChainConfigs, openScan } from '@/api/util'
   import { isBeta, getCurrentAccount } from '@/api/util';
 
   export default {
@@ -51,6 +67,7 @@
       return {
         showNetworkList: false,
         showAccountDialog: false,
+        showSwitchChainTip: false,
         showMenu: false,
         walletAddress: isBeta ? "http://beta.wallet.nerve.network" : "https://wallet.nerve.network",
       };
@@ -89,40 +106,68 @@
       }
     },*/
     mounted() {
+      this.providerType = localStorage.getItem("walletType");
+      this.walletProvider = window[this.providerType] || null;
       this.initConnect();
     },
     methods: {
       async initConnect() {
         this.configs = getChainConfigs();
-        const provider = this.getProvider();
+        const provider = this.walletProvider;
         if (!provider) return;
-        // console.log(provider, 777);
-        const address = provider.selectedAddress || provider.address;
-        // const p = new ETransfer()
-        // console.log(address, 9999, p.provider.getSigner().getAddress().then(console.log));
+        let address;
+        if (this.providerType === 'tronWeb') {
+          address = provider.defaultAddress.base58;
+        } else {
+          address = provider.selectedAddress || provider.address;
+        }
         if (!address) {
-          await this.requestAccounts();
+          // await this.requestAccounts();
+          // this.quit();
         } else {
           this.initChainInfo(address);
+          this.addListener();
         }
-        this.listenAccountChange();
-        this.listenNetworkChange();
       },
-      getProvider() {
+      /*getProvider() {
         const providerType = localStorage.getItem("walletType");
         return window[providerType] || null;
-      },
+      },*/
       async requestAccounts() {
-        const provider = this.getProvider();
-        const res = await provider.request({ method: "eth_requestAccounts" });
+        const res = await this.walletProvider.request({ method: "eth_requestAccounts" });
         if (res.length) {
           this.initChainInfo(res[0]);
         }
       },
-      //监听账户改变
+      // 监听账户、网络变化
+      addListener() {
+        if (this.providerType === 'tronWeb') {
+          this.addTronListener();
+        } else {
+          this.listenAccountChange();
+          this.listenNetworkChange();
+        }
+      },
+      addTronListener() {
+        window.addEventListener('message', e => {
+          if (!e.data.message) return;
+          // return;
+          if (e.data.message.action === 'accountsChanged') {
+            this.reload();
+          }
+          // TODO 断开连接、chain改变监听
+          /*if (e.data.message.action === 'disconnect') {
+            console.log("disconnect event", e.data.message)
+            this.quit();
+          }
+          if ( e.data.message.action === "disconnectWeb") {
+            console.log("disconnectWeb event", e.data.message)
+          }*/
+        })
+      },
+      //EVM 监听账户改变
       listenAccountChange() {
-        const provider = this.getProvider();
-        provider.on("accountsChanged", (accounts) => {
+        this.walletProvider.on("accountsChanged", (accounts) => {
           console.log(accounts, "===accounts-changed===")
           if (accounts.length) {
             this.reload();
@@ -130,10 +175,9 @@
         });
       },
 
-      //监听网络改变
+      //EVM 监听网络改变
       listenNetworkChange() {
-        const provider = this.getProvider();
-        provider.on("chainChanged", (chainId) => {
+        this.walletProvider.on("chainChanged", (chainId) => {
           console.log(chainId, "===chainId-changed===")
           if (chainId) {
             const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
@@ -147,21 +191,22 @@
       // 初始化当前网络、chainId， address信息
       initChainInfo(address) {
         const currentAccount = getCurrentAccount(address);
-        const provider = this.getProvider();
-        let chainId = provider.chainId + '';
+        console.log(currentAccount, 88, address);
+        let chainId = this.walletProvider.chainId + '';
         chainId = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
         const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
-        let isWrongChain = !chainInfo;
+        const isTronAddress = this.walletProvider.isAddress && this.walletProvider.isAddress(address);
+        let isWrongChain = isTronAddress ? false : !chainInfo;
         let currentAddress = address;
         let network = sessionStorage.getItem("network");
         if (network && network !== 'undefined') {
           if (network === 'NULS' || network === 'NERVE') {
-            isWrongChain = false;
+            // isWrongChain = !currentAccount;
             // 新账户、且bridge之前在NULS链，会导致currentAccount为null
-            currentAddress = currentAccount ? currentAccount.address[network] : address;
+            // currentAddress = currentAccount ? currentAccount.address[network] : address;
           }
         } else {
-          network = chainInfo && chainInfo.chain;
+          network = isTronAddress ? 'TRON' : chainInfo && chainInfo.chain;
         }
         this.$store.commit("changeIsWrongChain", isWrongChain);
         this.$store.commit("changeAddress", currentAddress);
@@ -183,14 +228,7 @@
         this.showMenu = !this.showMenu;
       },
       openUrl() {
-        const baseUrl = this.configs[this.currentChain].scan;
-        let url;
-        if (this.currentChain !== "NERVE" && this.currentChain !== "NULS") {
-          url = baseUrl + "address/" + this.address;
-        } else {
-          url = baseUrl + "address/info?address=" + this.address
-        }
-        window.open(url)
+        openScan(this.currentChain, 'address', this.address)
         this.showAccountDialog = false
       },
       copy(str) {
@@ -200,7 +238,8 @@
       },
       quit() {
         this.showAccountDialog = false;
-        localStorage.setItem('walletType', null)
+        this.$store.commit('changeNetwork', '')
+        localStorage.removeItem('walletType');
         this.$router.push("/");
         this.reload();
       },
@@ -210,7 +249,12 @@
       async switchChain(item) {
         const chain = item.chain;
         if (this.currentChain === chain) return;
-        const provider = this.getProvider();
+        console.log(this.currentChain, chain, '----00-----');
+        if (this.currentChain === 'TRON' || this.walletProvider === 'tronWeb' || item.chain === 'TRON') {
+          this.showSwitchChainTip = true;
+          return;
+        }
+        const provider = this.walletProvider;
         if (chain === "NULS" || chain === "NERVE" || item.nativeId === provider.chainId) {
           this.$store.commit('changeNetwork', chain)
           const currentAccount = getCurrentAccount(this.address);
@@ -252,6 +296,10 @@
       },
       reload() {
         window.location.reload()
+      },
+      reSelectProvider() {
+        this.showSwitchChainTip = false;
+        this.quit();
       }
     },
   }
@@ -398,6 +446,15 @@
         border-color: #5BCAF9;
         color: #5BCAF9;
         border-radius: 10px;
+      }
+    }
+    .switch-tip-dialog {
+      .tips {
+        font-size: 15px;
+        margin: -5px 0 20px;
+      }
+      .btns .el-button:first-child {
+        margin-right: 20px;
       }
     }
   }

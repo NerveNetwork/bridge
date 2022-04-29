@@ -878,6 +878,26 @@ export class ETransfer {
     // console.log('finalResult: ' + finalResult);
     return finalResult.toString();
   }
+
+  async getPubBySign(message) {
+    const jsonRpcSigner = this.provider.getSigner();
+    const signature = await jsonRpcSigner.signMessage(message);
+    const msgHash = ethers.utils.hashMessage(message);
+    const msgHashBytes = ethers.utils.arrayify(msgHash);
+    const recoveredPubKey = ethers.utils.recoverPublicKey(
+      msgHashBytes,
+      signature
+    );
+    if (recoveredPubKey.startsWith("0x04")) {
+      const compressPub = ethers.utils.computePublicKey(
+        recoveredPubKey,
+        true
+      );
+      return compressPub.slice(2);
+    } else {
+      throw 'sign error';
+    }
+  }
 }
 
 export async function getSymbolUSD(chain) {

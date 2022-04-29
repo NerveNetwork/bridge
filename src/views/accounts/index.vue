@@ -14,7 +14,7 @@
            <div>
             <span >
               <span class="clicks hover-bg" @click="copy(item.address)">{{ superLong(item.address) }}</span>
-              <i class="iconfont icon-lianjie clicks" @click="openUrl(item.address, item.chain, item.scan)"></i>
+              <i class="iconfont icon-lianjie clicks" @click="openUrl(item.address, item.chain)"></i>
             </span>
             <span>{{item.balance | toThousands }}{{ item.symbol }}</span>
           </div>
@@ -27,8 +27,9 @@
 
 <script>
 // import BackBar from '@/components/BackBar'
-import { superLong, getLogoSrc, copys, getCurrentAccount, getChainConfigs, fixNumber } from '@/api/util';
+import { superLong, getLogoSrc, copys, getCurrentAccount, getChainConfigs, fixNumber, openScan } from '@/api/util';
 import { getEVMBalance, getNBalance } from '@/api/api';
+import TronLinkApi from '@/api/tronApi';
 
 let isLoading = false;
 export default {
@@ -82,7 +83,11 @@ export default {
           const config = configs[i]
           const address = currentAccount.address[config.chain]
           let balance = 0;
-          if (Number(config.nativeId) > 0) {
+          if (config.chain === 'TRON') {
+            const transfer = new TronLinkApi();
+            promiseList.push(transfer.getTrxBalance(address))
+            // promiseList.push(getEVMBalance(config.chain, address, ''))
+          } else if (Number(config.nativeId) > 0) {
             promiseList.push(getEVMBalance(config.chain, address, ''))
             // balance = await getEVMBalance(config.chain, address, '')
           } else {
@@ -141,14 +146,8 @@ export default {
       copys(str)
       this.$message({message: this.$t('public.copySuccess'), type: 'success', duration: 1000});
     },
-    openUrl(address, chain, scanUrl) {
-      let url;
-      if (chain !== "NERVE" && chain !== "NULS") {
-        url = scanUrl + "address/" + address;
-      } else {
-        url = scanUrl + "address/info?address=" + address
-      }
-      window.open(url)
+    openUrl(address, chain) {
+      openScan(chain, 'address', address)
     }
   }
 }

@@ -31,9 +31,13 @@
 
 <script>
 import NerveSwap from "./NerveSwap";
-import { MAIN_INFO, NULS_INFO, ETHNET } from "@/config";
-import nerve from "nerve-sdk-js";
 import { getCurrentAccount, getChainConfigs } from "@/api/util";
+import { getAddress } from '@/api/accountUtils';
+import { ETransfer } from '@/api/api';
+const ethers = require("ethers");
+import TronLinkApi from '@/api/tronApi';
+
+
 import MetaMask from "@/assets/img/provider/metamask.svg";
 import Nabox from "@/assets/img/provider/nabox.svg";
 import TrustWallet from "@/assets/img/provider/trustwallet.svg"
@@ -43,17 +47,19 @@ import binancechain from "@/assets/img/provider/binancechain.svg"
 import OKEx from "@/assets/img/provider/metax.jpg";
 import safepal from "@/assets/img/provider/safepal.svg";
 import coin98 from "@/assets/img/provider/coin98.svg";
-import bitkeep from '@/assets/img/provider/bitkeep.jpg'
+import bitkeep from '@/assets/img/provider/bitkeep.jpg';
+import tronLink from '@/assets/img/provider/tronLink.jpg';
 
 
-const ethers = require("ethers");
+
 
 
 const isMobile = /Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent);
-const MetaMaskProvider = "ethereum"
-const NaboxProvider = "NaboxWallet"
-const OKExProvider = "okexchain"
-const BSCProvider = "BinanceChain"
+const MetaMaskProvider = "ethereum";
+const NaboxProvider = "NaboxWallet";
+const OKExProvider = "okexchain";
+const BSCProvider = "BinanceChain";
+const TronProvider = 'tronWeb';
 // const Coin98Provider = "coin98"
 
 export default {
@@ -69,10 +75,10 @@ export default {
       { name: "SafePal", src: safepal, provider: MetaMaskProvider },
       { name: "Coin98", src: coin98, provider: MetaMaskProvider },
       { name: "BitKeep", src: bitkeep, provider: MetaMaskProvider },
+      { name: "TronLink", src: tronLink, provider: TronProvider },
     ]
     return {
       loading: false,
-      // showSign: true,
       swapType: "nerve",
       provider: null,
     };
@@ -111,72 +117,54 @@ export default {
   methods: {
     // 连接provider
     async connectProvider(walletType) {
-      if (!window[walletType]) {
+      const provider = window[walletType]
+      if (!provider) {
         this.$message({ message: "No provider was found", type: "warning"});
         return
       }
-      localStorage.setItem('walletType', walletType);
-      window.location.reload();
+      try {
+        if (walletType === 'tronWeb') {
+          // await window.tronLink.request({method: 'tron_requestAccounts'})
+          await window.tronLink.request({
+            method: 'tron_requestAccounts'
+          });
+        } else {
+          await provider.request({ method: "eth_requestAccounts" });
+        }
+        localStorage.setItem('walletType', walletType);
+        window.location.reload();
+      } catch (e) {
+        this.$message.error(e.message || e);
+      }
     },
     //通过调用metamask签名，派生多链地址
     async derivedAddress() {
       this.loading = true;
+      console.log(this.address, 66);
+      const walletType = localStorage.getItem('walletType')
       try {
-        let account = {address: {}}, pub;
-        if (!this.address.startsWith("0x")) {
-         
-          if (!window.nabox) {
-            throw "Nabox not found"
-          }
-          pub = await window.nabox.getPub({
-            address: this.address
-          })
-          const address = ethers.utils.computeAddress(ethers.utils.hexZeroPad(ethers.utils.hexStripZeros('0x' + pub), 33));
-          account.address = this.getHeterogeneousAddress(address);
+        let account = { address: {}, pub: '' }, pub;
+        if (walletType === 'tronWeb') {
+          const transfer = new TronLinkApi();
+          const message = "Derive Multi-chain Address";
+          pub = await transfer.getPubBySign(message)
         } else {
-          const walletType = localStorage.getItem('walletType')
-          const provider = new ethers.providers.Web3Provider(window[walletType]);
-          const jsonRpcSigner = provider.getSigner();
-          let message = "Derive Multi-chain Address";
-          const signature = await jsonRpcSigner.signMessage(message);
-          const msgHash = ethers.utils.hashMessage(message);
-          const msgHashBytes = ethers.utils.arrayify(msgHash);
-          const recoveredPubKey = ethers.utils.recoverPublicKey(
-            msgHashBytes,
-            signature
-          );
-          account.address = this.getHeterogeneousAddress(this.address);
-          if (recoveredPubKey.startsWith("0x04")) {
-            const compressPub = ethers.utils.computePublicKey(
-              recoveredPubKey,
-              true
-            );
-            pub = compressPub.slice(2);
+          if (!this.address.startsWith("0x")) {
+            if (!window.nabox) {
+              throw "Nabox not found"
+            }
+            pub = await window.nabox.getPub({
+              address: this.address
+            })
           } else {
-            throw "sign error"
+            const transfer = new ETransfer();
+            const message = "Derive Multi-chain Address";
+            pub = await transfer.getPubBySign(message)
           }
         }
-
         account.pub = pub;
-        const { chainId, assetId, prefix } = MAIN_INFO;
-        const {
-          chainId: NULSChainId,
-          assetId: NULSAssetId,
-          prefix: NULSPrefix,
-        } = NULS_INFO;
-        // console.log(NULSChainId, NULSAssetId, NULSPrefix, 55)
-        account.address.NERVE = nerve.getAddressByPub(
-          chainId,
-          assetId,
-          pub,
-          prefix
-        );
-        account.address.NULS = nerve.getAddressByPub(
-          NULSChainId,
-          NULSAssetId,
-          pub,
-          NULSPrefix
-        );
+        const chainConfig = getChainConfigs();
+        account.address = getAddress(pub, chainConfig)
 
         const accountList = JSON.parse(localStorage.getItem("accountList")) || [];
         const existIndex = accountList.findIndex(v => v.pub === account.pub);
@@ -186,7 +174,7 @@ export default {
         } else {
           accountList.push(account);
         }
-        const syncRes = await this.syncAccount(pub, account.address);
+        const syncRes = await this.syncAccount(pub);
         if (syncRes) {
           localStorage.setItem("accountList", JSON.stringify(accountList));
           window.location.reload();
@@ -202,27 +190,10 @@ export default {
       }
       this.loading = false;
     },
-    getHeterogeneousAddress(address) {
-      const chainAddress = {}
-      const chainConfig = getChainConfigs();
-      for(let chain in chainConfig) {
-        if (chain !== 'NULS' && chain !== 'NERVE') {
-          chainAddress[chain] = address
-        }
-      }
-      return chainAddress
-    },
-    async syncAccount(pub, accounts) {
-      const addressList = [];
-      Object.keys(accounts).map((v) => {
-        addressList.push({
-          chain: v,
-          address: accounts[v],
-        });
-      });
+    async syncAccount(pub) {
       const res = await this.$request({
         url: "/wallet/sync",
-        data: { pubKey: pub, addressList },
+        data: { pubKey: pub },
       });
       return res.code === 1000;
     },

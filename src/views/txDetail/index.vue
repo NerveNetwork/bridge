@@ -59,8 +59,8 @@
 import {
   superLong,
   copys,
-  getChainConfigs
-} from '@/api/util'
+  getChainConfigs, openScan
+} from '@/api/util';
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -172,15 +172,7 @@ export default {
       this.$message({message: this.$t('public.copySuccess'), type: 'success', duration: 1000});
     },
     openUrl(hash, chain) {
-      const config = getChainConfigs();
-      const baseUrl = config[chain].scan;
-      let url;
-      if (chain !== "NERVE" && chain !== "NULS") {
-        url = baseUrl + "tx/" + hash;
-      } else {
-        url = baseUrl + "transaction/info?hash=" + hash
-      }
-      window.open(url)
+      openScan(chain, 'hash', hash)
     }
   }
 }

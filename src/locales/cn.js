@@ -11,6 +11,10 @@ const cn = {
     header7: "社区",
     header8: "退出钱包",
     header9: "Nerve钱包",
+    header10: '当前插件不支持所选链，是否前往切换插件',
+    header11: '取消',
+    header12: '前往切换',
+    header13: '提示'
   },
   home: {
     home1: "生成多链地址",

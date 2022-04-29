@@ -149,9 +149,10 @@ import {
   isBeta
 } from '@/api/util';
 import { crossFee, ETransfer, getEVMBalance, getNAssetInfo, getNBalance, NTransfer } from '@/api/api';
+import TronLinkApi from '@/api/tronApi';
 import { getContractCallData } from '@/api/nulsContractValidate';
 import defaultIcon from '@/assets/img/commonIcon.png';
-import { getERC20AssetsBalance, getNAssetsBalance } from '@/api/getBalanceInBatch';
+import { getERC20AssetsBalance, getNAssetsBalance, getTRC20AssetsBalance } from '@/api/getBalanceInBatch';
 import { getCrossAddress } from '@/api/getDefaultConfig';
 
 
@@ -244,7 +245,7 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     /*this.getPendingTxList();
     const timer = setInterval(() => {
       this.getPendingTxList();
@@ -253,6 +254,17 @@ export default {
       clearInterval(timer);
     });*/
     this.getCrossAddressMap();
+    // const instance1 = await window.tronWeb.contract().at('414edb3b591c27aa3efe30f267690bf7ff2556d85c');
+    // console.log(instance1, '222222');
+
+    window.tronWeb.request({
+      method: 'eth_estimateGas',
+      params: [{
+        from: 'TTaJsdnYPsBjLLM1u2qMw1e9fLLoVKnNUX',
+        to: 'TUJLt6hAthpKhkmAAapWczUHhxN2TzY3cF',
+        data: '0a0299b022082eb8420a47fb3fdd40909ffffc86305aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541c11d9943805e56b630a401d4bd9a29550353efa1121541f58579d0c4f39d6c327978a0a3e95ce4dec196092244095ea7b3000000000000000000000000f723e62e48f4e0a5160ebaf69a60d7244e462a05ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff709dd9fbfc8630900180a3c347'
+      }]
+    })
   },
 
   methods: {
@@ -359,8 +371,10 @@ export default {
           const contractList = data.map(v => {
             return v.contractAddress || multiCallAddress;
           });
-          const tokenInfo = await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl);
-          // console.log(tokenInfo, "tokenInfo-erc")
+          const tokenInfo = this.fromNetwork === 'TRON'
+            ? await getTRC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl)
+            : await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl);
+          console.log(tokenInfo, "tokenInfo-erc")
           data.map(v => {
             tokenInfo.map(token => {
               if (v.contractAddress) {
@@ -439,13 +453,19 @@ export default {
 
     // 查询异构链token资产授权情况
     async checkCrossInAuthStatus() {
-      const transfer = new ETransfer();
+      let needAuth = false;
       const contractAddress = this.chooseAsset.contractAddress;
-      const needAuth = await transfer.getERC20Allowance(
-        contractAddress,
-        this.fromChainMultySignAddress,
-        this.fromAddress
-      );
+      if (this.fromNetwork === 'TRON') {
+        const transfer = new TronLinkApi();
+        needAuth = await transfer.getTrc20Allowance(this.fromAddress, this.fromChainMultySignAddress, contractAddress)
+      } else {
+        const transfer = new ETransfer();
+        needAuth = await transfer.getERC20Allowance(
+          contractAddress,
+          this.fromChainMultySignAddress,
+          this.fromAddress
+        );
+      }
       this.crossInAuth = needAuth;
       if (!needAuth && this.getAllowanceTimer) {
         this.getTransferFee();
@@ -455,14 +475,24 @@ export default {
     // 异构链token资产转入nerve授权
     async approveERC20() {
       try {
-        const transfer = new ETransfer();
+        const userAddress = this.fromAddress;
+        const multySignAddress = this.fromChainMultySignAddress;
         const contractAddress = this.chooseAsset.contractAddress;
-        const res = await transfer.approveERC20(
-          contractAddress,
-          this.fromChainMultySignAddress,
-          this.fromAddress
-        );
-        if (res.hash) {
+        let hash
+        if (this.fromNetwork === 'TRON') {
+          const transfer = new TronLinkApi();
+          hash = await transfer.approveTrc20(userAddress, multySignAddress, contractAddress)
+          // console.log(hash, '90999');
+        } else {
+          const transfer = new ETransfer();
+          const res = await transfer.approveERC20(
+            contractAddress,
+            multySignAddress,
+            userAddress
+          );
+          hash = res.hash
+        }
+        if (hash) {
           this.$message({
             message: this.$t('tips.tips1'),
             type: 'success',
@@ -491,10 +521,13 @@ export default {
     },
     async getAssetBalance(chain, address, asset) {
       const { chainId, assetId, decimals, contractAddress } = asset;
-      if (chain !== 'NULS' && chain !== 'NERVE') {
-        return await getEVMBalance(chain, address, contractAddress, decimals);
-      } else {
+      if (chain === 'NULS' || chain === 'NERVE') {
         return await getNBalance(chain, address, chainId, assetId, contractAddress, decimals);
+      } else if (chain === 'TRON') {
+        const transfer = new TronLinkApi();
+        return contractAddress ? await transfer.getTrc20Balance(address, contractAddress, decimals) : await transfer.getTrxBalance(address)
+      } else {
+        return await getEVMBalance(chain, address, contractAddress, decimals);
       }
     },
     validateAmount(val) {
@@ -529,6 +562,7 @@ export default {
           this.fee = Plus(crossInFee, this.crossOutFee).toFixed();
         } else {
           const crossInFee = await this.getCrossInFee();
+          console.log(crossInFee, this.crossOutFee, 777);
           this.fee = Plus(crossInFee, this.crossOutFee).toFixed();
         }
         await this.checkAmountFee();
@@ -615,23 +649,37 @@ export default {
         (v) => v.chainName === this.fromNetwork
       )[0];
       const { contractAddress } = assetHeterogeneousInfo;
-      const transfer = new ETransfer();
       const addressInfo = this.currentAccount.address;
-      const tx = await transfer.crossInII({
-        fromAddress: addressInfo[this.fromNetwork],
-        multySignAddress: this.fromChainMultySignAddress,
-        nerveAddress: addressInfo.NERVE,
-        numbers: this.amount,
-        contractAddress,
-        decimals: this.chooseAsset.decimals,
-        crossChainFee: this.crossOutFee,
-        orderId: this.orderId
-      }, true)
-      // tx.from = addressInfo[this.fromNetwork]; // cronos不传from预估gasLimit失败
-      const gasLimit = await transfer.estimateGas(tx);
-      this.gasLimit = gasLimit.toHexString();
-      // this.gasPrice = ethers.utils.parseUnits(Division(fee, gasLimit).toFixed(), '18').toHexString();
-      return await transfer.getGasPrice(gasLimit);
+      if (this.fromNetwork === 'TRON') {
+        const transfer = new TronLinkApi();
+        return await transfer.getCrossInFee(
+          addressInfo[this.fromNetwork],
+          addressInfo.NERVE,
+          this.amount,
+          this.fromChainMultySignAddress,
+          contractAddress,
+          this.chooseAsset.decimals,
+          this.orderId,
+          this.crossOutFee
+        )
+      } else {
+        const transfer = new ETransfer();
+        const tx = await transfer.crossInII({
+          fromAddress: addressInfo[this.fromNetwork],
+          multySignAddress: this.fromChainMultySignAddress,
+          nerveAddress: addressInfo.NERVE,
+          numbers: this.amount,
+          contractAddress,
+          decimals: this.chooseAsset.decimals,
+          crossChainFee: this.crossOutFee,
+          orderId: this.orderId
+        }, true)
+        // tx.from = addressInfo[this.fromNetwork]; // cronos不传from预估gasLimit失败
+        const gasLimit = await transfer.estimateGas(tx);
+        this.gasLimit = gasLimit.toHexString();
+        // this.gasPrice = ethers.utils.parseUnits(Division(fee, gasLimit).toFixed(), '18').toHexString();
+        return await transfer.getGasPrice(gasLimit);
+      }
     },
 
     /*splitFeeSymbol(str) {
@@ -730,27 +778,47 @@ export default {
             await this.updateOrder(broadcastRes.hash);
           }
         } else {
-          if (!this.crossNerveAddress) throw this.$t('home.home31')
+          if (!this.crossNerveAddress) throw this.$t('home.home31');
           // 异构链跨链转入nerve/异构链到异构链
           const heterogeneousChain_In = transferAsset.heterogeneousList.filter(
             (v) => v.chainName === this.fromNetwork
           )[0];
-          const params = {
-            multySignAddress: this.fromChainMultySignAddress,
-            nerveAddress: this.crossNerveAddress,
-            numbers: this.amount,
-            fromAddress: from,
-            contractAddress: heterogeneousChain_In.contractAddress,
-            decimals: transferAsset.decimals,
-            gasLimit: this.gasLimit,
-            crossChainFee: this.crossOutFee,
-            orderId: this.orderId,
-          };
-          // console.log(params, 888);
-          const transfer = new ETransfer();
-          const res = await transfer.crossInII(params);
-          if (res.hash) {
-            await this.updateOrder(res.hash);
+          const nerveAddress = this.crossNerveAddress;
+          const multySignAddress = this.fromChainMultySignAddress;
+          const contractAddress = heterogeneousChain_In.contractAddress;
+          const decimals = transferAsset.decimals;
+          let hash;
+          if (this.fromNetwork === 'TRON') {
+            const transfer = new TronLinkApi();
+            hash = await transfer.crossOutToNerve(
+              nerveAddress,
+              this.amount,
+              multySignAddress,
+              contractAddress,
+              decimals,
+              this.orderId,
+              this.crossOutFee
+            )
+            // TODO 交易成功报: 失败,修改跨链交易错误
+          } else {
+            const params = {
+              multySignAddress,
+              nerveAddress,
+              numbers: this.amount,
+              fromAddress: from,
+              contractAddress,
+              decimals,
+              gasLimit: this.gasLimit,
+              crossChainFee: this.crossOutFee,
+              orderId: this.orderId,
+            };
+            // console.log(params, 888);
+            const transfer = new ETransfer();
+            const res = await transfer.crossInII(params);
+            hash = res.hash;
+          }
+          if (hash) {
+            await this.updateOrder(hash);
           }
         }
       } catch (e) {

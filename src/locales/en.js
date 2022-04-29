@@ -11,6 +11,10 @@ const en = {
     header7: "Community",
     header8: "Quit",
     header9: "Nerve Wallet",
+    header10: 'The current plugin does not support the selected chain, do you want to switch plugins?',
+    header11: 'Cancel',
+    header12: 'Confirm',
+    header13: 'Tips',
   },
   home: {
     home1: "Import Addresses",

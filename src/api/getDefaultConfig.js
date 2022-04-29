@@ -23,7 +23,7 @@ export function setChainConfig(config) {
         decimal: mainInfo ? mainInfo.decimals : '',
         assets: v.assets || [],
         config: v.configs,
-        apiUrl: v.apiUrl,
+        apiUrl: v.chainName !== 'TRON' ? v.apiUrl : v.psUrl,
         icon: v.icon,
         nativeId: '0x' + v.nativeId.toString(16),
         scan: v.scanUrl
@@ -39,7 +39,8 @@ export function setChainConfig(config) {
 export async function getChainConfig() {
   let config = defaultConfig
   try {
-    const res = await request({url: '/api/chain/config', method: 'get', network});
+    // const res = await request({url: '/api/chain/config', method: 'get', network});
+    const res = await request({url: '/chain/configs', method: 'get', network});
     if (res.data && res.data.length) {
       config = res.data
     }

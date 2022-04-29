@@ -781,3 +781,29 @@ export function getMultySignAddress(chain) {
   const config = JSON.parse(localStorage.getItem('config'));
   return config[chain].config.crossAddress
 }
+
+export function openScan(chain, type, query) {
+  const scanUrl = getChainConfigs()[chain].scan;
+  let path;
+  if (chain === 'NULS' || chain === 'NERVE') {
+    if (type === 'address') {
+      path = 'address/info?address=' + query;
+    } else if (type === 'hash') {
+      path = 'transaction/info?hash=' + query;
+    }
+  } else if (chain === 'TRON') {
+    if (type === 'address') {
+      path = '#/address/' + query;
+    } else if (type === 'hash') {
+      query = query.startsWith('0x') ? query.slice(2) : query;
+      path = '#/transaction/' + query;
+    }
+  } else {
+    if (type === 'address') {
+      path = 'address/' + query;
+    } else if (type === 'hash') {
+      path = 'tx/' + query;
+    }
+  }
+  window.open(scanUrl + path);
+}
