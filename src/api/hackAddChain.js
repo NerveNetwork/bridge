@@ -37,7 +37,7 @@ export async function hackAddChain(config) {
         const isBugAccount = !!keys.every(key => {
           return !isNaN(Number(key))
         });
-        console.log(isBugAccount, "-----", isDiffAccount(config, account))
+        // console.log(isBugAccount, "-----", isDiffAccount(config, account))
         if (isBugAccount || isDiffAccount(config, account)) {
           flag = true
           // 使用pub重新生成一遍账户

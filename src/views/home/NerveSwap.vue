@@ -240,59 +240,15 @@ export default {
       return this.configs[this.fromNetwork].symbol;
     },
     fromChainMultySignAddress() {
-      // console.log(getMultySignAddress(this.fromNetwork), 77);
       return getMultySignAddress(this.fromNetwork);
     }
   },
 
   async mounted() {
-    /*this.getPendingTxList();
-    const timer = setInterval(() => {
-      this.getPendingTxList();
-    }, 5000);
-    this.$once('hook:beforeDestroy', () => {
-      clearInterval(timer);
-    });*/
     this.getCrossAddressMap();
-    // const instance1 = await window.tronWeb.contract().at('414edb3b591c27aa3efe30f267690bf7ff2556d85c');
-    // console.log(instance1, '222222');
-
-    window.tronWeb.request({
-      method: 'eth_estimateGas',
-      params: [{
-        from: 'TTaJsdnYPsBjLLM1u2qMw1e9fLLoVKnNUX',
-        to: 'TUJLt6hAthpKhkmAAapWczUHhxN2TzY3cF',
-        data: '0a0299b022082eb8420a47fb3fdd40909ffffc86305aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a1541c11d9943805e56b630a401d4bd9a29550353efa1121541f58579d0c4f39d6c327978a0a3e95ce4dec196092244095ea7b3000000000000000000000000f723e62e48f4e0a5160ebaf69a60d7244e462a05ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff709dd9fbfc8630900180a3c347'
-      }]
-    })
   },
 
   methods: {
-    // 查询未确认交易
-    async getPendingTxList() {
-      const currentAccount = getCurrentAccount(this.address);
-      const addressObj = currentAccount.address;
-      const data = {
-        chain: this.fromNetwork,
-        address: addressObj[this.fromNetwork],
-      };
-      const res = await this.$request({
-        url: '/bridge/tx/query',
-        data
-      });
-      if (res.code === 1000) {
-        const list = [];
-        res.data.map(v => {
-          v.createTime = v.createTime.substring(5);
-          const { status } = v;
-          if ( status < 3) {
-            list.push(v);
-          }
-        });
-        this.pendingTxList = list;
-      }
-    },
-
     reset() {
       this.available = 0;
       this.amount = '';
@@ -367,29 +323,54 @@ export default {
           });
           console.log(tokenInfo, 'tokenInfo-nerve');
         } else {
-          const multiCallAddress = config[this.fromNetwork].config.multiCallAddress;
-          const contractList = data.map(v => {
-            return v.contractAddress || multiCallAddress;
-          });
-          const tokenInfo = this.fromNetwork === 'TRON'
-            ? await getTRC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl)
-            : await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl);
-          console.log(tokenInfo, "tokenInfo-erc")
-          data.map(v => {
-            tokenInfo.map(token => {
+          if (this.fromNetwork === 'TRON') {
+            const transfer = new TronLinkApi();
+            const promises = [];
+            data.map(v => {
               if (v.contractAddress) {
-                if (v.contractAddress === token.contractAddress) {
-                  v.balance = divisionDecimals(token.balance, token.decimals);
-                  v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
-                }
+                promises.push(transfer.getTrc20Balance(this.fromAddress, '', v.decimals))
               } else {
-                if (!token.contractAddress) {
-                  v.balance = divisionDecimals(token.balance, 18);
-                  v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
-                }
+                promises.push(transfer.getTrxBalance(this.fromAddress))
               }
+            })
+            const tokenBalance = await Promise.allSettled(promises);
+            console.log(tokenBalance, 8888);
+            tokenBalance.map((token, index) => {
+              if (token.status === 'fulfilled') {
+                data[index].balance = token.value;
+                data[index].fixedBalance = token.value ? fixNumber(token.value, 6) : 0;
+              } else {
+                data[index].balance = 0;
+                data[index].fixedBalance = 0;
+              }
+            })
+            /*data.map((v, i) => {
+              v.balance = tokenBalance[i]
+              v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
+            })*/
+          } else {
+            const multiCallAddress = config[this.fromNetwork].config.multiCallAddress;
+            const contractList = data.map(v => {
+              return v.contractAddress || multiCallAddress;
             });
-          });
+            const tokenInfo = await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl);
+            console.log(tokenInfo, "tokenInfo-erc")
+            data.map(v => {
+              tokenInfo.map(token => {
+                if (v.contractAddress) {
+                  if (v.contractAddress === token.contractAddress) {
+                    v.balance = divisionDecimals(token.balance, token.decimals);
+                    v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
+                  }
+                } else {
+                  if (!token.contractAddress) {
+                    v.balance = divisionDecimals(token.balance, 18);
+                    v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
+                  }
+                }
+              });
+            });
+          }
         }
         this.assetsList = data.sort((a, b) => {
           if (a.balance > 0 || b.balance > 0) {

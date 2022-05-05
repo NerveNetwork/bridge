@@ -191,7 +191,7 @@
       // 初始化当前网络、chainId， address信息
       initChainInfo(address) {
         const currentAccount = getCurrentAccount(address);
-        console.log(currentAccount, 88, address);
+        // console.log(currentAccount, 88, address);
         let chainId = this.walletProvider.chainId + '';
         chainId = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
         const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);

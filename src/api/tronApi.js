@@ -4,7 +4,8 @@ const TronWeb = require('tronweb');
 //官方文档地址： https://cn.developers.tron.network/reference#address
 import { Division, divisionDecimals, isBeta, Minus, Plus, Times, timesDecimals } from '@/api/util';
 
-const ethers = require('ethers');
+// const ethers = require('ethers');
+import { ethers, utils } from 'ethers';
 
 const trxWithdrawFee = 40000000;
 
@@ -279,7 +280,7 @@ class TronLinkApi {
       contractAddress = '0x0000000000000000000000000000000000000000';
       tokenAmount = '0';
     }
-    const functionDes = 'function crossOutII(string, uint256, address, bytes)';
+    const functionDes = 'crossOutII(string,uint256,address,bytes)';
     contractAddress =
       contractAddress || '0x0000000000000000000000000000000000000000';
     const parameter = [
@@ -288,12 +289,72 @@ class TronLinkApi {
       { type: 'address', value: contractAddress },
       { type: 'bytes', value: byteOrderId }
     ]
-    console.log(multySignAddress, functionDes, {callValue: 1000000},
-      parameter, from, '==--==');
-    const transaction = await tronWeb.transactionBuilder.triggerConstantContract(multySignAddress, functionDes, {callValue: 1000000},
-      parameter, from);
-    console.log(transaction, 888, decimals, divisionDecimals(transaction.energy_used * 280, decimals));
-    return divisionDecimals(transaction.energy_used * 280, decimals)
+    // console.log(multySignAddress, functionDes, {callValue: 1000000},
+    //   parameter, from, '==--==');
+    // const transaction = await tronWeb.transactionBuilder.triggerConstantContract(multySignAddress, functionDes, {callValue: 1000000}, parameter, from);
+    // console.log(transaction, 888, decimals, divisionDecimals(transaction.energy_used * 280, 6));
+    const parameters = this.getParams(parameter); // 自己组装参数调用rpc，triggerConstantContract无法计算energy_used
+    const args = {
+      contract_address: this.toHex(multySignAddress),
+      function_selector: functionDes,
+      owner_address: this.toHex(from),
+      call_value: 1000000,
+      fee_limit: 150000000,
+      parameter: parameters,
+      // call_value: 0,
+      chainType: 0,
+      visible: false,
+    };
+    const tx = await tronWeb.fullNode.request(`wallet/triggerconstantcontract`, args, 'post');
+    console.log(tx);
+    return divisionDecimals(tx.energy_used * 280, 6)
+  }
+
+  // 查询跨链转入手续费参数组装
+  getParams(parameters) {
+    if (parameters.length) {
+      const abiCoder = new utils.AbiCoder();
+      let types = [];
+      const values = [];
+
+      for (let i = 0; i < parameters.length; i++) {
+        let {type, value} = parameters[i];
+        if (!type || !this.isString(type) || !type.length)
+          throw('Invalid parameter type provided: ' + type);
+
+        const ADDRESS_PREFIX_REGEX = /^(41)/;
+        if (type === 'address')
+          value = this.toHex(value).replace(ADDRESS_PREFIX_REGEX, '0x');
+        else if (type.match(/^([^\x5b]*)(\x5b|$)/)[0] === 'address[')
+          value = value.map(v => this.toHex(v).replace(ADDRESS_PREFIX_REGEX, '0x'));
+
+        types.push(type);
+        values.push(value);
+      }
+
+      try {
+        // workaround for unsupported trcToken type
+        types = types.map(type => {
+          if (/trcToken/.test(type)) {
+            type = type.replace(/trcToken/, 'uint256')
+          }
+          return type
+        })
+
+        parameters = abiCoder.encode(types, values).replace(/^(0x)/, '');
+
+      } catch (ex) {
+        throw ex;
+      }
+    } else parameters = '';
+    return parameters;
+  }
+  toHex(value) {
+    return this.getTronWeb().address.toHex(value);
+  }
+
+  isString(string) {
+    return typeof string === 'string' || (string && string.constructor && string.constructor.name === 'String');
   }
 
   /**
