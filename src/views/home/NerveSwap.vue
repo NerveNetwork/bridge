@@ -481,7 +481,7 @@ export default {
           });
           this.setGetAllowanceTimer();
         } else {
-          this.$message({message: JSON.stringify(res), type: 'warning', duration: 2000});
+          this.$message({message: 'Approve error', type: 'warning', duration: 2000});
         }
       } catch (e) {
         this.$message({message: e.message || e, type: 'warning', duration: 2000});
