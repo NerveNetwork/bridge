@@ -328,7 +328,7 @@ export default {
             const promises = [];
             data.map(v => {
               if (v.contractAddress) {
-                promises.push(transfer.getTrc20Balance(this.fromAddress, '', v.decimals))
+                promises.push(transfer.getTrc20Balance(this.fromAddress, v.contractAddress, v.decimals))
               } else {
                 promises.push(transfer.getTrxBalance(this.fromAddress))
               }
