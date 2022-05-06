@@ -307,7 +307,12 @@ class TronLinkApi {
     };
     const tx = await tronWeb.fullNode.request(`wallet/triggerconstantcontract`, args, 'post');
     console.log(tx);
-    return divisionDecimals(tx.energy_used * 280, 6)
+    if (tx.result.code === 'CONTRACT_VALIDATE_ERROR') {
+      throw 'Failed to calculate fee';
+    } else {
+      const gas_used = tx.energy_used || 0;
+      return divisionDecimals(gas_used * 280, 6)
+    }
   }
 
   // 查询跨链转入手续费参数组装
