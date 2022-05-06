@@ -152,7 +152,7 @@ import { crossFee, ETransfer, getEVMBalance, getNAssetInfo, getNBalance, NTransf
 import TronLinkApi from '@/api/tronApi';
 import { getContractCallData } from '@/api/nulsContractValidate';
 import defaultIcon from '@/assets/img/commonIcon.png';
-import { getERC20AssetsBalance, getNAssetsBalance, getTRC20AssetsBalance } from '@/api/getBalanceInBatch';
+import { getERC20AssetsBalance, getNAssetsBalance, getTRC20AssetsBalance, defaultTRXSender } from '@/api/getBalanceInBatch';
 import { getCrossAddress } from '@/api/getDefaultConfig';
 
 
@@ -324,30 +324,16 @@ export default {
           console.log(tokenInfo, 'tokenInfo-nerve');
         } else {
           if (this.fromNetwork === 'TRON') {
-            const transfer = new TronLinkApi();
-            const promises = [];
-            data.map(v => {
-              if (v.contractAddress) {
-                promises.push(transfer.getTrc20Balance(this.fromAddress, v.contractAddress, v.decimals))
-              } else {
-                promises.push(transfer.getTrxBalance(this.fromAddress))
-              }
-            })
-            const tokenBalance = await Promise.allSettled(promises);
+            const contractList = data.map(v => {
+              return v.contractAddress || defaultTRXSender;
+            });
+            const tokenBalance = await getTRC20AssetsBalance(contractList, this.fromAddress, psUrl);
             console.log(tokenBalance, 8888);
-            tokenBalance.map((token, index) => {
-              if (token.status === 'fulfilled') {
-                data[index].balance = token.value;
-                data[index].fixedBalance = token.value ? fixNumber(token.value, 6) : 0;
-              } else {
-                data[index].balance = 0;
-                data[index].fixedBalance = 0;
-              }
+            tokenBalance.map((balance, index) => {
+              const tokenInfo = data[index];
+              tokenInfo.balance = divisionDecimals(balance, tokenInfo.decimals)
+              tokenInfo.fixedBalance = tokenInfo.balance ? fixNumber(tokenInfo.balance, 6) : 0;
             })
-            /*data.map((v, i) => {
-              v.balance = tokenBalance[i]
-              v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
-            })*/
           } else {
             const multiCallAddress = config[this.fromNetwork].config.multiCallAddress;
             const contractList = data.map(v => {

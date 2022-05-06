@@ -23,7 +23,7 @@ export function setChainConfig(config) {
         decimal: mainInfo ? mainInfo.decimals : '',
         assets: v.assets || [],
         config: v.configs,
-        apiUrl: v.chainName !== 'TRON' ? v.apiUrl : v.psUrl,
+        apiUrl: v.chainName !== 'TRON' ? v.apiUrl : v.psUrl.split('/jsonrpc')[0],
         icon: v.icon,
         nativeId: '0x' + v.nativeId.toString(16),
         scan: v.scanUrl
