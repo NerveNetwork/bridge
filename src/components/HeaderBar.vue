@@ -149,20 +149,23 @@
         }
       },
       addTronListener() {
+        // 监听tronLink事件
         window.addEventListener('message', e => {
           if (!e.data.message) return;
-          // return;
+          // 账户改变
           if (e.data.message.action === 'accountsChanged') {
             this.reload();
           }
-          // TODO 断开连接、chain改变监听
-          /*if (e.data.message.action === 'disconnect') {
-            console.log("disconnect event", e.data.message)
+          // 断开连接
+          if (e.data.message.action === 'disconnect') {
+            // console.log("disconnect event", e.data.message)
             this.quit();
           }
-          if ( e.data.message.action === "disconnectWeb") {
-            console.log("disconnectWeb event", e.data.message)
-          }*/
+          // 网络切换
+          if (e.data.message.action === 'setNode') {
+            // console.log("setNode", e.data)
+            this.reload();
+          }
         })
       },
       //EVM 监听账户改变
@@ -171,6 +174,8 @@
           console.log(accounts, "===accounts-changed===")
           if (accounts.length) {
             this.reload();
+          } else {
+            this.quit();
           }
         });
       },
@@ -205,12 +210,31 @@
             // 新账户、且bridge之前在NULS链，会导致currentAccount为null
             // currentAddress = currentAccount ? currentAccount.address[network] : address;
           }
+          if (network === 'TRON') {
+            isWrongChain = this.checkTronNetwork();
+          }
         } else {
-          network = isTronAddress ? 'TRON' : chainInfo && chainInfo.chain;
+          if (isTronAddress) {
+            network = 'TRON';
+            isWrongChain = this.checkTronNetwork();
+          } else {
+            network = chainInfo && chainInfo.chain;
+          }
+          // network = isTronAddress ? 'TRON' : chainInfo && chainInfo.chain;
         }
         this.$store.commit("changeIsWrongChain", isWrongChain);
         this.$store.commit("changeAddress", currentAddress);
         this.$store.commit("changeNetwork", network);
+      },
+
+      checkTronNetwork() {
+        let isWrongChain = false;
+        const apiPrefix = isBeta ? 'shasta' : 'trongrid';
+        const apiUrl = this.walletProvider.fullNode.host;
+        if (apiUrl.indexOf(apiPrefix) < 0) {
+          isWrongChain = true;
+        }
+        return isWrongChain;
       },
 
       superLong(str, len = 8) {

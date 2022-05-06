@@ -125,14 +125,21 @@ export default {
       try {
         if (walletType === 'tronWeb') {
           // await window.tronLink.request({method: 'tron_requestAccounts'})
-          await window.tronLink.request({
+          const res = await window.tronLink.request({
             method: 'tron_requestAccounts'
           });
+          if (res.code === 200) {
+            localStorage.setItem('walletType', walletType);
+            window.location.reload();
+          } else {
+            this.$message.error(res.message);
+          }
+          // console.log(res, 888);
         } else {
           await provider.request({ method: "eth_requestAccounts" });
+          localStorage.setItem('walletType', walletType);
+          window.location.reload();
         }
-        localStorage.setItem('walletType', walletType);
-        window.location.reload();
       } catch (e) {
         this.$message.error(e.message || e);
       }
