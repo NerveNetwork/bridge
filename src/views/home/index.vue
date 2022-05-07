@@ -129,6 +129,7 @@ export default {
             method: 'tron_requestAccounts'
           });
           if (res.code === 200) {
+            sessionStorage.removeItem("network");
             localStorage.setItem('walletType', walletType);
             window.location.reload();
           } else {
