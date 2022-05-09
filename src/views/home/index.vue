@@ -125,7 +125,7 @@ export default {
       try {
         if (walletType === 'tronWeb') {
           // await window.tronLink.request({method: 'tron_requestAccounts'})
-          const res = await window.tronLink.request({
+          const res = await window.tronWeb.request({
             method: 'tron_requestAccounts'
           });
           if (res.code === 200) {
