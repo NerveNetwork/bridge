@@ -50,6 +50,7 @@ const cn = {
     home30: "创建订单失败",
     home31: "获取地址失败",
     home32: "NULS合约资产转账升级中，请耐心等待",
+    home33: "请先登录插件钱包",
   },
   public: {
     amount: "数量",

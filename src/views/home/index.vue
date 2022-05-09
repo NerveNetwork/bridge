@@ -125,6 +125,9 @@ export default {
       try {
         if (walletType === 'tronWeb') {
           // await window.tronLink.request({method: 'tron_requestAccounts'})
+          if (!window.tronWeb.ready) {
+            throw this.$t('home.home33')
+          }
           const res = await window.tronWeb.request({
             method: 'tron_requestAccounts'
           });
