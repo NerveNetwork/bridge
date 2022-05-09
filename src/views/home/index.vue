@@ -138,6 +138,7 @@ export default {
           // console.log(res, 888);
         } else {
           await provider.request({ method: "eth_requestAccounts" });
+          sessionStorage.removeItem("network");
           localStorage.setItem('walletType', walletType);
           window.location.reload();
         }
