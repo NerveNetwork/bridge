@@ -128,17 +128,33 @@ export default {
           if (!window.tronWeb.ready) {
             throw this.$t('home.home33')
           }
-          const res = await window.tronWeb.request({
+          if (provider.defaultAddress.base58) {
+            // 直接使用地址，tronLink自己会去请求连接账户
+            sessionStorage.removeItem("network");
+            localStorage.setItem('walletType', walletType);
+            window.location.reload();
+          }
+          /*window.addEventListener('message', e => {
+            if (!e.data.message) return;
+            if (e.data.message.action === 'acceptWeb') {
+              console.log(8888);
+            }
+            if (e.data.message.action === "rejectWeb") {
+              console.log("rejectWeb event", e.data.message)
+            }
+          })*/
+          /*const res = await provider.request({
             method: 'tron_requestAccounts'
           });
+          console.log(res, 888);
+          if (!res) return;
           if (res.code === 200) {
             sessionStorage.removeItem("network");
             localStorage.setItem('walletType', walletType);
             window.location.reload();
           } else {
             this.$message.error(res.message);
-          }
-          // console.log(res, 888);
+          }*/
         } else {
           await provider.request({ method: "eth_requestAccounts" });
           sessionStorage.removeItem("network");
@@ -146,6 +162,7 @@ export default {
           window.location.reload();
         }
       } catch (e) {
+        console.info(e);
         this.$message.error(e.message || e);
       }
     },
