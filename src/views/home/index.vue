@@ -105,10 +105,11 @@ export default {
     showSign() {
       if (this.address) {
         const currentAccount = getCurrentAccount(this.address);
-        const config = this.$store.state.config;
+        return !currentAccount;
+        /*const config = this.$store.state.config;
         const chainLength = Object.keys(config).length;
         const addressListLength = currentAccount ? Object.keys(currentAccount.address).length : 0
-        return !chainLength || chainLength !== addressListLength
+        return !chainLength || chainLength !== addressListLength*/
       }
       return true;
     }
