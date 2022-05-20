@@ -41,7 +41,7 @@ import TronLinkApi from '@/api/tronApi';
 import MetaMask from "@/assets/img/provider/metamask.svg";
 import Nabox from "@/assets/img/provider/nabox.svg";
 import TrustWallet from "@/assets/img/provider/trustwallet.svg"
-import Tokenpocket from "@/assets/img/provider/Tokenpocket.svg"
+import Tokenpocket from "@/assets/img/provider/Tokenpocket.jpg"
 import Mathwallet from "@/assets/img/provider/mathwallet.svg"
 import binancechain from "@/assets/img/provider/binancechain.svg"
 import OKEx from "@/assets/img/provider/metax.jpg";
