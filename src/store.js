@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { request } from '@/api/https';
 import { getChainConfigs } from '@/api/util'
 
 Vue.use(Vuex);
@@ -11,7 +12,8 @@ export default new Vuex.Store({
     address: '',
     network: sessionStorage.getItem("network"),
     isWrongChain: false,
-    config: getChainConfigs()
+    config: getChainConfigs(),
+    unConfirmedTx: JSON.parse(localStorage.getItem('unConfirmedTx')) || []
   },
   getters: {
 
@@ -34,10 +36,39 @@ export default new Vuex.Store({
     },
     changeConfig(state, config) {
       state.config = config
+    },
+    // 添加/移除记录的未确认交易
+    changeUnConfirmedTx(state, tx) {
+      const { hash, orderId } = tx;
+      const txs = JSON.parse(localStorage.getItem('unConfirmedTx')) || [];
+      const index = txs.findIndex(v => v.hash === hash);
+      if (index === -1) {
+        txs.push({ hash, orderId });
+      } else {
+        txs.splice(index, 1);
+      }
+      state.unConfirmedHash = txs;
+      localStorage.setItem('unConfirmedTx', JSON.stringify(txs));
     }
   },
 
   actions: {
-
+    async changeUnConfirmedTx({ commit, dispatch }, tx) {
+      const { hash, orderId } = tx;
+      const data = { txHash: hash, orderId }
+      try {
+        await request({
+          url: '/bridge/tx/hash/update',
+          data
+        })
+        commit('changeUnConfirmedTx', tx);
+      } catch (e) {
+        if (e && e.response && e.response.status !== 200) {
+          setTimeout(() => {
+            dispatch('changeUnConfirmedTx', tx);
+          }, 2000)
+        }
+      }
+    }
   }
 })

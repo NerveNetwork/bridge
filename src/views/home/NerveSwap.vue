@@ -979,25 +979,42 @@ export default {
       }
     },
     async updateOrder(txHash) {
-      const data = {
-        orderId: this.orderId,
-        txHash
-      }
-      const res = await this.$request({
-        url: '/bridge/tx/hash/update',
-        data
-      })
-      if (res.code !== 1000) {
-        throw this.$t('tips.tips20') + res.msg
-      } else {
-        this.$message({
-          message: this.$t("tips.tips1"),
-          type: "success",
-          duration: 2000
+      try {
+        const data = {
+          orderId: this.orderId,
+          txHash
+        }
+        const res = await this.$request({
+          url: '/bridge/tx/hash/update',
+          data
         })
-        setTimeout(() => {
-          this.toTxDetail(this.orderId)
-        }, 2000)
+        if (!res) return;
+        if (res.code !== 1000) {
+          this.$message({
+            message: this.$t("tips.tips20") + res.msg,
+            type: "error",
+            duration: 2000
+          })
+        } else {
+          this.$message({
+            message: this.$t("tips.tips1"),
+            type: "success",
+            duration: 2000
+          })
+          setTimeout(() => {
+            this.toTxDetail(this.orderId)
+          }, 2000)
+        }
+      } catch (e) {
+        if (e && e.response && e.response.status !== 200) {
+          // 网络问题重新发送请求
+          const tx = { hash: txHash, orderId: this.orderId }
+          this.$store.commit('changeUnConfirmedTx', tx);
+          this.$store.dispatch('changeUnConfirmedTx', tx);
+          setTimeout(() => {
+            this.toTxDetail(this.orderId)
+          }, 2000)
+        }
       }
     },
     superLong(str, len = 6) {
