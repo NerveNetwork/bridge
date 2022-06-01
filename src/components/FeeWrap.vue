@@ -1,16 +1,6 @@
 <template>
   <div class="my-fee fee">
     <span class="label">{{ $t("public.fee") }}</span>
-<!--      <el-tooltip
-        effect="dark"
-        :content="label || $t('home.home2')"
-        placement="top"
-        :append-to-body="false"
-        ref="mypop"
-      >
-        <span class="el-icon-info"></span>
-      </el-tooltip>
-      <div class=new-tooltip-wrap ref="wrap"></div>-->
     <slot></slot>
   </div>
 </template>
@@ -22,7 +12,7 @@ export default {
     label: String
   },
   mounted() {
-    /* 
+    /*
       tooltip插入到指定元素内
     */
     // this.$refs.wrap.appendChild(

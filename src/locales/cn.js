@@ -90,6 +90,7 @@ const cn = {
     txDetail6: "可用余额",
     txDetail7: " (预计5~10分钟)",
     txDetail8: "使用支持",
+    txDetail9: "Bridge手续费",
   },
   transfer: {
     transfer1: "转账",

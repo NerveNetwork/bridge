@@ -2,7 +2,7 @@
   <div class="tx-detail second-page">
     <div class="content" v-loading="loading">
       <div class="content-inner">
-        <div 
+        <div
           class="status tc"
           :class="status">
           <div class="status-icon">
@@ -20,6 +20,10 @@
           <p class="info-item">
             <span class="left">{{ $t("public.time") }}</span>
             <span class="right">{{txInfo.createTime}}</span>
+          </p>
+          <p class="info-item" v-if="Number(txInfo.bridgeFee)">
+            <span class="left">{{ $t("txDetail.txDetail9") }}</span>
+            <span class="right">{{txInfo.bridgeFee}}{{ txInfo.symbol }}</span>
           </p>
         </div>
         <div class="network-info">
@@ -210,6 +214,9 @@ export default {
       margin-bottom: 30px;
       word-break: break-all;
     }
+    .other-info .info-item {
+      margin-bottom: 15px;
+    }
     .info-item {
       font-size: 14px;
       display: flex;
@@ -322,7 +329,7 @@ export default {
           background-color: #cacdd8;
           flex: 1;
         }
-        
+
       }
       .right {
         padding-top: 5px;

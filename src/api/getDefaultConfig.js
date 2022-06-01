@@ -63,3 +63,17 @@ export async function getCrossAddress() {
     return null;
   }
 }
+
+// 获取需缴纳跨链手续费资产列表
+export async function getFeeAssets() {
+  try {
+    const res = await request({url: '/bridge/rate/list', method: 'get'})
+    if (res.code === 1000) {
+      return res.data;
+    } else {
+      return [];
+    }
+  } catch (e) {
+    return []
+  }
+}

@@ -89,7 +89,8 @@ const en = {
     txDetail5: "Fees to be paid",
     txDetail6: "Available",
     txDetail7: " (5~10 minutes expected)",
-    txDetail8: "User Support"
+    txDetail8: "User Support",
+    txDetail9: "Bridge Fee",
   },
   transfer: {
     transfer1: "Transfer",

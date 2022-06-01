@@ -1,8 +1,5 @@
 <template>
   <div class="nerve-swap" v-loading="loading">
-<!--    <div class="pending-tx" v-if="pendingTxList.length">
-      <span @click="pendingTxDialog=true">{{ $t('home.home27') + '(' + pendingTxList.length + ')' }}</span>
-    </div>-->
     <div class="address-info border-wrap">
       <div class="left">
         <span class="text-label" style="margin-bottom: -2px;">{{ $t('home.home4') }}</span>
@@ -94,6 +91,7 @@
         </template>
       </div>
     </fee-wrap>
+    <div class="extra-cross-fee" v-if="extraCrossFee && fee">{{ extraCrossFee }}</div>
     <div class="btn-wrap tc">
       <el-button type="primary" v-if="crossInAuth" :disabled="!!fromChainError" @click="approveERC20">{{
           $t('home.home10')
@@ -105,24 +103,6 @@
       </el-button>
     </div>
     <assets-dialog v-model="assetListModal" :list="assetsList" @selectAsset="selectAsset"></assets-dialog>
-<!--    <el-dialog
-      :title="$t('home.home27')"
-      :visible.sync="pendingTxDialog"
-      :modal-append-to-body="false"
-      width="90%"
-      top="5vh"
-      class="pending-tx-dialog"
-      destroy-on-close
-    >
-      <tx-list
-        :list="pendingTxList"
-        @toDetail="toTxDetail"
-        :total="pendingTxList.length"
-        :autoScrollLoad="false"
-        :loading="false"
-      >
-      </tx-list>
-    </el-dialog>-->
   </div>
 </template>
 
@@ -153,7 +133,7 @@ import TronLinkApi from '@/api/tronApi';
 import { getContractCallData } from '@/api/nulsContractValidate';
 import defaultIcon from '@/assets/img/commonIcon.png';
 import { getERC20AssetsBalance, getNAssetsBalance, getTRC20AssetsBalance, defaultTRXSender } from '@/api/getBalanceInBatch';
-import { getCrossAddress } from '@/api/getDefaultConfig';
+import { getCrossAddress, getFeeAssets } from '@/api/getDefaultConfig';
 
 
 export default {
@@ -180,8 +160,8 @@ export default {
       crossInAuth: false, //异构链转入nerve是否需要授权
       isMainAsset: false, // 是否为主资产
       showNetworkList: false,
-      pendingTxList: [], //未转入手续费待处理交易
-      pendingTxDialog: false
+      needFeeAssets: [], // 跨链需额外收取手续费的资产列表
+      extraCrossFeeRate: '', // 额外手续费收取比例
     };
   },
 
@@ -241,14 +221,31 @@ export default {
     },
     fromChainMultySignAddress() {
       return getMultySignAddress(this.fromNetwork);
+    },
+    extraCrossFee() {
+      if (!this.extraCrossFeeRate || !Number(this.amount)) return '';
+      return Times(this.amount, this.extraCrossFeeRate).toFixed() + this.chooseAsset.symbol;
     }
   },
 
   async mounted() {
     this.getCrossAddressMap();
+    this.getFeeAssetsList();
   },
 
   methods: {
+    // 获取nerve中转地址
+    async getCrossAddressMap() {
+      const crossAddressMap = await getCrossAddress();
+      /*if (!crossAddressMap || !crossAddressMap.crossNerveAddress || !crossAddressMap.crossNulsAddress) {
+        throw this.$t("tips.tips18")
+      }*/
+      this.crossNulsAddress = crossAddressMap.crossNulsAddress;
+      this.crossNerveAddress = crossAddressMap.crossNerveAddress;
+    },
+    async getFeeAssetsList() {
+      this.needFeeAssets = await getFeeAssets();
+    },
     reset() {
       this.available = 0;
       this.amount = '';
@@ -260,6 +257,7 @@ export default {
       this.fee = '';
       this.feeLoading = false;
       this.clearGetAllowanceTimer();
+      this.extraCrossFeeRate = '';
     },
 
     changeToChain(item) {
@@ -369,6 +367,7 @@ export default {
     },
     // 下拉选择资产
     async selectAsset(asset) {
+      console.log(asset, '--00--');
       this.available = 0;
       this.amount = '';
       this.amountMsg = '';
@@ -378,6 +377,7 @@ export default {
       this.chooseAsset = asset;
       this.crossOutFee = '';
       this.orderId = '';
+      this.checkIsSpecialAsset(asset.nerveChainId, asset.nerveAssetId);
       this.clearGetAllowanceTimer();
       this.getCrossOutFeeAndOrderId();
       //assset.assetId为0 则为异构链上token资产
@@ -390,6 +390,15 @@ export default {
         this.available = asset.balance;
       } else {
         this.available = await this.getAssetBalance(this.fromNetwork, this.fromAddress, asset);
+      }
+    },
+    // 检查是否是需要缴纳跨链手续费的资产
+    checkIsSpecialAsset(chainId, assetId) {
+      const asset = this.needFeeAssets.find(v => v.chainId === chainId && v.assetId === assetId);
+      if (asset) {
+        this.extraCrossFeeRate = Division(asset.rate, 10000).toFixed();
+      } else {
+        this.extraCrossFeeRate = '';
       }
     },
     replaceImg(e) {
@@ -656,15 +665,6 @@ export default {
         value: str.match(/[\d|.]+/gi)[0]
       };
     },*/
-    // 获取nerve中转地址
-    async getCrossAddressMap() {
-      const crossAddressMap = await getCrossAddress();
-      /*if (!crossAddressMap || !crossAddressMap.crossNerveAddress || !crossAddressMap.crossNulsAddress) {
-        throw this.$t("tips.tips18")
-      }*/
-      this.crossNulsAddress = crossAddressMap.crossNulsAddress;
-      this.crossNerveAddress = crossAddressMap.crossNerveAddress;
-    },
     async next() {
       try {
         this.loading = true;
@@ -1263,12 +1263,15 @@ export default {
 
   .fee {
     margin-top: 20px;
-    margin-bottom: 30px;
+    //margin-bottom: 30px;
 
     .label {
       color: #99A3C4;
       font-size: 14px;
     }
+  }
+  .extra-cross-fee {
+    text-align: right;
   }
 
   .btn-wrap {
