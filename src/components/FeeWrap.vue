@@ -1,6 +1,6 @@
 <template>
   <div class="my-fee fee">
-    <span class="label">{{ $t("public.fee") }}</span>
+    <span class="label">{{ $t("public.crossFee") }}</span>
     <slot></slot>
   </div>
 </template>

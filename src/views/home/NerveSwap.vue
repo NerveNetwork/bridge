@@ -91,7 +91,10 @@
         </template>
       </div>
     </fee-wrap>
-    <div class="extra-cross-fee" v-if="extraCrossFee && fee">{{ extraCrossFee }}</div>
+    <div class="extra-cross-fee" v-if="extraCrossFee && fee">
+      <span>{{ $t('public.txFee') }}</span>
+      <span>{{ extraCrossFee }}</span>
+    </div>
     <div class="btn-wrap tc">
       <el-button type="primary" v-if="crossInAuth" :disabled="!!fromChainError" @click="approveERC20">{{
           $t('home.home10')
@@ -1271,7 +1274,13 @@ export default {
     }
   }
   .extra-cross-fee {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    //text-align: right;
+    span:first-child {
+      color: #99A3C4;
+      font-size: 14px;
+    }
   }
 
   .btn-wrap {

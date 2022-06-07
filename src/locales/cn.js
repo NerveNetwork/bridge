@@ -63,7 +63,9 @@ const cn = {
     pending: "未确认",
     copySuccess: "已复制到剪切板",
     time: "时间",
-    noData: '暂无数据'
+    noData: '暂无数据',
+    crossFee: '跨链手续费',
+    txFee: '交易费用'
   },
   accounts: {
     accounts1: "网络账户",

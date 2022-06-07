@@ -63,7 +63,9 @@ const en = {
     pending: "Unconfirmed",
     copySuccess: "Copied to clipboard",
     time: "Date",
-    noData: 'No Data'
+    noData: 'No Data',
+    crossFee: 'Cross-chain fee',
+    txFee: 'Transaction fee'
   },
   accounts: {
     accounts1: "Network Address",

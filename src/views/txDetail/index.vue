@@ -22,7 +22,7 @@
             <span class="right">{{txInfo.createTime}}</span>
           </p>
           <p class="info-item" v-if="Number(txInfo.bridgeFee)">
-            <span class="left">{{ $t("txDetail.txDetail9") }}</span>
+            <span class="left">{{ $t("public.txFee") }}</span>
             <span class="right">{{txInfo.bridgeFee}}{{ txInfo.symbol }}</span>
           </p>
         </div>
