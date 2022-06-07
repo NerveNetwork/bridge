@@ -83,6 +83,9 @@ export default {
   ul {
     height: 345px;
     overflow-y: auto;
+    &::-webkit-scrollbar-thumb {
+      background: #d8d8d8;
+    }
   }
   li {
     padding: 5px 0;
