@@ -80,12 +80,17 @@ export default {
   border-radius: 4px;
   background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  ul {
+    height: 345px;
+    overflow-y: auto;
+  }
   li {
     padding: 5px 0;
     p {
       display: flex;
       align-items: center;
       padding: 0 15px;
+      line-height: 28px;
       img {
         width: 28px;
         margin-right: 10px;

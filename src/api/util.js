@@ -793,10 +793,10 @@ export function openScan(chain, type, query) {
     }
   } else if (chain === 'TRON') {
     if (type === 'address') {
-      path = '#/address/' + query;
+      path = 'address/' + query;
     } else if (type === 'hash') {
       query = query.startsWith('0x') ? query.slice(2) : query;
-      path = '#/transaction/' + query;
+      path = 'transaction/' + query;
     }
   } else {
     if (type === 'address') {

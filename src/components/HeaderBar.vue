@@ -289,10 +289,11 @@
         }
         try {
           if (chain !== "Ethereum") {
+            const chainName = isBeta ? chain + '_Beta' : chain;
             const addItem = {
               chainId: item.nativeId,
               rpcUrls: item.apiUrl ? [item.apiUrl] : [],
-              chainName: chain,
+              chainName,
               nativeCurrency: {
                 name: chain,
                 symbol: item.symbol,

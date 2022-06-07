@@ -60,11 +60,7 @@
   int CROSS_TX_STATUS_TIMEOUT = 5;
 *  */
 
-import {
-  superLong,
-  copys,
-  getChainConfigs, openScan
-} from '@/api/util';
+import { superLong, copys, openScan } from '@/api/util';
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -128,23 +124,9 @@ export default {
         url: "/bridge/tx/orderId",
         data: { orderId }
       })
-      let hashList = [];
       if (res.code === 1000) {
-        const data = res.data;
-        this.txInfo = data;
+        this.txInfo = res.data;
         this.handleHash();
-        hashList.push({
-          chain: data.fromChain,
-          label: data.fromChain + this.$t("transfer.transfer2"),
-          hash: data.txHash
-        })
-        if (data.feeTxHash) {
-          hashList.push({
-            chain: data.fromChain,
-            label: data.fromChain + this.$t("transfer.transfer2"),
-            hash: data.txHash
-          })
-        }
         this.loading = false;
       } else {
         // this.$message({message: "Network error", type: "warning"})
@@ -152,7 +134,14 @@ export default {
     },
     // 每笔交易hash处理
     handleHash() {
-      const { fromChain, toChain, txHash, nerveTxHash, crossTxHash } = this.txInfo;
+      const { fromChain, toChain, nerveTxHash } = this.txInfo;
+      let { txHash, crossTxHash } = this.txInfo;
+      if (fromChain === 'TRON') {
+        txHash = txHash.startsWith('0x') ? txHash.slice(2) : txHash;
+      }
+      if (toChain === 'TRON') {
+        crossTxHash = crossTxHash.startsWith('0x') ? crossTxHash.slice(2) : crossTxHash;
+      }
       let hashList = [];
       hashList.push({
         chain: fromChain,
