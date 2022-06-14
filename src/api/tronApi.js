@@ -45,15 +45,34 @@ const TRC20_ALLOWANCE_ABI = [
   }
 ];
 
-export function generateTronAddress(pub) {
+function getRandomKey() {
+  const keys = JSON.parse(localStorage.getItem("tronKeys"));
+  if (keys && keys.length) {
+    const index = Math.floor(Math.random() * keys.length);
+    return keys[index];
+  } else {
+    return '';
+  }
+}
+
+export function getCustomTronWeb() {
   const config = getChainConfigs();
   const rpcUrl = config.TRON.apiUrl;
-  const customTronWeb = new TronWeb(
+  const apiKey = getRandomKey();
+  const tronWeb = new TronWeb(
     rpcUrl,
     rpcUrl,
     rpcUrl,
     ''
   );
+  if (!isBeta) {
+    tronWeb.setHeader({'TRON-PRO-API-KEY': apiKey});
+  }
+  return tronWeb;
+}
+
+export function generateTronAddress(pub) {
+  const customTronWeb = getCustomTronWeb();
   pub = pub.startsWith('0x') ? pub : '0x' + pub;
   const unCompressPub = ethers.utils.computePublicKey(
     ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(pub), 33),
@@ -69,7 +88,7 @@ export function generateTronAddress(pub) {
 
 class TronLinkApi {
   constructor(pub) {
-    this.initCustomTronWeb();
+    this.customTronWeb = getCustomTronWeb();
     if (pub) {
       this.selectedAddress = this.generateAddressByPub(pub);
     } else {
@@ -81,16 +100,6 @@ class TronLinkApi {
       // console.log(window.tronWeb)
       this.getProvider();
     }
-  }
-  initCustomTronWeb() {
-    const config = getChainConfigs();
-    const rpcUrl = config.TRON.apiUrl;
-    this.customTronWeb = new TronWeb(
-      rpcUrl,
-      rpcUrl,
-      rpcUrl,
-      ''
-    );
   }
 
   isReady() {
@@ -155,7 +164,7 @@ class TronLinkApi {
 
   async getTrxBalance(address) {
     // console.log(address, '8777');
-    const tronWeb = this.getTronWeb();
+    const tronWeb = this.customTronWeb;
 
     const balance = await tronWeb.trx.getBalance(address);
     return divisionDecimals(balance, 6);
@@ -167,7 +176,7 @@ class TronLinkApi {
    * @param decimals 资产精度
    * */
   async getTrc20Balance(address, contractAddress, decimals = 6) {
-    const tronWeb = this.getTronWeb();
+    const tronWeb = this.customTronWeb;
     const parameter = [{type: 'address', value: address}];
     const tx =
       await tronWeb.transactionBuilder.triggerConfirmedConstantContract(

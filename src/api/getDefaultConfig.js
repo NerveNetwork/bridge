@@ -1,6 +1,7 @@
 import { request } from '@/api/https'
 import { isBeta } from '@/api/util'
 import defaultConfig from './defaultChainConfig'
+import tronApiKey from './defaultChainConfig/tronApiKey';
 
 const network = isBeta ? 'beta' : 'main';
 
@@ -75,5 +76,21 @@ export async function getFeeAssets() {
     }
   } catch (e) {
     return []
+  }
+}
+
+export async function getTronKeys() {
+  const defaultKeys = tronApiKey;
+  const localKeys = JSON.parse(localStorage.getItem("tronKeys"));
+  if (!localKeys) {
+    localStorage.setItem("tronKeys", JSON.stringify(defaultKeys));
+  }
+  try {
+    const res = await request({url: '/api/tron/apiKey', method: 'get', network});
+    if (res.data && res.data.length) {
+      localStorage.setItem("tronKeys", JSON.stringify(res.data));
+    }
+  } catch (e) {
+    console.error(e, '获取TRON apiKey失败');
   }
 }

@@ -1,9 +1,8 @@
 import Web3 from "web3";
 import { MultiCall } from "./Multicall/index"; // https://www.npmjs.com/package/eth-multicall
 import { post } from '@/api/https'
-import { MAIN_INFO, NULS_INFO } from "@/config"
-import TronWeb from 'tronweb';
 import { isBeta } from '@/api/util';
+import { getCustomTronWeb } from '@/api/tronApi';
 
 // evm批量查询余额abi
 const erc20BalanceAbiFragment = [
@@ -140,12 +139,7 @@ export async function getTRC20AssetsBalance(contractList, userAddress, rpcUrl) {
     /*const instance = await window.tronWeb.contract().at('411a5a32bd07c33cd8d9f4bd158f235613480c7eef');
     return await instance.getBalance(userAddress, contractList).call();*/
     // debugger
-    const tronWeb = new TronWeb(
-      rpcUrl,
-      rpcUrl,
-      rpcUrl,
-      ''
-    );
+    const tronWeb = getCustomTronWeb();
     const senderHex = addressToHex(defaultTRXSender);
     const contractAddressCall = addressToHex(tronMultiCallAddress);
     const params = [];

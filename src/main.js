@@ -5,7 +5,7 @@ import store from './store'
 import i18n from './i18n'
 import {post, request} from './api/https'
 import { toThousands, isBeta, getChainConfigs } from "./api/util";
-import { getChainConfig, setChainConfig, defaultConfig } from '@/api/getDefaultConfig'
+import { getChainConfig, setChainConfig, defaultConfig, getTronKeys } from '@/api/getDefaultConfig'
 import { hackAddChain } from '@/api/hackAddChain'
 // import './api/rem'
 // import VConsole from 'vconsole'
@@ -29,6 +29,8 @@ Vue.prototype.$request = request;
 
 
 async function setConfig() {
+  // 获取tron apiKey
+  getTronKeys();
   // 设置默认config
   const localConfig = getChainConfigs();
   if (!localConfig) {
