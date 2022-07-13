@@ -546,8 +546,12 @@ export default {
         }
         await this.checkAmountFee();
       } catch (e) {
-        this.$message.error(this.$t('tips.tips21'))
-        console.error(e, '计算手续费失败');
+        let msg = e.message || ''
+        if (e.data && e.data.message) {
+          msg = e.data.message
+        }
+        this.$message.error(this.$t('tips.tips21') + ': ' + msg)
+        console.error(e, '计算手续费失败', e.message);
       }
       this.feeLoading = false;
     },
@@ -978,7 +982,8 @@ export default {
       if (res.result && res.result.hash) {
         return { hash: res.result.hash };
       } else {
-        throw this.$t("tips.tips17")
+        const { code, message } = res.error;
+        throw this.$t("tips.tips17") + code + ": " + message;
       }
     },
     async updateOrder(txHash) {
