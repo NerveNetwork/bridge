@@ -11,11 +11,11 @@ export default new Router({
       name: 'home',
       component: () => import("@/views/home/index.vue")
     },
-    {
+    /*{
       path: '/transfer',
       name: 'transfer',
       component: () => import("@/views/transfer/index.vue")
-    },
+    },*/
     {
       path: '/accounts',
       name: 'accounts',

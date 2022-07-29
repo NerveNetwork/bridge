@@ -120,6 +120,19 @@
           address = provider.defaultAddress.base58;
         } else {
           address = provider.selectedAddress || provider.address;
+          try {
+            address = await provider.request({ method: 'eth_requestAccounts' })
+              .then(accounts => accounts && accounts[0]);
+          } catch (error) {
+            if (error.code === 4001) {
+              throw error.message;
+            }
+          }
+          if (!address) {
+            address = await provider
+              .enable()
+              .then(accounts => accounts && accounts[0]);
+          }
         }
         if (!address) {
           // await this.requestAccounts();

@@ -135,27 +135,6 @@ export default {
             localStorage.setItem('walletType', walletType);
             window.location.reload();
           }
-          /*window.addEventListener('message', e => {
-            if (!e.data.message) return;
-            if (e.data.message.action === 'acceptWeb') {
-              console.log(8888);
-            }
-            if (e.data.message.action === "rejectWeb") {
-              console.log("rejectWeb event", e.data.message)
-            }
-          })*/
-          /*const res = await provider.request({
-            method: 'tron_requestAccounts'
-          });
-          console.log(res, 888);
-          if (!res) return;
-          if (res.code === 200) {
-            sessionStorage.removeItem("network");
-            localStorage.setItem('walletType', walletType);
-            window.location.reload();
-          } else {
-            this.$message.error(res.message);
-          }*/
         } else {
           await provider.request({ method: "eth_requestAccounts" });
           sessionStorage.removeItem("network");

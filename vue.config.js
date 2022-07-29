@@ -35,6 +35,8 @@ module.exports = {
       'vuex': 'Vuex',
       'moment': 'moment',
       'element-ui': 'ELEMENT',
+      'web3': 'Web3',
+      'ethers': 'ethers'
     }
     // config.plugins.push(new BundleAnalyzerPlugin())
   },
@@ -55,7 +57,8 @@ module.exports = {
         // target: "http://192.168.1.204:8083",
         // target: "http://beta.bridge.nerve.network",
         // target: "https://bridge.nerve.network",
-        target: "http://jl5i9jz7.xiaomy.net",
+        // target: "http://jl5i9jz7.xiaomy.net",
+        target: "http://39.98.226.51:19001",
         changeOrigin: true,  // 是否跨域
       },
     }
