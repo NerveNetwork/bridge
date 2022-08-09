@@ -570,10 +570,17 @@ export default {
       flag = await this.checkFee(this.fee, isMainAsset);
       if (this.fromNetwork === 'NERVE') {
         if (this.toNetwork === 'NULS') {
+          // 判断nuls余额是否足够支付手续费
           if (assetSymbol === 'NULS') {
             if (Minus(Plus(this.amount, crossFee), this.available) > 0) flag = false;
           } else {
-            const nulsBalance = await getNBalance('NULS', this.toAddress, NULS_INFO.chainId, NULS_INFO.assetId, '', 8);
+            // const nulsBalance = await getNBalance('NULS', this.toAddress, NULS_INFO.chainId, NULS_INFO.assetId, '', 8);
+            const nulsBalance = await this.getAssetBalance('NERVE', this.fromAddress, {
+              contractAddress: '',
+              chainId: NULS_INFO.chainId,
+              assetId: NULS_INFO.assetId,
+              decimals: 9
+            });
             if (nulsBalance - crossFee < 0) flag = false;
           }
         }
