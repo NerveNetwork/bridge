@@ -128,6 +128,9 @@ export default {
         this.txInfo = res.data;
         this.handleHash();
         this.loading = false;
+        if (this.txInfo.status === 3) {
+          this.clearTimer();
+        }
       } else {
         // this.$message({message: "Network error", type: "warning"})
       }

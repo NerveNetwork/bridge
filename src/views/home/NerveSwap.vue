@@ -994,6 +994,9 @@ export default {
       }
     },
     async updateOrder(txHash) {
+      // 先将交易hash存在本地，更新订单成功后删除hash
+      const tx = { hash: txHash, orderId: this.orderId }
+      this.$store.commit('changeUnConfirmedTx', tx);
       try {
         const data = {
           orderId: this.orderId,
@@ -1020,11 +1023,11 @@ export default {
             this.toTxDetail(this.orderId)
           }, 2000)
         }
+        this.$store.commit('changeUnConfirmedTx', tx);
       } catch (e) {
         if (e && e.response && e.response.status !== 200) {
           // 网络问题重新发送请求
-          const tx = { hash: txHash, orderId: this.orderId }
-          this.$store.commit('changeUnConfirmedTx', tx);
+          // this.$store.commit('changeUnConfirmedTx', tx);
           this.$store.dispatch('changeUnConfirmedTx', tx);
           setTimeout(() => {
             this.toTxDetail(this.orderId)
