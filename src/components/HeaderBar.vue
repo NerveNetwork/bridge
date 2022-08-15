@@ -324,6 +324,7 @@
               params: [{ chainId: item.nativeId }]
             });
           }
+          this.$store.commit("changeNetwork", chain);
           // this.reload();
           // if (this.isMobile) {
           //   this.reload()
