@@ -276,97 +276,105 @@ export default {
 
     // 查询可跨链资产
     async getCanCrossAssets() {
-      const res = await this.$request({
-        url: '/bridge/cross/asset',
-        data: {
-          fromChain: this.fromNetwork,
-          toChain: this.toNetwork
-        }
-      });
-      if (res.code === 1000) {
-        const data = res.data;
-        this.assetsList = data.sort((a, b) => {
-          return a.symbol.toLowerCase() > b.symbol.toLowerCase() ? 1 : -1;
-        });
-        const config = getChainConfigs();
-        const psUrl = config[this.fromNetwork].apiUrl;
-        data.map(v => {
-          // 去除ETH资产contractAddress为ETH
-          v.contractAddress = v.contractAddress && v.assetId !== 1 ? v.contractAddress : '';
-        });
-        if (this.fromNetwork === 'NERVE' || this.fromNetwork === 'NULS') {
-          let assetsInfo;
-          if (this.fromNetwork === 'NERVE') {
-            assetsInfo = data.map(v => {
-              return {
-                chainId: v.chainId,
-                assetId: v.assetId
-              };
-            });
-          } else {
-            assetsInfo = data.map(v => {
-              return {
-                chainId: v.chainId,
-                assetId: v.assetId,
-                contractAddress: v.contractAddress || ''
-              };
-            });
+      const key = this.fromNetwork + '_' + this.toNetwork;
+      const crossAssetsList = JSON.parse(sessionStorage.getItem('crossAssetsList')) || {};
+      let data;
+      if (crossAssetsList[key]) {
+        data = crossAssetsList[key]
+      } else {
+        const res = await this.$request({
+          url: '/bridge/cross/asset',
+          data: {
+            fromChain: this.fromNetwork,
+            toChain: this.toNetwork
           }
-          const chainId = config[this.fromNetwork].chainId;
-          const tokenInfo = await getNAssetsBalance(psUrl, chainId, this.fromAddress, assetsInfo);
+        });
+        data = res.data;
+        crossAssetsList[key] = data
+        sessionStorage.setItem('crossAssetsList', JSON.stringify(crossAssetsList))
+      }
+      if (!data) this.assetsList = [];
+      this.assetsList = data.sort((a, b) => {
+        return a.symbol.toLowerCase() > b.symbol.toLowerCase() ? 1 : -1;
+      });
+      const config = getChainConfigs();
+      const psUrl = config[this.fromNetwork].apiUrl;
+      data.map(v => {
+        // 去除ETH资产contractAddress为ETH
+        v.contractAddress = v.contractAddress && v.assetId !== 1 ? v.contractAddress : '';
+      });
+      if (this.fromNetwork === 'NERVE' || this.fromNetwork === 'NULS') {
+        let assetsInfo;
+        if (this.fromNetwork === 'NERVE') {
+          assetsInfo = data.map(v => {
+            return {
+              chainId: v.chainId,
+              assetId: v.assetId
+            };
+          });
+        } else {
+          assetsInfo = data.map(v => {
+            return {
+              chainId: v.chainId,
+              assetId: v.assetId,
+              contractAddress: v.contractAddress || ''
+            };
+          });
+        }
+        const chainId = config[this.fromNetwork].chainId;
+        const tokenInfo = await getNAssetsBalance(psUrl, chainId, this.fromAddress, assetsInfo);
+        data.map(v => {
+          tokenInfo.map(token => {
+            if (v.chainId === token.assetChainId && v.assetId === token.assetId) {
+              v.balance = divisionDecimals(token.balance, v.decimals);
+              v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
+            }
+          });
+        });
+        console.log(tokenInfo, 'tokenInfo-nerve');
+      } else {
+        if (this.fromNetwork === 'TRON') {
+          const contractList = data.map(v => {
+            return v.contractAddress || defaultTRXSender;
+          });
+          const tokenBalance = await getTRC20AssetsBalance(contractList, this.fromAddress, psUrl);
+          console.log(tokenBalance, 8888);
+          tokenBalance.map((balance, index) => {
+            const tokenInfo = data[index];
+            tokenInfo.balance = divisionDecimals(balance, tokenInfo.decimals)
+            tokenInfo.fixedBalance = tokenInfo.balance ? fixNumber(tokenInfo.balance, 6) : 0;
+          })
+        } else {
+          const multiCallAddress = config[this.fromNetwork].config.multiCallAddress;
+          const contractList = data.map(v => {
+            return v.contractAddress || multiCallAddress;
+          });
+          const tokenInfo = await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl);
+          console.log(tokenInfo, "tokenInfo-erc")
           data.map(v => {
             tokenInfo.map(token => {
-              if (v.chainId === token.assetChainId && v.assetId === token.assetId) {
-                v.balance = divisionDecimals(token.balance, v.decimals);
-                v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
+              if (v.contractAddress) {
+                if (v.contractAddress === token.contractAddress) {
+                  v.balance = divisionDecimals(token.balance, token.decimals);
+                  v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
+                }
+              } else {
+                if (!token.contractAddress) {
+                  v.balance = divisionDecimals(token.balance, 18);
+                  v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
+                }
               }
             });
           });
-          console.log(tokenInfo, 'tokenInfo-nerve');
-        } else {
-          if (this.fromNetwork === 'TRON') {
-            const contractList = data.map(v => {
-              return v.contractAddress || defaultTRXSender;
-            });
-            const tokenBalance = await getTRC20AssetsBalance(contractList, this.fromAddress, psUrl);
-            console.log(tokenBalance, 8888);
-            tokenBalance.map((balance, index) => {
-              const tokenInfo = data[index];
-              tokenInfo.balance = divisionDecimals(balance, tokenInfo.decimals)
-              tokenInfo.fixedBalance = tokenInfo.balance ? fixNumber(tokenInfo.balance, 6) : 0;
-            })
-          } else {
-            const multiCallAddress = config[this.fromNetwork].config.multiCallAddress;
-            const contractList = data.map(v => {
-              return v.contractAddress || multiCallAddress;
-            });
-            const tokenInfo = await getERC20AssetsBalance(contractList, this.fromAddress, multiCallAddress, psUrl);
-            console.log(tokenInfo, "tokenInfo-erc")
-            data.map(v => {
-              tokenInfo.map(token => {
-                if (v.contractAddress) {
-                  if (v.contractAddress === token.contractAddress) {
-                    v.balance = divisionDecimals(token.balance, token.decimals);
-                    v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
-                  }
-                } else {
-                  if (!token.contractAddress) {
-                    v.balance = divisionDecimals(token.balance, 18);
-                    v.fixedBalance = v.balance ? fixNumber(v.balance, 6) : 0;
-                  }
-                }
-              });
-            });
-          }
         }
-        this.assetsList = data.sort((a, b) => {
-          if (a.balance > 0 || b.balance > 0) {
-            return b.balance - a.balance > 0 ? 1 : -1;
-          } else {
-            return a.symbol.toLowerCase() > b.symbol.toLowerCase() ? 1 : -1;
-          }
-        });
       }
+      this.assetsList = data.sort((a, b) => {
+        if (a.balance > 0 || b.balance > 0) {
+          return b.balance - a.balance > 0 ? 1 : -1;
+        } else {
+          return a.symbol.toLowerCase() > b.symbol.toLowerCase() ? 1 : -1;
+        }
+      });
     },
     // 下拉选择资产
     async selectAsset(asset) {
