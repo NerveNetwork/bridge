@@ -221,7 +221,7 @@
           if (network === 'NULS' || network === 'NERVE') {
             // isWrongChain = !currentAccount;
             // 新账户、且bridge之前在NULS链，会导致currentAccount为null
-            // currentAddress = currentAccount ? currentAccount.address[network] : address;
+            currentAddress = currentAccount ? currentAccount.address[network] : address;
           }
           if (network === 'TRON') {
             isWrongChain = this.checkTronNetwork();
