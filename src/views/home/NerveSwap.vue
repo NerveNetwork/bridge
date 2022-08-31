@@ -838,7 +838,7 @@ export default {
         data
       })
       if (res.code !== 1000) {
-        throw this.$t('home.home30')
+        throw this.$t('home.home30') + res.msg
       }
     },
     // nerve跨链到nuls、异构链特殊处理input output
@@ -1014,24 +1014,27 @@ export default {
           url: '/bridge/tx/hash/update',
           data
         })
-        if (!res) return;
+
         if (res.code !== 1000) {
           this.$message({
             message: this.$t("tips.tips20") + res.msg,
             type: "error",
             duration: 2000
           })
+          setTimeout(() => {
+            this.$store.dispatch('changeUnConfirmedTx', tx);
+          }, 2000)
         } else {
           this.$message({
             message: this.$t("tips.tips1"),
             type: "success",
             duration: 2000
           })
+          this.$store.commit('changeUnConfirmedTx', tx);
           setTimeout(() => {
             this.toTxDetail(this.orderId)
           }, 2000)
         }
-        this.$store.commit('changeUnConfirmedTx', tx);
       } catch (e) {
         if (e && e.response && e.response.status !== 200) {
           // 网络问题重新发送请求

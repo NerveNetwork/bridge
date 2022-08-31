@@ -57,11 +57,16 @@ export default new Vuex.Store({
       const { hash, orderId } = tx;
       const data = { txHash: hash, orderId }
       try {
-        await request({
+        const res = await request({
           url: '/bridge/tx/hash/update',
           data
         })
-        commit('changeUnConfirmedTx', tx);
+        if (res.code === 1005 || res.code === 1000) {
+          // 交易已存在 或者交易更新成功
+          commit('changeUnConfirmedTx', tx);
+        } else {
+          dispatch('changeUnConfirmedTx', tx);
+        }
       } catch (e) {
         if (e && e.response && e.response.status !== 200) {
           setTimeout(() => {
