@@ -587,7 +587,7 @@ export default {
               contractAddress: '',
               chainId: NULS_INFO.chainId,
               assetId: NULS_INFO.assetId,
-              decimals: 9
+              decimals: 8
             });
             if (nulsBalance - crossFee < 0) flag = false;
           }
