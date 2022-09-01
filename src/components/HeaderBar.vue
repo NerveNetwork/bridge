@@ -222,6 +222,7 @@
             // isWrongChain = !currentAccount;
             // 新账户、且bridge之前在NULS链，会导致currentAccount为null
             currentAddress = currentAccount ? currentAccount.address[network] : address;
+            isWrongChain = false;
           }
           if (network === 'TRON') {
             isWrongChain = this.checkTronNetwork();
