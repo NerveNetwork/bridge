@@ -1,6 +1,7 @@
 // 后台添加多条链后，本地存储的账户地址没有同步新添加的链的地址
 import {request} from '@/api/https'
 import { getAddress as generateAddress } from '@/api/accountUtils';
+import { Message } from 'element-ui';
 
 
 function isDiffAccount(config, account) {
@@ -21,7 +22,7 @@ export async function syncAccount(pubKey) {
     data: { pubKey }
   });
   if (res.code !== 1000) {
-    throw 'Sync account error'
+    throw res.msg
   }
 }
 
@@ -52,9 +53,10 @@ export async function hackAddChain(config) {
     }
   } catch (e) {
     console.log(e, 666)
-    setTimeout(() => {
+    Message.error(e.message || e);
+    /*setTimeout(() => {
       hackAddChain(config)
-    }, 3000)
+    }, 3000)*/
   }
 }
 
