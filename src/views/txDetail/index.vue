@@ -18,6 +18,13 @@
         </div>
         <div class="other-info">
           <p class="info-item">
+            <span class="left" style="font-weight: 600">Order ID</span>
+            <span class="right" @click="copy(txInfo.orderId)">
+              <span class="clicks hover-bg" >{{ superLong(txInfo.orderId) }}</span>
+              <i class="iconfont icon-fuzhi clicks" style="margin-left: 5px; font-weight: 600"></i>
+            </span>
+          </p>
+          <p class="info-item">
             <span class="left">{{ $t("public.time") }}</span>
             <span class="right">{{txInfo.createTime}}</span>
           </p>
