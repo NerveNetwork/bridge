@@ -442,7 +442,7 @@ export default {
         background-color: #cacdd8;
         flex: 1;
       }
-      
+
     }
     .right {
       padding-top: 5px;

@@ -166,7 +166,12 @@ export async function getTRC20AssetsBalance(contractList, userAddress, rpcUrl) {
     const arr = result[0];
     const values = [];
     for (let i = 0; i < arr.length; i++) {
-      values.push(arr[i].toString());
+      const value = arr[i]._hex;
+      if (value) {
+        values.push(value.toString())
+      } else {
+        values.push(arr[i].toString());
+      }
     }
     return values;
   } catch (e) {
