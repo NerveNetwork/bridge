@@ -302,7 +302,7 @@
           return;
         }
         try {
-          if (chain !== "Ethereum") {
+          if (chain !== "Ethereum" && chain !== "Goerli") {
             const chainName = isBeta ? chain + '_Beta' : chain;
             const addItem = {
               chainId: item.nativeId,

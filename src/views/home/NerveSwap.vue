@@ -190,6 +190,7 @@ export default {
       }
     },
     toNetwork(val) {
+      console.log(val, 'val123')
       if (val) {
         this.reset();
         this.getCanCrossAssets();
@@ -279,7 +280,7 @@ export default {
       const key = this.fromNetwork + '_' + this.toNetwork;
       const crossAssetsList = JSON.parse(sessionStorage.getItem('crossAssetsList')) || {};
       let data;
-      if (crossAssetsList[key]) {
+      if (crossAssetsList[key] && crossAssetsList[key].length) {
         data = crossAssetsList[key]
       } else {
         const res = await this.$request({

@@ -146,10 +146,10 @@ export default {
     handleHash() {
       const { fromChain, toChain, nerveTxHash } = this.txInfo;
       let { txHash, crossTxHash } = this.txInfo;
-      if (fromChain === 'TRON') {
+      if (fromChain === 'TRON' && txHash) {
         txHash = txHash.startsWith('0x') ? txHash.slice(2) : txHash;
       }
-      if (toChain === 'TRON') {
+      if (toChain === 'TRON' && crossTxHash) {
         crossTxHash = crossTxHash.startsWith('0x') ? crossTxHash.slice(2) : crossTxHash;
       }
       let hashList = [];
@@ -175,7 +175,7 @@ export default {
       this.$message({message: this.$t('public.copySuccess'), type: 'success', duration: 1000});
     },
     openUrl(hash, chain) {
-      openScan(chain, 'hash', hash)
+      openScan(chain, 'hash', hash);
     }
   }
 }
