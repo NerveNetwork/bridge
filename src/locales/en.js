@@ -19,7 +19,7 @@ const en = {
   home: {
     home1: "Import Addresses",
     home2: "All fees are used for on-chain transactions and NerveBridge charge nothing",
-    home3: "Avaliable: ",
+    home3: "Available: ",
     home4: "From",
     home5: "To",
     home6: "Assets",
