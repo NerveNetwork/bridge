@@ -51,6 +51,7 @@ const en = {
     home31: "Failed to get address",
     home32: "NULS contract asset transfer upgrading, pls be patient",
     home33: "Please log in to tronLink first.",
+    home34: "Wallet does not support this blockchain",
   },
   public: {
     amount: "Amount",

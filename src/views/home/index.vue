@@ -171,7 +171,7 @@ export default {
           } else {
             const transfer = new ETransfer();
             const message = "Derive Multi-chain Address";
-            pub = await transfer.getPubBySign(message)
+            pub = await transfer.getPubBySign(message, this.address)
           }
         }
         account.pub = pub;

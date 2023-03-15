@@ -690,6 +690,13 @@ export default {
     },*/
     async next() {
       try {
+        if (this.fromNetwork === 'NERVE' || this.fromNetwork === 'NULS') {
+          const walletType = localStorage.getItem("walletType");
+          if (walletType === 'onto') {
+            this.$message.error(this.$t('home.home34'));
+            return;
+          }
+        }
         this.loading = true;
         await this.createOrder();
         const transferAsset = this.chooseAsset;

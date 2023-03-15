@@ -51,6 +51,7 @@ const cn = {
     home31: "获取地址失败",
     home32: "NULS合约资产转账升级中，请耐心等待",
     home33: "请先登录插件钱包",
+    home34: '钱包不支持该区块链'
   },
   public: {
     amount: "数量",

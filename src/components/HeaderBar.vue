@@ -70,6 +70,8 @@
         showSwitchChainTip: false,
         showMenu: false,
         walletAddress: isBeta ? "http://beta.wallet.nerve.network" : "https://wallet.nerve.network",
+        currentAddress: '',
+        currentChainId: ''
       };
     },
     components: {
@@ -186,7 +188,9 @@
         this.walletProvider.on("accountsChanged", (accounts) => {
           console.log(accounts, "===accounts-changed===")
           if (accounts.length) {
-            this.reload();
+            if (this.currentAddress.toLowerCase() !== accounts[0].toLowerCase()) {
+              this.reload();
+            }
           } else {
             this.quit();
           }
@@ -198,10 +202,12 @@
         this.walletProvider.on("chainChanged", (chainId) => {
           console.log(chainId, "===chainId-changed===")
           if (chainId) {
-            const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
-            const network = chainInfo && chainInfo.chain || null;
-            this.$store.commit("changeNetwork", network);
-            this.reload();
+            if (Number(this.currentChainId) !== Number(chainId)) {
+              const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
+              const network = chainInfo && chainInfo.chain || null;
+              this.$store.commit("changeNetwork", network);
+              this.reload();
+            }
           }
         });
       },
@@ -212,6 +218,8 @@
         // console.log(currentAccount, 88, address);
         let chainId = this.walletProvider.chainId + '';
         chainId = chainId.startsWith("0x") ? chainId : "0x" + Number(chainId).toString(16);
+        this.currentAddress = address;
+        this.currentChainId = chainId;
         const chainInfo = Object.values(this.configs).find(v => v.nativeId === chainId);
         const isTronAddress = this.walletProvider.isAddress && this.walletProvider.isAddress(address);
         let isWrongChain = isTronAddress ? false : !chainInfo;

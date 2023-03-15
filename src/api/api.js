@@ -34,7 +34,7 @@ export class NTransfer {
     const tAssemble = this.sdk.transactionAssemble(inputs, outputs, htmlEncode(remarks), this.type, txData);
     // 调用metamask签名hash，然后拼接公钥完成交易签名
     const hash = "0x" + tAssemble.getHash().toString("hex");
-    
+
     if (!this.walletType) {
       return null
     }
@@ -879,9 +879,13 @@ export class ETransfer {
     return finalResult.toString();
   }
 
-  async getPubBySign(message) {
+  async getPubBySign(message, address) {
     const jsonRpcSigner = this.provider.getSigner();
-    const signature = await jsonRpcSigner.signMessage(message);
+    // const signature = await jsonRpcSigner.signMessage(message);
+    const signature = await window[this.walletType].request({
+      method: "personal_sign",
+      params: [message, address]
+    })
     const msgHash = ethers.utils.hashMessage(message);
     const msgHashBytes = ethers.utils.arrayify(msgHash);
     const recoveredPubKey = ethers.utils.recoverPublicKey(
