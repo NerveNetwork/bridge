@@ -49,6 +49,7 @@ import safepal from "@/assets/img/provider/safepal.svg";
 import coin98 from "@/assets/img/provider/coin98.svg";
 import bitkeep from '@/assets/img/provider/bitkeep.jpg';
 import tronLink from '@/assets/img/provider/tronLink.jpg';
+import onto from '@/assets/img/provider/ONTO.png';
 
 
 
@@ -60,6 +61,7 @@ const NaboxProvider = "NaboxWallet";
 const OKExProvider = "okexchain";
 const BSCProvider = "BinanceChain";
 const TronProvider = 'tronWeb';
+const ONTOProvider = 'onto';
 // const Coin98Provider = "coin98"
 
 export default {
@@ -71,11 +73,12 @@ export default {
       { name: "TokenPocket", src: Tokenpocket, provider: MetaMaskProvider },
       { name: "MathWallet", src: Mathwallet, provider: MetaMaskProvider },
       { name: "Binance Wallet", src: binancechain, provider: BSCProvider },
-      { name: "MetaX", src: OKEx, provider: OKExProvider },
+      { name: "OKX Wallet", src: OKEx, provider: OKExProvider },
       { name: "SafePal", src: safepal, provider: MetaMaskProvider },
       { name: "Coin98", src: coin98, provider: MetaMaskProvider },
       { name: "BitKeep", src: bitkeep, provider: MetaMaskProvider },
       { name: "TronLink", src: tronLink, provider: TronProvider },
+      { name: "ONTO", src: onto, provider: ONTOProvider },
     ]
     return {
       loading: false,
