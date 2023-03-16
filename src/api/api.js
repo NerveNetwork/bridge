@@ -880,12 +880,16 @@ export class ETransfer {
   }
 
   async getPubBySign(message, address) {
-    const jsonRpcSigner = this.provider.getSigner();
-    // const signature = await jsonRpcSigner.signMessage(message);
-    const signature = await window[this.walletType].request({
-      method: "personal_sign",
-      params: [message, address]
-    })
+    let signature;
+    if (this.walletType === 'NaboxWallet') {
+      const jsonRpcSigner = this.provider.getSigner();
+      signature = await jsonRpcSigner.signMessage(message);
+    } else {
+      signature = await window[this.walletType].request({
+        method: "personal_sign",
+        params: [message, address]
+      })
+    }
     const msgHash = ethers.utils.hashMessage(message);
     const msgHashBytes = ethers.utils.arrayify(msgHash);
     const recoveredPubKey = ethers.utils.recoverPublicKey(
