@@ -32,6 +32,10 @@ export class NTransfer {
     const {inputs, outputs, txData, remarks = "", pub, signAddress} = data;
     // 组装交易
     const tAssemble = this.sdk.transactionAssemble(inputs, outputs, htmlEncode(remarks), this.type, txData);
+    if (this.walletType === 'NaboxWallet' && window.NaboxWallet.isNULSLedger) {
+      const unsignedHex = tAssemble.txSerialize().toString("hex")
+      return await window.nabox.signNULSTransaction({ txHex: unsignedHex });
+    }
     // 调用metamask签名hash，然后拼接公钥完成交易签名
     const hash = "0x" + tAssemble.getHash().toString("hex");
 

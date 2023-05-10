@@ -234,6 +234,8 @@
           }
           if (network === 'TRON') {
             isWrongChain = this.checkTronNetwork();
+          } else {
+            network = chainInfo && chainInfo.chain;
           }
         } else {
           if (isTronAddress) {

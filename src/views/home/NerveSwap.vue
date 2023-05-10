@@ -689,6 +689,9 @@ export default {
       };
     },*/
     async next() {
+      if (this.loading) {
+          return;
+      }
       try {
         if (this.fromNetwork === 'NERVE' || this.fromNetwork === 'NULS') {
           const walletType = localStorage.getItem("walletType");
@@ -698,7 +701,8 @@ export default {
           }
         }
         this.loading = true;
-        await this.createOrder();
+        const orderId = this.orderId;
+        await this.createOrder(orderId);
         const transferAsset = this.chooseAsset;
         const { address: addressInfo, pub } = this.currentAccount;
 
@@ -764,7 +768,7 @@ export default {
             txData,
             pub,
             signAddress,
-            remarks: this.orderId
+            remarks: orderId
           };
           // console.log(data, '----data----');
           const txHex = await transfer.getTxHex(data);
@@ -772,7 +776,7 @@ export default {
           // throw '22'
           const broadcastRes = await this.broadcastHex(txHex);
           if (broadcastRes.hash) {
-            await this.updateOrder(broadcastRes.hash);
+            await this.updateOrder(broadcastRes.hash, orderId);
           }
         } else {
           if (!this.crossNerveAddress) throw this.$t('home.home31');
@@ -793,7 +797,7 @@ export default {
               multySignAddress,
               contractAddress,
               decimals,
-              this.orderId,
+              orderId,
               this.crossOutFee
             )
             // TODO 交易成功报: 失败,修改跨链交易错误
@@ -807,7 +811,7 @@ export default {
               decimals,
               gasLimit: this.gasLimit,
               crossChainFee: this.crossOutFee,
-              orderId: this.orderId,
+              orderId,
             };
             // console.log(params, 888);
             const transfer = new ETransfer();
@@ -815,7 +819,7 @@ export default {
             hash = res.hash;
           }
           if (hash) {
-            await this.updateOrder(hash);
+            await this.updateOrder(hash, orderId);
           }
         }
       } catch (e) {
@@ -828,9 +832,9 @@ export default {
       this.loading = false;
     },
     // 创建订单
-    async createOrder() {
+    async createOrder(orderId) {
       const data = {
-        orderId: this.orderId,
+        orderId,
         fromChain: this.fromNetwork,
         fromAddress: this.fromAddress,
         toChain: this.toNetwork,
@@ -1009,13 +1013,13 @@ export default {
         throw this.$t("tips.tips17") + code + ": " + message;
       }
     },
-    async updateOrder(txHash) {
+    async updateOrder(txHash, orderId) {
       // 先将交易hash存在本地，更新订单成功后删除hash
-      const tx = { hash: txHash, orderId: this.orderId }
+      const tx = { hash: txHash, orderId }
       this.$store.commit('changeUnConfirmedTx', tx);
       try {
         const data = {
-          orderId: this.orderId,
+          orderId,
           txHash
         }
         const res = await this.$request({
@@ -1040,7 +1044,7 @@ export default {
           })
           this.$store.commit('changeUnConfirmedTx', tx);
           setTimeout(() => {
-            this.toTxDetail(this.orderId)
+            this.toTxDetail(orderId)
           }, 2000)
         }
       } catch (e) {
@@ -1049,7 +1053,7 @@ export default {
           // this.$store.commit('changeUnConfirmedTx', tx);
           this.$store.dispatch('changeUnConfirmedTx', tx);
           setTimeout(() => {
-            this.toTxDetail(this.orderId)
+            this.toTxDetail(orderId)
           }, 2000)
         }
       }
