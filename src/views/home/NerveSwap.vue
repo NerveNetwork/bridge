@@ -466,34 +466,55 @@ export default {
         const userAddress = this.fromAddress;
         const multySignAddress = this.fromChainMultySignAddress;
         const contractAddress = this.chooseAsset.contractAddress;
-        let hash
+        let hash, tx
         if (this.fromNetwork === 'TRON') {
           const transfer = new TronLinkApi();
           hash = await transfer.approveTrc20(userAddress, multySignAddress, contractAddress)
           // console.log(hash, '90999');
         } else {
           const transfer = new ETransfer();
-          const res = await transfer.approveERC20(
+          tx = await transfer.approveERC20(
             contractAddress,
             multySignAddress,
             userAddress
           );
-          hash = res.hash
+          hash = tx.hash
         }
-        if (hash) {
-          this.$message({
-            message: this.$t('tips.tips1'),
-            type: 'success',
-            duration: 2000
-          });
-          this.setGetAllowanceTimer();
+        if (this.fromNetwork === 'TRON') {
+          this.handleApproveHash(hash)
         } else {
-          this.$message({message: 'Approve error', type: 'warning', duration: 2000});
+          if (tx.wait) {
+            this.$message({
+              message: this.$t('tips.tips1'),
+              type: 'success',
+              duration: 2000
+            });
+            const txResult = await tx.wait()
+            if (txResult.status === 1) {
+              this.crossInAuth = false;
+              this.getTransferFee();
+              this.clearGetAllowanceTimer();
+            }
+          } else {
+            this.handleApproveHash(hash)
+          }
         }
       } catch (e) {
         this.$message({message: e.message || e, type: 'warning', duration: 2000});
       }
 
+    },
+    handleApproveHash(hash) {
+      if (hash) {
+        this.$message({
+          message: this.$t('tips.tips1'),
+          type: 'success',
+          duration: 2000
+        });
+        this.setGetAllowanceTimer();
+      } else {
+        this.$message({message: 'Approve error', type: 'warning', duration: 2000});
+      }
     },
     // 定时获取授权状态
     setGetAllowanceTimer() {
