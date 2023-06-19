@@ -61,7 +61,7 @@
           <el-input v-model="transactionHash" class="custom-input" :placeholder="$t('home.home37')"/>
           <span @click="pasteClick">{{$t('home.home39')}}</span>
         </div>
-        <div v-if="transactionHash" @click="openUrl(transactionHash, txInfo.fromChain)" class="view-hash">{{$t('home.home40')}}</div>
+        <div @click="openExploreUrl(txInfo.fromAddress, txInfo.fromChain)" class="view-hash">{{$t('home.home40')}}</div>
         <div class="btn-group">
           <el-button @click="showRecordModal=false">{{ $t("header.header11") }}</el-button>
           <el-button :loading="confirmLoading" :disabled="!transactionHash || transactionHash.length < 15" type="primary" @click="confirmClick">{{ $t("home.home20") }}</el-button>
@@ -160,9 +160,20 @@ export default {
         if (res.code === 1000) {
           this.showRecordModal = false;
           await this.getDetail()
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            duration: 2000
+          });
         }
       } catch (e) {
         console.error('Error: ', e);
+        this.$message({
+          message: e.msg || e,
+          type: "warning",
+          duration: 2000
+        });
       }
       this.confirmLoading = false;
     },
@@ -231,6 +242,9 @@ export default {
     },
     openUrl(hash, chain) {
       openScan(chain, 'hash', hash);
+    },
+    openExploreUrl(address, chain) {
+      openScan(chain, 'address', address);
     }
   }
 }
