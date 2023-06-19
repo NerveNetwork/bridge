@@ -14,7 +14,8 @@ const cn = {
     header10: '当前插件不支持所选链，是否前往切换插件',
     header11: '取消',
     header12: '前往切换',
-    header13: '提示'
+    header13: '提示',
+    header14: '账户',
   },
   home: {
     home1: "生成多链地址",
@@ -51,7 +52,13 @@ const cn = {
     home31: "获取地址失败",
     home32: "NULS合约资产转账升级中，请耐心等待",
     home33: "请先登录插件钱包",
-    home34: '钱包不支持该区块链'
+    home34: '钱包不支持该区块链',
+    home35: '有未完成交易',
+    home36: '交易未完成，查看详情',
+    home37: '未解析到交易哈希，点击补录',
+    home38: "补录hash",
+    home39: "粘贴",
+    home40: "点击查询hash",
   },
   public: {
     amount: "数量",

@@ -15,6 +15,7 @@ const en = {
     header11: 'Cancel',
     header12: 'Confirm',
     header13: 'Tips',
+    header14: 'Account',
   },
   home: {
     home1: "Import Addresses",
@@ -52,6 +53,12 @@ const en = {
     home32: "NULS contract asset transfer upgrading, pls be patient",
     home33: "Please log in to tronLink first.",
     home34: "Wallet does not support this blockchain",
+    home35: 'Uncompleted Transaction',
+    home36: "Transaction Not Completed. View Details",
+    home37: "Enter transaction hash",
+    home38: "Enter Hash",
+    home39: "Paste",
+    home40: "Click to query hash",
   },
   public: {
     amount: "Amount",
@@ -130,7 +137,7 @@ const en = {
 
   crossStatusType: {
     undefined: '',
-    0: "Confirming",
+    0: "Unfinished",
     1: "Confirming",
     2: "Confirming",
     3: "Confirmed",

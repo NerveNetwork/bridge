@@ -1,5 +1,8 @@
 <template>
   <div class="nerve-swap" v-loading="loading">
+    <div v-if="pendingTransaction.length" class="pending-transaction">
+      <div @click="$router.push('/tx-list')" class="pending-text">{{ `${$t('home.home35')}(${pendingTransaction.length})` }}</div>
+    </div>
     <div class="address-info border-wrap">
       <div class="left">
         <span class="text-label" style="margin-bottom: -2px;">{{ $t('home.home4') }}</span>
@@ -165,6 +168,7 @@ export default {
       showNetworkList: false,
       needFeeAssets: [], // 跨链需额外收取手续费的资产列表
       extraCrossFeeRate: '', // 额外手续费收取比例
+      pendingTransaction: []
     };
   },
 
@@ -229,15 +233,37 @@ export default {
     extraCrossFee() {
       if (!this.extraCrossFeeRate || !Number(this.amount)) return '';
       return Times(this.amount, this.extraCrossFeeRate).toFixed() + this.chooseAsset.symbol;
+    },
+    currentAddress() {
+      return this.$store.state.address
     }
   },
 
   async mounted() {
+    this.getTxList();
     this.getCrossAddressMap();
     this.getFeeAssetsList();
   },
 
   methods: {
+    async getTxList() {
+      try {
+        const accountObj = getCurrentAccount(this.currentAddress);
+        const data = {
+          chain: this.fromNetwork,
+          address: accountObj.address[this.fromNetwork]
+        }
+        const res = await this.$request({
+          url: "/bridge/tx/query",
+          data
+        });
+        if (res.code === 1000 && res.data.length) {
+          this.pendingTransaction = res.data.filter(item => item.status === 0);
+        }
+      } catch (e) {
+        console.error(e, 'error');
+      }
+    },
     // 获取nerve中转地址
     async getCrossAddressMap() {
       const crossAddressMap = await getCrossAddress();
@@ -845,6 +871,7 @@ export default {
         }
       } catch (e) {
         console.log(e, 888);
+        await this.recordErrorMessage(this.orderId);
         this.amount = '';
         this.fee = '';
         await this.getCrossOutFeeAndOrderId();
@@ -1036,47 +1063,68 @@ export default {
     },
     async updateOrder(txHash, orderId) {
       // 先将交易hash存在本地，更新订单成功后删除hash
-      const tx = { hash: txHash, orderId }
-      this.$store.commit('changeUnConfirmedTx', tx);
+      // const tx = { hash: txHash, orderId }
+      // this.$store.commit('changeUnConfirmedTx', tx);
+      // try {
+      //   const data = {
+      //     orderId,
+      //     txHash
+      //   }
+      //   const res = await this.$request({
+      //     url: '/bridge/tx/hash/update',
+      //     data
+      //   })
+      //
+      //   if (res.code !== 1000) {
+      //     this.$message({
+      //       message: this.$t("tips.tips20") + res.msg,
+      //       type: "error",
+      //       duration: 2000
+      //     })
+      //     setTimeout(() => {
+      //       this.$store.dispatch('changeUnConfirmedTx', tx);
+      //     }, 2000)
+      //   } else {
+      //     this.$message({
+      //       message: this.$t("tips.tips1"),
+      //       type: "success",
+      //       duration: 2000
+      //     })
+      //     this.$store.commit('changeUnConfirmedTx', tx);
+      //     setTimeout(() => {
+      //       this.toTxDetail(orderId)
+      //     }, 2000)
+      //   }
+      // } catch (e) {
+      //   if (e && e.response && e.response.status !== 200) {
+      //     // 网络问题重新发送请求
+      //     // this.$store.commit('changeUnConfirmedTx', tx);
+      //     this.$store.dispatch('changeUnConfirmedTx', tx);
+      //     setTimeout(() => {
+      //       this.toTxDetail(orderId)
+      //     }, 2000)
+      //   }
+      // }
+      this.$message({
+        message: this.$t("tips.tips1"),
+        type: "success",
+        duration: 2000
+      })
+      setTimeout(() => {
+        this.toTxDetail(orderId)
+      }, 2000)
+    },
+    async recordErrorMessage(orderId) {
       try {
         const data = {
-          orderId,
-          txHash
+          orderId
         }
-        const res = await this.$request({
-          url: '/bridge/tx/hash/update',
+        await this.$request({
+          url: '/bridge/tx/delete',
           data
-        })
-
-        if (res.code !== 1000) {
-          this.$message({
-            message: this.$t("tips.tips20") + res.msg,
-            type: "error",
-            duration: 2000
-          })
-          setTimeout(() => {
-            this.$store.dispatch('changeUnConfirmedTx', tx);
-          }, 2000)
-        } else {
-          this.$message({
-            message: this.$t("tips.tips1"),
-            type: "success",
-            duration: 2000
-          })
-          this.$store.commit('changeUnConfirmedTx', tx);
-          setTimeout(() => {
-            this.toTxDetail(orderId)
-          }, 2000)
-        }
+        });
       } catch (e) {
-        if (e && e.response && e.response.status !== 200) {
-          // 网络问题重新发送请求
-          // this.$store.commit('changeUnConfirmedTx', tx);
-          this.$store.dispatch('changeUnConfirmedTx', tx);
-          setTimeout(() => {
-            this.toTxDetail(orderId)
-          }, 2000)
-        }
+        console.error('Failed: ', e)
       }
     },
     superLong(str, len = 6) {
@@ -1358,6 +1406,18 @@ export default {
     .tx-list ul {
       margin-top: 0;
     }
+  }
+}
+.pending-transaction {
+  display: flex;
+  justify-content: flex-end;
+  .pending-text {
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.3;
+    color: #ef8b75;
+    text-decoration: underline;
   }
 }
 </style>

@@ -20,7 +20,7 @@
       <img class="click" src="../assets/img/icon-menu.svg" alt="" @click="toggleMenu">
     </div>
     <el-dialog
-      title="账户"
+      :title="$t('header.header14')"
       :visible.sync="showAccountDialog"
       :modal-append-to-body="false"
       class="account-dialog"

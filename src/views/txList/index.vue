@@ -29,7 +29,7 @@
                     @loadMoreTx="getTxList">
           </tx-list>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -75,7 +75,6 @@ export default {
     currentChain: {
       immediate: true,
       handler(val) {
-        console.log(val, this.currentAddress);
         this.fromChain = val;
         this.init();
       }

@@ -15,7 +15,8 @@
         <div class="bottom">
           <div class="time">{{ item.createTime }}</div>
           <div class="status">
-            <template v-if="item.status < 3">
+            <div class="text-error" v-if="item.status === 0">{{ $t("home.home36") }}</div>
+            <template v-else-if="item.status < 3">
               <img src="../assets/img/tx-pending.svg" alt="" >
             </template>
           </div>
@@ -163,6 +164,10 @@
         .status {
           display: flex;
           align-items: center;
+          .text-error {
+            color: #ef8b75;
+            font-size: 12px;
+          }
           span {
             font-size: 12px;
             margin-left: 5px;
