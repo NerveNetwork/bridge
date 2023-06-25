@@ -1063,47 +1063,47 @@ export default {
     },
     async updateOrder(txHash, orderId) {
       // 先将交易hash存在本地，更新订单成功后删除hash
-      const tx = { hash: txHash, orderId }
-      this.$store.commit('changeUnConfirmedTx', tx);
+      // const tx = { hash: txHash, orderId }
+      // this.$store.commit('changeUnConfirmedTx', tx);
       try {
-        const data = {
-          orderId,
-          txHash
-        }
-        const res = await this.$request({
-          url: '/bridge/tx/hash/update',
-          data
-        })
-
-        if (res.code !== 1000) {
-          this.$message({
-            message: this.$t("tips.tips20") + res.msg,
-            type: "error",
-            duration: 2000
-          })
-          setTimeout(() => {
-            this.$store.dispatch('changeUnConfirmedTx', tx);
-          }, 2000)
-        } else {
+      //   const data = {
+      //     orderId,
+      //     txHash
+      //   }
+      //   const res = await this.$request({
+      //     url: '/bridge/tx/hash/update',
+      //     data
+      //   })
+      //
+      //   if (res.code !== 1000) {
+      //     this.$message({
+      //       message: this.$t("tips.tips20") + res.msg,
+      //       type: "error",
+      //       duration: 2000
+      //     })
+      //     setTimeout(() => {
+      //       this.$store.dispatch('changeUnConfirmedTx', tx);
+      //     }, 2000)
+      //   } else {
           this.$message({
             message: this.$t("tips.tips1"),
             type: "success",
             duration: 2000
           })
-          this.$store.commit('changeUnConfirmedTx', tx);
-          setTimeout(() => {
-            this.toTxDetail(orderId)
-          }, 2000)
-        }
-      } catch (e) {
-        if (e && e.response && e.response.status !== 200) {
-          // 网络问题重新发送请求
           // this.$store.commit('changeUnConfirmedTx', tx);
-          this.$store.dispatch('changeUnConfirmedTx', tx);
           setTimeout(() => {
             this.toTxDetail(orderId)
           }, 2000)
-        }
+        // }
+      } catch (e) {
+        // if (e && e.response && e.response.status !== 200) {
+        //   // 网络问题重新发送请求
+        //   // this.$store.commit('changeUnConfirmedTx', tx);
+        //   this.$store.dispatch('changeUnConfirmedTx', tx);
+        //   setTimeout(() => {
+        //     this.toTxDetail(orderId)
+        //   }, 2000)
+        // }
       }
     },
     async recordErrorMessage(orderId) {
