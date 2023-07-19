@@ -576,7 +576,7 @@ export default {
     },
     // 计算交易手续费
     async getTransferFee() {
-      if (this.chooseAsset && this.fromNetwork !== 'NULS') {
+      if (this.chooseAsset && this.chooseAsset.assetId === 0 && this.fromNetwork !== 'NULS') {
         await this.checkCrossInAuthStatus();
       }
       if (this.crossInAuth) return;
