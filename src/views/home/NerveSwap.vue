@@ -24,7 +24,9 @@
           <span class="chain-name">{{ toNetwork }}</span>
           <span class="address">{{ superLong(toAddress, 5) }}</span>
           <i class="el-icon-caret-bottom"></i>
-          <ChainList v-model="showNetworkList" :currentChain="toNetwork" @change="changeToChain"
+          <ChainList v-model="showNetworkList"
+                     :currentChain="toNetwork"
+                     @change="changeToChain"
                      :disabledChain="fromNetwork"></ChainList>
         </div>
       </div>
@@ -419,9 +421,6 @@ export default {
       this.clearGetAllowanceTimer();
       this.getCrossOutFeeAndOrderId();
       //assset.assetId为0 则为异构链上token资产
-      if (asset.assetId === 0 && this.fromNetwork !== 'NULS') {
-        this.checkCrossInAuthStatus();
-      }
       const fromChainInfo = this.configs[this.fromNetwork];
       this.isMainAsset = fromChainInfo.assetId === asset.assetId && fromChainInfo.chainId === asset.chainId;
       if (asset.balance && Number(asset.balance)) {
@@ -467,6 +466,7 @@ export default {
 
     // 查询异构链token资产授权情况
     async checkCrossInAuthStatus() {
+      console.log('123')
       let needAuth = false;
       const contractAddress = this.chooseAsset.contractAddress;
       if (this.fromNetwork === 'TRON') {
@@ -474,10 +474,12 @@ export default {
         needAuth = await transfer.getTrc20Allowance(this.fromAddress, this.fromChainMultySignAddress, contractAddress)
       } else {
         const transfer = new ETransfer();
+        const currentAmount = timesDecimals(this.amount || 0, this.chooseAsset.decimals || 18);
         needAuth = await transfer.getERC20Allowance(
           contractAddress,
           this.fromChainMultySignAddress,
-          this.fromAddress
+          this.fromAddress,
+          currentAmount
         );
       }
       this.crossInAuth = needAuth;
@@ -575,6 +577,9 @@ export default {
     },
     // 计算交易手续费
     async getTransferFee() {
+      if (this.chooseAsset && this.fromNetwork !== 'NULS') {
+        await this.checkCrossInAuthStatus();
+      }
       if (this.crossInAuth) return;
       try {
         this.fee = '';
