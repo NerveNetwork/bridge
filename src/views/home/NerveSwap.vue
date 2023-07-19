@@ -466,7 +466,6 @@ export default {
 
     // 查询异构链token资产授权情况
     async checkCrossInAuthStatus() {
-      console.log('123')
       let needAuth = false;
       const contractAddress = this.chooseAsset.contractAddress;
       if (this.fromNetwork === 'TRON') {
