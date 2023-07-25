@@ -84,7 +84,6 @@
           }else{
             this.oldList = [];
           }
-          // console.log(this.oldList, 66);
         }
       }
     },
@@ -99,7 +98,6 @@
       },
 
       load() {
-        // console.log(this.oldList, 66)
         this.$emit("loadMoreTx");
       },
       checkStatus(status) {
