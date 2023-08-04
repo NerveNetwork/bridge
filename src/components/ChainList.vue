@@ -73,7 +73,7 @@ export default {
   top: 30px;
   left: 20px;
   z-index: 99999;
-  width: 150px;
+  width: 193px;
   padding: 6px 0;
   margin-top: 8px;
   border: 1px solid #e4e7ed;

@@ -242,6 +242,9 @@ export default {
           left: -3px;
           padding: 0 8px;
           word-break: initial;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
       }
       .balance {
