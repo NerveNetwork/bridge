@@ -97,6 +97,7 @@ export default {
       img {
         width: 28px;
         margin-right: 10px;
+        border-radius: 50%;
       }
       &:hover {
         background-color: #f5f7fa;

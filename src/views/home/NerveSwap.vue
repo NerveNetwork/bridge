@@ -1211,6 +1211,7 @@ export default {
         .chain-logo {
           width: 25px;
           margin-right: 5px;
+          border-radius: 50%;
         }
 
         span {
