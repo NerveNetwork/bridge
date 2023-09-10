@@ -313,15 +313,15 @@
         }
         try {
           if (chain !== "Ethereum" && chain !== "Goerli") {
-            const chainName = isBeta ? chain + '_Beta' : chain;
+            // const chainName = isBeta ? chain + '_Beta' : chain; // @fixme:ETC对接要求需要限制chainName字段的全名
             const addItem = {
               chainId: item.nativeId,
               rpcUrls: item.apiUrl ? [item.apiUrl] : [],
-              chainName,
+              chainName: item.chainName,
               nativeCurrency: {
-                name: chain,
+                name: item.chainName,
                 symbol: item.symbol,
-                decimals: item.decimal,
+                decimals: item.decimal || 18,
               },
               blockExplorerUrls: [item.scan]
             }

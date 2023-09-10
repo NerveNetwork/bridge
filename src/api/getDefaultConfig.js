@@ -17,6 +17,7 @@ export function setChainConfig(config) {
       const mainInfo = v.mainAsset;
       result[v.chain] = {
         chain: v.chain,
+        chainName: v.chainName,
         chainId: mainInfo ? mainInfo.chainId : '',
         assetId: mainInfo ? mainInfo.assetId : '',
         prefix: v.prefix,
