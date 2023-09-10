@@ -313,7 +313,7 @@
         }
         try {
           if (chain !== "Ethereum" && chain !== "Goerli") {
-            // const chainName = isBeta ? chain + '_Beta' : chain; // @fixme:ETC对接要求需要限制chainName字段的全名
+            // const chainName = isBeta ? chain + '_Beta' : chain; // @fixme:ETC对接要求需要显示item.chainName字段的全名
             const addItem = {
               chainId: item.nativeId,
               rpcUrls: item.apiUrl ? [item.apiUrl] : [],
