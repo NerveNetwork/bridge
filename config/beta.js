@@ -15,7 +15,7 @@ export const ETHNET = 'ropsten';
 // export const BRIDGE_API_URL = IS_DEV ? "/bridge-api" : "http://beta.bridge.nerve.network/bridge-api";
 // export const BRIDGE_API_URL = "http://beta.api.bridge.nerve.network";
 // export const BRIDGE_API_URL = "http://jl5i9jz7.xiaomy.net";
-export const BRIDGE_API_URL = "http://47.236.243.122:19001/";
+export const BRIDGE_API_URL = "http://47.236.243.122:19001";
 
 
 
