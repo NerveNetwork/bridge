@@ -59,7 +59,7 @@ module.exports = {
         // target: "https://bridge.nerve.network",
         // target: "http://jl5i9jz7.xiaomy.net",
         // target: "http://39.98.226.51:19001",
-        target: " https://beta.serviceapi.nabox.io/",
+        target: "https://beta.serviceapi.nabox.io/",
         changeOrigin: true,  // 是否跨域
       },
     }
